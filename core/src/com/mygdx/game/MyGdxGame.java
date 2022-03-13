@@ -21,6 +21,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	float holeX = 50;
 	float holeY = 250;
 	boolean holeIn = false;
+	float trajecX, trajecY;
+	double angle = 90;
+	double lineLength = 100;
 
 	@Override
 	public void create () {
@@ -31,9 +34,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		float xSpeed = 20;
 		float ySpeed = 20;
-		float trajecX = ballX;
-		float trajecY = ballY + 100;
-
 
 		if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 			ballX += xSpeed;
@@ -58,47 +58,27 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 		// Removes color of circle in previous positions
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
 		// Trajectory line
-
-		// Problem: It needs to move around in unit circle
-
-
-
-
-		// trajecX = ballX, trajecY = ballY + 100
-		// each key changes angle by 10 degrees
-
-		double angle = 10;
-        double radian = Math.toRadians(angle);
-
-
-
-
 		shapeRenderer.setColor(Color.LIGHT_GRAY);
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			trajecX -= Math.cos(radian);
-			trajecY -= Math.sin(radian);
-		}
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+			angle += 2;
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			trajecX += 5;
+			angle -= 2;
+		trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
+		trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
 		shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
-
-
 
 		// Hole
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.circle(holeX, holeY, 30);
+
 		// Ball
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
 			shapeRenderer.circle(ballX, ballY, 20);
 		}
-
-
-
-
 		shapeRenderer.end();
 	}
 	

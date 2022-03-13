@@ -27,7 +27,7 @@ public class MathFunctions {
     }
 
     public int calculateDx(){
-
+        return 0;
     }
 
 
