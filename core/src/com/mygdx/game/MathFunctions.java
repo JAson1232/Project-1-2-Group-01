@@ -3,7 +3,7 @@ package com.mygdx.game;
 public class MathFunctions {
 
 
-    
+
     float func(float x, float y)
     {
         return (x + y + x * y);
@@ -24,6 +24,10 @@ public class MathFunctions {
         // Printing approximation
         System.out.println("Approximate solution at x = "
                 + x + " is " + y);
+    }
+
+    public int calculateDx(){
+
     }
 
 
