@@ -67,4 +67,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void dispose () {
 		shapeRenderer.dispose();
 	}
+
+
+	public void calculatePos(double vo,int x, int y, int angle){
+
+	}
+	public double calculateHeight(int x, int y){
+		return Math.sin((x-y)/7)+0.5;
+	}
+
+	public int getUserInputAngle(){
+		return 0;
+	}
 }
