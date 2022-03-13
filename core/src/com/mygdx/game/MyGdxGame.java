@@ -61,14 +61,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		// Trajectory line
-		shapeRenderer.setColor(Color.LIGHT_GRAY);
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-			angle += 2;
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			angle -= 2;
-		trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
-		trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
-		shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
+		if(!holeIn) {
+			shapeRenderer.setColor(Color.LIGHT_GRAY);
+			if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+				angle += 2;
+			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+				angle -= 2;
+			trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
+			trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
+			shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
+		}
 
 		// Hole
 		shapeRenderer.setColor(0, 0, 0, 1);
