@@ -13,8 +13,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 
 	// Starting position
-	float ballX = 50;
-	float ballY = 50;
+	float ballX = 400;
+	float ballY = 400;
 	float holeX = 50;
 	float holeY = 250;
 	boolean holeIn = false;
@@ -35,16 +35,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		// Changes direction of circle
-		if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
+		if(ballX < 0 || ballX > Gdx.graphics.getWidth()) { // 640
 			xSpeed *= -1;
 		}
 
-		if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
+		if(ballY < 0 || ballY > Gdx.graphics.getHeight()) { // 480
 			ySpeed *= -1;
 		}
 
 		// Falls into hole
-		if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 || ballY <= holeY + 10) {
+		if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 && ballY <= holeY + 10) {
 			holeIn = true;
 		}
 
