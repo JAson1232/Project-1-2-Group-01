@@ -54,13 +54,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
+		shapeRenderer.setColor(0, 0, 0, 1);
+		shapeRenderer.circle(holeX, holeY, 30);
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
 			shapeRenderer.circle(ballX, ballY, 20);
 		}
-		shapeRenderer.setColor(0, 0, 0, 1);
-		shapeRenderer.circle(holeX, holeY, 30);
 		shapeRenderer.end();
 	}
 	
