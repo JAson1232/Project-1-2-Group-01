@@ -13,14 +13,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 
 	// Starting position
-	float ballX = 0;
-	float ballY = 0;
+	float ballX = 50;
+	float ballY = 50;
 	float holeX = 50;
-	float holeY = 50;
-	// boolean holeIn = false;
+	float holeY = 250;
+	boolean holeIn = false;
 
-	float xSpeed = 1;
-	float ySpeed = 1;
+	float xSpeed = 5;
+	float ySpeed = 5;
 
 	@Override
 	public void create () {
@@ -29,8 +29,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ballX += xSpeed;
-		ballY += ySpeed;
+		if(!holeIn) {
+			ballX += xSpeed;
+			ballY += ySpeed;
+		}
 
 		// Changes direction of circle
 		if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
@@ -42,8 +44,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		// Falls into hole
-		if((ballX < 50 || ballX > 50) && ballY < 50 || ballY > 50) {
-
+		if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 || ballY <= holeY + 10) {
+			holeIn = true;
 		}
 
 		// Changes color of background
@@ -51,13 +53,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		// Removes color of circle in previous positions
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// if((ballX < 30 || ballX > 60) && ballY < 30 || ballY > 60) {
-
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-
-		shapeRenderer.setColor(1, 1, 1, 1);
-		shapeRenderer.circle(ballX, ballY, 20);
+		if(!holeIn) {
+			shapeRenderer.setColor(1, 1, 1, 1);
+			shapeRenderer.circle(ballX, ballY, 20);
+		}
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.circle(holeX, holeY, 30);
 		shapeRenderer.end();
