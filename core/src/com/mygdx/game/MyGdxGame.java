@@ -36,8 +36,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		float ySpeed = 20;
 
 		if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-			ballX += xSpeed;
-			ballY += ySpeed;
+			ballX += (trajecX - ballX)/20;
+			ballY += (trajecY - ballY)/20;
 		}
 
 		// Changes direction of ball
