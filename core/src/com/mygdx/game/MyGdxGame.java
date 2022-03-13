@@ -2,10 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -19,9 +22,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	float holeY = 250;
 	boolean holeIn = false;
 
-	float xSpeed = 5;
-	float ySpeed = 5;
-
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
@@ -29,19 +29,25 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		if(!holeIn) {
+		float xSpeed = 20;
+		float ySpeed = 20;
+		float trajecX = ballX;
+		float trajecY = ballY + 100;
+
+
+		if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 			ballX += xSpeed;
 			ballY += ySpeed;
 		}
 
-		// Changes direction of circle
-		if(ballX < 0 || ballX > Gdx.graphics.getWidth()) { // 640
-			xSpeed *= -1;
-		}
+		// Changes direction of ball
+		// if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
+		// 	xSpeed *= -1;
+		// }
 
-		if(ballY < 0 || ballY > Gdx.graphics.getHeight()) { // 480
-			ySpeed *= -1;
-		}
+		// if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
+		// 	ySpeed *= -1;
+		// }
 
 		// Falls into hole
 		if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 && ballY <= holeY + 10) {
@@ -54,12 +60,45 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		// Trajectory line
+
+		// Problem: It needs to move around in unit circle
+
+
+
+
+		// trajecX = ballX, trajecY = ballY + 100
+		// each key changes angle by 10 degrees
+
+		double angle = 10;
+        double radian = Math.toRadians(angle);
+
+
+
+
+		shapeRenderer.setColor(Color.LIGHT_GRAY);
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			trajecX -= Math.cos(radian);
+			trajecY -= Math.sin(radian);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+			trajecX += 5;
+		shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
+
+
+
+		// Hole
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.circle(holeX, holeY, 30);
+		// Ball
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
 			shapeRenderer.circle(ballX, ballY, 20);
 		}
+
+
+
+
 		shapeRenderer.end();
 	}
 	
