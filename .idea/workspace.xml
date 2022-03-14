@@ -53,7 +53,7 @@
       <recent name="$PROJECT_DIR$/core/src/com/mygdx/game" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.MathFunctions">
     <configuration name="DesktopLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mygdx.game.desktop.DesktopLauncher" />
       <module name="Project-1-2-Group-01.desktop.main" />
@@ -67,8 +67,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MathFunctions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mygdx.game.MathFunctions" />
+      <module name="Project-1-2-Group-01.core.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mygdx.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MathFunctions" />
         <item itemvalue="Application.DesktopLauncher" />
       </list>
     </recent_temporary>
@@ -85,6 +99,9 @@
     <servers />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Project_1_2_Group_01$MathFunctions.ic" NAME="MathFunctions Coverage Results" MODIFIED="1647213561118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.mygdx.game.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/Project_1_2_Group_01$DesktopLauncher.ic" NAME="DesktopLauncher Coverage Results" MODIFIED="1647188160646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.mygdx.game.desktop.*</FILTER>
     </SUITE>

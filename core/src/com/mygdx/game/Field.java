@@ -3,7 +3,7 @@ package com.mygdx.game;
 public class Field {
     int width,height,length;
     int holeX,holeY,holeZ;
-    double frictionStatic,frictionKinetic;
+    static double  frictionStatic,frictionKinetic;
 
     Vector[][][] vectors = new Vector[width][length][height];
 
@@ -11,7 +11,7 @@ public class Field {
         return frictionKinetic;
     }
 
-    public double getFrictionStatic() {
+    public  double getFrictionStatic() {
         return frictionStatic;
     }
 

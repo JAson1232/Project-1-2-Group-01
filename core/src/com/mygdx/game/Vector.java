@@ -3,23 +3,6 @@ package com.mygdx.game;
 public class Vector {
     private int x,y,z;
     private double vx;
-
-    public double getVx() {
-        return vx;
-    }
-
-    public void setVx(double vx) {
-        this.vx = vx;
-    }
-
-    public double getVy() {
-        return vy;
-    }
-
-    public void setVy(double vy) {
-        this.vy = vy;
-    }
-
     private double vy;
     Tile t;
 
@@ -57,6 +40,23 @@ public class Vector {
     public double distanceTo(Vector v){
         return Math.sqrt(((v.x-this.x)^2)-((v.y-this.y)^2) - ((v.z - this.z)^2));
     }
+    public double getVx() {
+        return vx;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+
+    public double getVy() {
+        return vy;
+    }
+
+    public void setVy(double vy) {
+        this.vy = vy;
+    }
+
+
 
     @Override
     public Vector clone(){
