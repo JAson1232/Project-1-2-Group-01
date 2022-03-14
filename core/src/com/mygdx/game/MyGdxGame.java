@@ -42,8 +42,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			ballY += (trajecY - ballY)/holdConstant;
 			holdConstant = 20;
 			counter++;
-			if(counter == 5000)
+			if(counter == 100) {
+				counter = 0;
+				strengthLength = 0;
 				moving = false;
+			}
 		}
 		else {
 			if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
