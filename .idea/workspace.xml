@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55cc75eb-c128-4879-aa61-1dc280073ff4" name="Changes" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/VelocityTestTXT.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/velocityReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.3.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.1/executionHistory/executionHistory.bin" afterDir="false" />
@@ -26,6 +27,12 @@
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/mygdx/game/Tile.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/mygdx/game/Vector.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/accelerationY.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/com/mygdx/game/InputFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/accelerationX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/com/mygdx/game/MathFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/MathFunctions.java" afterDir="false" />
+>>>>>>> a9333f0da99efc5acfd8acb38a840bc95f66f6ce
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,11 +164,11 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Project_1_2_Group_01$DesktopLauncher.ic" NAME="DesktopLauncher Coverage Results" MODIFIED="1647188160646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.mygdx.game.desktop.*</FILTER>
-    </SUITE>
     <SUITE FILE_PATH="coverage/Project_1_2_Group_01$MathFunctions.ic" NAME="MathFunctions Coverage Results" MODIFIED="1647213561118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.mygdx.game.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Project_1_2_Group_01$DesktopLauncher.ic" NAME="DesktopLauncher Coverage Results" MODIFIED="1647188160646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.mygdx.game.desktop.*</FILTER>
     </SUITE>
   </component>
 </project>

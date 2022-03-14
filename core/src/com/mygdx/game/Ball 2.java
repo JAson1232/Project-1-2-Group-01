@@ -1,12 +1,17 @@
 package com.mygdx.game;
 
 class Ball2 {
+    Vector state;
     private int x;
     private int y;
     private int z;
     private double mass;
     private double currentVelocity;
     private double acceleration;
+
+    public Ball2(){
+        state = new Vector(0,0,0,null,0,0);
+    }
 
     public Ball2(int x, int y, int z, double mass){
         this.x = x;

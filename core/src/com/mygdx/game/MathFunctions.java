@@ -14,12 +14,12 @@ public class MathFunctions {
     void  euler(float x0, float y, float h, float x)
     {
         float temp = -0;
-        InputFunction func = new InputFunction();
+        accelerationX func = new accelerationX();
         // Iterating till the point at which we
         // need approximation
         while (x0 < x) {
             temp = y;
-            y = (float) (y + h * func.f(x0, y));
+            y = (float) (y + h * func.f(x0, y,0,0));
             x0 = x0 + h;
         }
         // Printing approximation

@@ -6,10 +6,10 @@ public class PartialDerivative{
     PartialDerivative(Function function){
         this.function = function;
     }
-    public double getX(double x,double y){
-        return (function.f(x+Delta_X,y)-function.f(x,y))/Delta_X;
+    public double getX(double x,double y,double vx,double vy){
+        return (function.f(x+Delta_X,y,0,0)-function.f(x,y,0,0))/Delta_X;
     }
-    public double getY(double x,double y){
-        return (function.f(x,y+Delta_X)-function.f(x,y))/Delta_X;
+    public double getY(double x,double y,double vx, double vy){
+        return (function.f(x,y+Delta_X,0,0)-function.f(x,y,0,0))/Delta_X;
     }
 }
