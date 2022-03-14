@@ -30,28 +30,36 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		// Changes color of background
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 		// Removes color of circle in previous positions
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
+		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
+			// Shows gradual stop: 100 iterations of ball exponentially approaching target position (currently: tip of projection line)
 			ballX += (trajecX - ballX)/holdConstant;
 			ballY += (trajecY - ballY)/holdConstant;
-			holdConstant = 20;
+			// Resets
+			holdConstant = 20; // TODO
 			counter++;
-			if(counter == 100) {
+			if(counter == 100) { // TODO
+				// Resets; prepares for next user inputs
 				counter = 0;
 				strengthLength = 0;
 				moving = false;
 			}
 		}
 		else {
+			// User giving inputs
 			if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				// Decreases holdConstant (to simulate ball going further from holding space bar for longer)
 				holdConstant *= 0.975;
+				// Signifies that movement is to be expected
 				moving = true;
+				// Increases length of strength bar if pressing of space bar is sustained
 				if(strengthLength < 1)
 					strengthLength += 0.025;
 			}
@@ -78,6 +86,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					angle += 2;
 				if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 					angle -= 2;
+				// New location (angle) of trajectory line from ball
 				trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
 				trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
 				shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
