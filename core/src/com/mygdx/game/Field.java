@@ -4,6 +4,7 @@ public class Field {
     int width,height,length;
     int holeX,holeY,holeZ;
     static double  frictionStatic = 0.2,frictionKinetic = 0.1;
+    Vector[][] vectors;
 
     public Vector[][] createField() {
         vectors = new Vector[length][width];
