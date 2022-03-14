@@ -10,8 +10,8 @@ public class Ball {
     private double currentVelocity;
     private double acceleration;
 
-    public Ball(){
-        state = new Vector(0,0,0,null,0,0);
+    public Ball(Vector state){
+        this.state = state.clone();
     }
 
     public Ball(int x, int y, int z, double mass){
@@ -62,5 +62,9 @@ public class Ball {
             return true;
         }
         return false;
+    }
+
+    public Vector getState(){
+        return this.state;
     }
 }

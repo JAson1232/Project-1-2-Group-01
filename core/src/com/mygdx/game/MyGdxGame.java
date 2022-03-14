@@ -7,9 +7,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.concurrent.TimeUnit;
+
 public class MyGdxGame extends ApplicationAdapter {
+	Vector state = new Vector(0,0,0,null,1,0);
+	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
 
+	double h =0.1;
+	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
 	float ballY = 400;
@@ -42,9 +48,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+
 		shapeRenderer = new ShapeRenderer();
 		// Max value = 1.5, min value = =0.5; range = 2
+
 		vectors = createField();
+
+
 	}
 
 	@Override
@@ -57,18 +67,31 @@ public class MyGdxGame extends ApplicationAdapter {
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			// Shows gradual stop: 100 iterations of ball exponentially approaching target position (currently: tip of projection line)
-			ballX += (trajecX - ballX)/holdConstant;
-			ballY += (trajecY - ballY)/holdConstant;
-			// Resets
-			holdConstant = 20; // TODO
-			counter++;
-			if(counter == 100) { // TODO
+			if(!((ball.state.getVx() < 0.05 && ball.state.getVx() > -0.05) && ((ball.state.getVy() < 0.05 && ball.state.getVy() > -0.05)))){
+				ball.state = math.euler(ball.state,h);
+				ballX += ball.state.getX();
+				ballY += ball.state.getY();
+
+				System.out.println(ball.getState().getVx());
+				h+= 0.1;
+			}
+
+
+
+
+
+
+			if((ball.state.getVx() < 0.05 && ball.state.getVx() > -0.05) && ((ball.state.getVy() < 0.05 && ball.state.getVy() > -0.05))) { // TODO
 				// Resets; prepares for next user inputs
+				System.out.println("Ball stopped");
 				counter = 0;
 				strengthLength = 0;
 				moving = false;
+				ball.state.setVx(1.1);
+				ball.state.setVy(0.1);
+				h=0.1;
 			}
-			System.out.println(angle%360);
+
 		}
 		else {
 			// User giving inputs
