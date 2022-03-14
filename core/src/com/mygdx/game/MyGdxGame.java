@@ -43,6 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
+		// Max value = 1.5, min value = =0.5; range = 2
 		vectors = createField();
 	}
 
@@ -50,7 +51,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render() {
 		// Changes color of background
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
-		// Removes color of circle in previous positions
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -68,6 +68,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				strengthLength = 0;
 				moving = false;
 			}
+			System.out.println(angle%360);
 		}
 		else {
 			// User giving inputs
