@@ -27,5 +27,9 @@ public class MathFunctions {
                 + x + " is " + y);
     }
 
+    public int calculateDx(){
+        return 0;
+    }
+
 
 }
