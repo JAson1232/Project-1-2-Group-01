@@ -34,7 +34,7 @@ public class Vector {
         this.y = y;
     }
 
-    public void setZ(int z) {
+    public void setZ(double z) {
         this.z = z;
     }
     public double distanceTo(Vector v){
