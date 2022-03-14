@@ -23,10 +23,27 @@ public class MyGdxGame extends ApplicationAdapter {
 	double holdConstant = 20;
 	boolean moving = false;
 	int counter = 0;
+	Vector[][] vectors;
+	boolean fieldCreated = false;
+
+	public Vector[][] createField() {
+		HeightFunction f = new HeightFunction();
+		Field field = new Field();
+		field.setLength(50);
+		field.setWidth(50);
+		vectors = field.createField();;
+		for(int i = 0; i < vectors.length; i++) {
+			for(int j = 0; j < vectors[0].length; j++) {
+				vectors[i][j] = new Vector(j, i, f.f((double) j, (double) i, 0, 0), null, 0, 0);
+			}
+		}
+		return vectors;
+	}
 
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
+		vectors = createField();
 	}
 
 	@Override

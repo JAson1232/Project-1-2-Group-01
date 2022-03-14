@@ -1,11 +1,15 @@
 package com.mygdx.game;
 
 public class Field {
-    int width,height,length;
-    int holeX,holeY,holeZ;
-    static double  frictionStatic,frictionKinetic;
+    private int width,length; // x, y respectively
+    private int holeX,holeY;
+    private static double frictionStatic,frictionKinetic;
+    Vector[][] vectors;
 
-    Vector[][][] vectors = new Vector[width][length][height];
+    public Vector[][] createField() {
+        vectors = new Vector[length][width];
+        return vectors;
+    }
 
     public double getFrictionKinetic() {
         return frictionKinetic;
@@ -15,20 +19,12 @@ public class Field {
         return frictionStatic;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
     public int getHoleX() {
         return holeX;
     }
 
     public int getHoleY() {
         return holeY;
-    }
-
-    public int getHoleZ() {
-        return holeZ;
     }
 
     public int getLength() {
@@ -47,20 +43,12 @@ public class Field {
         this.frictionStatic = frictionStatic;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public void setHoleX(int holeX) {
         this.holeX = holeX;
     }
 
     public void setHoleY(int holeY) {
         this.holeY = holeY;
-    }
-
-    public void setHoleZ(int holeZ) {
-        this.holeZ = holeZ;
     }
 
     public void setLength(int length) {

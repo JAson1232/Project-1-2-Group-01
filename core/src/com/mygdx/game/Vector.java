@@ -1,12 +1,13 @@
 package com.mygdx.game;
 
 public class Vector {
-    private int x,y,z;
+    private int x,y;
+    private double z;
     private double vx;
     private double vy;
     Tile t;
 
-    public Vector(int x, int y, int z, Tile t, double vx, double vy){
+    public Vector(int x, int y, double z, Tile t, double vx, double vy){
         this.x = x;
         this.y = y;
         this.z = z;
@@ -22,7 +23,7 @@ public class Vector {
         return y;
     }
 
-    public int getZ() {
+    public double getZ() {
         return z;
     }
 
@@ -34,11 +35,11 @@ public class Vector {
         this.y = y;
     }
 
-    public void setZ(int z) {
+    public void setZ(double z) {
         this.z = z;
     }
     public double distanceTo(Vector v){
-        return Math.sqrt(((v.x-this.x)^2)-((v.y-this.y)^2) - ((v.z - this.z)^2));
+        return Math.sqrt(((v.x-this.x)^2)-((v.y-this.y)^2) -Math.pow ((v.z - this.z), 2));
     }
     public double getVx() {
         return vx;
