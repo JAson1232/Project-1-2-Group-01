@@ -5,14 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame extends ApplicationAdapter {
-	// Citation: https://happycoding.io/tutorials/libgdx/hello-world
 	ShapeRenderer shapeRenderer;
 
 	// Starting position
@@ -24,6 +19,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	float trajecX, trajecY;
 	double angle = 90;
 	double lineLength = 100;
+	double strengthLength = 0;
+	double holdConstant = 20;
+	boolean moving = false;
 
 	@Override
 	public void create () {
@@ -32,44 +30,58 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		float xSpeed = 20;
-		float ySpeed = 20;
-
-		if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-			ballX += (trajecX - ballX)/20;
-			ballY += (trajecY - ballY)/20;
-		}
-
-		// Changes direction of ball
-		// if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
-		// 	xSpeed *= -1;
-		// }
-
-		// if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
-		// 	ySpeed *= -1;
-		// }
-
-		// Falls into hole
-		if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 && ballY <= holeY + 10) {
-			holeIn = true;
-		}
-
 		// Changes color of background
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 		// Removes color of circle in previous positions
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-		// Trajectory line
-		if(!holeIn) {
-			shapeRenderer.setColor(Color.LIGHT_GRAY);
-			if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-				angle += 2;
-			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-				angle -= 2;
-			trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
-			trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
-			shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
+		if(moving) {
+			ballX += (trajecX - ballX)/holdConstant;
+			ballY += (trajecY - ballY)/holdConstant;
+			holdConstant = 20;
+			moving = false; // TODO: Add another condition
+		}
+		else { // Disables input until movement stops
+			if(!holeIn && !moving && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				holdConstant *= 0.975;
+				moving = true;
+				if(strengthLength < 1)
+					strengthLength += 0.025;
+			}
+
+			// Changes direction of ball
+			// if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
+			// 	xSpeed *= -1;
+			// }
+
+			// if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
+			// 	ySpeed *= -1;
+			// }
+
+			// Falls into hole
+			if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 && ballY <= holeY + 10) {
+				holeIn = true;
+			}
+
+			// Trajectory line
+			if(!holeIn) {
+				// Trajectory
+				shapeRenderer.setColor(Color.LIGHT_GRAY);
+				if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+					angle += 2;
+				if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+					angle -= 2;
+				trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
+				trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
+				shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
+
+				// Strength
+				float strengthX = (float) (ballX + strengthLength*(trajecX - ballX));
+				float strengthY = (float) (ballY + strengthLength*(trajecY - ballY));
+				shapeRenderer.setColor(Color.RED);
+				shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
+			}
 		}
 
 		// Hole
