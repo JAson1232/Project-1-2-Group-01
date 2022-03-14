@@ -5,6 +5,6 @@ public class InputFunction implements Function{
     public double f(double x, double y) {
         HeightFunction f  = new HeightFunction();
         PartialDerivative px = new PartialDerivative(f);
-        return  -g*px.getX(x,y)-Field.frictionKinetic*g*()
+        return  -g*px.getX(x,y)-Field.frictionKinetic*g*((vx)/(Math.sqrt(((vx)^2)+(vy)^2));
     }
 }
