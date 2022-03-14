@@ -66,7 +66,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			// }
 
 			// Falls into hole
-			if((ballX >= holeX - 10 && ballX <= holeX + 10) && ballY >= holeY - 10 && ballY <= holeY + 10) {
+			if(Math.abs(holeX - ballX) <= 30 && Math.abs(holeY - ballY) <= 30) {
 				holeIn = true;
 			}
 
