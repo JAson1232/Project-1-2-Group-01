@@ -19,7 +19,7 @@ public class MathFunctions {
         // need approximation
         while (x0 < x) {
             temp = y;
-            y = (float) (y + h * func.f(x0, y));
+            y = (float) (y + h * func.f(x0, y,0,0));
             x0 = x0 + h;
         }
         // Printing approximation
