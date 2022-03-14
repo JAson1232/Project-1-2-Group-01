@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.concurrent.TimeUnit;
 
 public class MyGdxGame extends ApplicationAdapter {
-	Vector state = new Vector(0,0,0,null,1,0);
+	Vector state = new Vector(0,0,0,null,10,0);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
 
-	double h =0.1;
+	double h =0.001;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
@@ -59,6 +59,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		HeightFunction f  = new HeightFunction();
+		PartialDerivative px = new PartialDerivative(f);
 		// Changes color of background
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -67,29 +69,63 @@ public class MyGdxGame extends ApplicationAdapter {
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			// Shows gradual stop: 100 iterations of ball exponentially approaching target position (currently: tip of projection line)
-			if(!((ball.state.getVx() < 0.05 && ball.state.getVx() > -0.05) && ((ball.state.getVy() < 0.05 && ball.state.getVy() > -0.05)))){
+			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))){
 				ball.state = math.euler(ball.state,h);
+				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
+					ball.state.setX(ball.state.getX()*-1.0);
+
+
+					h=0.001;
+				}
 				ballX += ball.state.getX();
+				System.out.println(ballX);
+				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
+					ball.state.setY(ball.state.getY()*-1);
+
+
+
+					h= 0.001;
+				}
 				ballY += ball.state.getY();
 
-				System.out.println(ball.getState().getVx());
-				h+= 0.1;
+
+
+				h+= 0.001;
 			}
 
 
+			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
 
 
 
-
-			if((ball.state.getVx() < 0.05 && ball.state.getVx() > -0.05) && ((ball.state.getVy() < 0.05 && ball.state.getVy() > -0.05))) { // TODO
+			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
 				// Resets; prepares for next user inputs
 				System.out.println("Ball stopped");
 				counter = 0;
 				strengthLength = 0;
+			if(px.getX(ball.state.getX(), ball.state.getY(),0,0)!=0 ||px.getY(ball.state.getX(), ball.state.getY(),0,0)!=0) {
+				if (Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+					moving = false;
+					ball.state.setX(0);
+					ball.state.setY(0);
+					ball.state.setVx(10);
+					ball.state.setVy(0.1);
+					h=0.001;
+				}else{
+					moving = true;
+					ball.state.setVx(-1*Math.abs(ball.state.getVx()));
+					ball.state.setVy(-1*Math.abs(ball.state.getVy()));
+				}
+			}else{
 				moving = false;
-				ball.state.setVx(1.1);
+				ball.state.setX(0);
+				ball.state.setY(0);
+				ball.state.setVx(10);
 				ball.state.setVy(0.1);
-				h=0.1;
+				h=0.001;
+			}
+
+
 			}
 
 		}
@@ -106,13 +142,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 
 			// Changes direction of ball
-			// if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
-			// 	xSpeed *= -1;
-			// }
 
-			// if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
-			// 	ySpeed *= -1;
-			// }
 
 			// Falls into hole
 			if(Math.abs(holeX - ballX) <= 30 && Math.abs(holeY - ballY) <= 30) {

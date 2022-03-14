@@ -3,8 +3,8 @@ package com.mygdx.game;
 public class Ball {
 
     Vector state;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private int z;
     private double mass;
     private double currentVelocity;
@@ -14,22 +14,22 @@ public class Ball {
         this.state = state.clone();
     }
 
-    public Ball(int x, int y, int z, double mass){
+    public Ball(double x, double y, int z, double mass){
         this.x = x;
         this.y = y;
         this.z = z;
         this.mass = mass;
     }
-    public int getX(){
+    public double getX(){
         return x;
     }
-    public void setX(int x){
+    public void setX(double x){
         this.x = x;
     }
-    public int getY(){
+    public double getY(){
         return y;
     }
-    public void setY(int y){
+    public void setY(double y){
         this.y = y;
     }
     public int getZ(){

@@ -5,7 +5,7 @@ public class MathFunctions {
     public static void main(String[] args) {
         MathFunctions m = new MathFunctions();
         Vector state = new Vector(0,0,0,null,1.1,0);
-        Vector newPosition = m.euler(state,0.3);
+        Vector newPosition = m.euler(state,5);
         System.out.println(newPosition.toString());
     }
 
