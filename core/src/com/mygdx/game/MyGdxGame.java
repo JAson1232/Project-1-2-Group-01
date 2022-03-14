@@ -22,6 +22,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	double strengthLength = 0;
 	double holdConstant = 20;
 	boolean moving = false;
+	int counter = 0;
 
 	@Override
 	public void create () {
@@ -36,14 +37,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-		if(moving) {
+		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			ballX += (trajecX - ballX)/holdConstant;
 			ballY += (trajecY - ballY)/holdConstant;
 			holdConstant = 20;
-			moving = false; // TODO: Add another condition
+			counter++;
+			if(counter == 5000)
+				moving = false;
 		}
-		else { // Disables input until movement stops
-			if(!holeIn && !moving && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+		else {
+			if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 				holdConstant *= 0.975;
 				moving = true;
 				if(strengthLength < 1)
@@ -101,10 +104,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		shapeRenderer.dispose();
 	}
 
-
 	public void calculatePos(double vo,int x, int y, int angle){
 
 	}
+
 	public double calculateHeight(int x, int y){
 		return Math.sin((x-y)/7)+0.5;
 	}
