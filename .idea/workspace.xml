@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55cc75eb-c128-4879-aa61-1dc280073ff4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/accelerationY.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/com/mygdx/game/InputFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/accelerationX.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/com/mygdx/game/MathFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/mygdx/game/MathFunctions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

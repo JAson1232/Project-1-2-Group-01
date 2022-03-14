@@ -4,27 +4,27 @@ public class MathFunctions {
 
     public static void main(String[] args) {
         MathFunctions m = new MathFunctions();
-        m.euler(0,1,0.01f, 0);
+        
     }
 
 
 
 
     // Function for Euler formula
-    void  euler(float x0, float y, float h, float x)
+    Vector euler(Vector StateVector, int h)
     {
-        float temp = -0;
-        accelerationX func = new accelerationX();
-        // Iterating till the point at which we
-        // need approximation
-        while (x0 < x) {
-            temp = y;
-            y = (float) (y + h * func.f(x0, y,0,0));
-            x0 = x0 + h;
-        }
-        // Printing approximation
-        System.out.println("Approximate solution at x = "
-                + x + " is " + y);
+        accelerationX ax = new accelerationX();
+        accelerationY ay = new accelerationY();
+        HeightFunction heightFunction = new HeightFunction();
+        Vector newState = StateVector.sum((
+                new Vector(StateVector.getX()*h,
+                        StateVector.getY()*h,
+                        StateVector.getZ()*h,
+                        null,
+                        ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
+                        ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()))).scale(h));
+
+        return newState;
     }
 
     public int calculateDx(){
