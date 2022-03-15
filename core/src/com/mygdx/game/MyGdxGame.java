@@ -10,13 +10,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 public class MyGdxGame extends ApplicationAdapter {
 	Vector state = new Vector(0,0,0,null,10,0);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
-
-	double h = 0.001;
+	double stepSize = 0.005;
+	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
@@ -91,8 +92,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.draw(spriteBatch, hits, 10, 20);
 		spriteBatch.end();
 
+		double prevX = ballX;
+		double prevY = ballY;
+
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
+
 			// Ball continues to move
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
 				try {
@@ -102,18 +107,21 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 				// Bounce-off
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
+					ball.state.setVx(ball.state.getVx()*-1.0);
 					ball.state.setX(ball.state.getX()*-1.0);
-					h = 0.001;
+					h = stepSize;
 				}
 				ballX += ball.state.getX();
-				System.out.println(ballX);
+				System.out.println(ball.state.getVx());
 				// Bounce-off
 				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
-					ball.state.setY(ball.state.getY()*-1);
-					h = 0.001;
+					ball.state.setVy(ball.state.getVy()*-1);
+					ball.state.setY(ball.state.getY()*-1.0);
+
+					h = stepSize;
 				}
 				ballY += ball.state.getY();
-				h += 0.001;
+				h += stepSize;
 			}
 
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
@@ -131,7 +139,7 @@ public class MyGdxGame extends ApplicationAdapter {
 							ball.state.setY(0);
 							ball.state.setVx(10);
 							ball.state.setVy(0.1);
-							h = 0.001;
+							h = stepSize;
 						} else {
 							moving = true;
 							// Ball starts falling down slope
@@ -144,7 +152,7 @@ public class MyGdxGame extends ApplicationAdapter {
 						ball.state.setY(0);
 						ball.state.setVx(10);
 						ball.state.setVy(0.1);
-						h = 0.001;
+						h = stepSize;
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -195,7 +203,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		// Ball
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
-			shapeRenderer.circle(ballX, ballY, 20);
+
+
+
+				shapeRenderer.circle(ballX, ballY, 20);
+
 		}
 		shapeRenderer.end();
 	}
