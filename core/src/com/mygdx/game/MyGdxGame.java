@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.concurrent.TimeUnit;
-
 public class MyGdxGame extends ApplicationAdapter {
 	Vector state = new Vector(0,0,0,null,10,0);
 	Ball ball = new Ball(state);
@@ -48,13 +46,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-
 		shapeRenderer = new ShapeRenderer();
-		// Max value = 1.5, min value = =0.5; range = 2
-
+		// Max value = 1.5, min value = -0.5; range = 2
 		vectors = createField();
-
-
 	}
 
 	@Override
@@ -68,66 +62,54 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
-			// Shows gradual stop: 100 iterations of ball exponentially approaching target position (currently: tip of projection line)
-			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))){
+			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
 				ball.state = math.euler(ball.state,h);
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
 
-
-					h=0.001;
+					h = 0.001;
 				}
 				ballX += ball.state.getX();
 				System.out.println(ballX);
 				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
 					ball.state.setY(ball.state.getY()*-1);
 
-
-
-					h= 0.001;
+					h = 0.001;
 				}
 				ballY += ball.state.getY();
-
-
 
 				h+= 0.001;
 			}
 
-
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
-
-
 
 			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
 				// Resets; prepares for next user inputs
 				System.out.println("Ball stopped");
 				counter = 0;
 				strengthLength = 0;
-			if(px.getX(ball.state.getX(), ball.state.getY(),0,0)!=0 ||px.getY(ball.state.getX(), ball.state.getY(),0,0)!=0) {
-				if (Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+				if(px.getX(ball.state.getX(), ball.state.getY(),0,0)!=0 ||px.getY(ball.state.getX(), ball.state.getY(),0,0)!=0) {
+					if (Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+						moving = false;
+						ball.state.setX(0);
+						ball.state.setY(0);
+						ball.state.setVx(10);
+						ball.state.setVy(0.1);
+						h=0.001;
+					} else {
+						moving = true;
+						ball.state.setVx(-1*Math.abs(ball.state.getVx()));
+						ball.state.setVy(-1*Math.abs(ball.state.getVy()));
+					}
+				} else {
 					moving = false;
 					ball.state.setX(0);
 					ball.state.setY(0);
 					ball.state.setVx(10);
 					ball.state.setVy(0.1);
 					h=0.001;
-				}else{
-					moving = true;
-					ball.state.setVx(-1*Math.abs(ball.state.getVx()));
-					ball.state.setVy(-1*Math.abs(ball.state.getVy()));
 				}
-			}else{
-				moving = false;
-				ball.state.setX(0);
-				ball.state.setY(0);
-				ball.state.setVx(10);
-				ball.state.setVy(0.1);
-				h=0.001;
 			}
-
-
-			}
-
 		}
 		else {
 			// User giving inputs
@@ -140,15 +122,10 @@ public class MyGdxGame extends ApplicationAdapter {
 				if(strengthLength < 1)
 					strengthLength += 0.025;
 			}
-
-			// Changes direction of ball
-
-
 			// Falls into hole
 			if(Math.abs(holeX - ballX) <= 30 && Math.abs(holeY - ballY) <= 30) {
 				holeIn = true;
 			}
-
 			// Trajectory line
 			if(!holeIn) {
 				// Trajectory
@@ -161,7 +138,6 @@ public class MyGdxGame extends ApplicationAdapter {
 				trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
 				trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
 				shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
-
 				// Strength
 				float strengthX = (float) (ballX + strengthLength*(trajecX - ballX));
 				float strengthY = (float) (ballY + strengthLength*(trajecY - ballY));
