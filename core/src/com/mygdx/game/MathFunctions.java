@@ -1,8 +1,10 @@
 package com.mygdx.game;
 
+import java.io.FileNotFoundException;
+
 public class MathFunctions {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         MathFunctions m = new MathFunctions();
         Vector state = new Vector(0,0,0,null,1.1,0);
         Vector newPosition = m.euler(state,5);
@@ -13,8 +15,7 @@ public class MathFunctions {
 
 
     // Function for Euler formula
-    Vector euler(Vector StateVector, double h)
-    {
+    Vector euler(Vector StateVector, double h) throws FileNotFoundException {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         HeightFunction heightFunction = new HeightFunction();
