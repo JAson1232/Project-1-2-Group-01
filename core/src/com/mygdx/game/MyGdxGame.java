@@ -80,7 +80,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			// Ball continues to move
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
-				ball.state = math.euler(ball.state, h);
+				try {
+					ball.state = math.euler(ball.state, h);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 				// Bounce-off
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
@@ -104,28 +108,32 @@ public class MyGdxGame extends ApplicationAdapter {
 				System.out.println("Ball stopped");
 				counter = 0;
 				strengthLength = 0;
-				if(px.getX(ball.state.getX(), ball.state.getY(), 0, 0) != 0 || px.getY(ball.state.getX(), ball.state.getY(), 0, 0) != 0) {
-					// Ball comes to stop due to static friction
-					if(Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+				try {
+					if(px.getX(ball.state.getX(), ball.state.getY(), 0, 0) != 0 || px.getY(ball.state.getX(), ball.state.getY(), 0, 0) != 0) {
+						// Ball comes to stop due to static friction
+						if(Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+							moving = false;
+							ball.state.setX(0);
+							ball.state.setY(0);
+							ball.state.setVx(10);
+							ball.state.setVy(0.1);
+							h = 0.001;
+						} else {
+							moving = true;
+							// Ball starts falling down slope
+							ball.state.setVx(-1*Math.abs(ball.state.getVx()));
+							ball.state.setVy(-1*Math.abs(ball.state.getVy()));
+						}
+					} else {
 						moving = false;
 						ball.state.setX(0);
 						ball.state.setY(0);
 						ball.state.setVx(10);
 						ball.state.setVy(0.1);
 						h = 0.001;
-					} else {
-						moving = true;
-						// Ball starts falling down slope
-						ball.state.setVx(-1*Math.abs(ball.state.getVx()));
-						ball.state.setVy(-1*Math.abs(ball.state.getVy()));
 					}
-				} else {
-					moving = false;
-					ball.state.setX(0);
-					ball.state.setY(0);
-					ball.state.setVx(10);
-					ball.state.setVy(0.1);
-					h = 0.001;
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
 				}
 			}
 		}
