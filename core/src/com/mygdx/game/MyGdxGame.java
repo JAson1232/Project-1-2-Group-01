@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.io.FileNotFoundException;
+
 public class MyGdxGame extends ApplicationAdapter {
 	Vector state = new Vector(0,0,0,null,10,0);
 	Ball ball = new Ball(state);
@@ -32,7 +34,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	int fieldLength = 50;
 	int fieldWidth = 65;
 
-	public Vector[][] createField() {
+	public Vector[][] createField() throws FileNotFoundException {
 		HeightFunction f = new HeightFunction();
 		Field field = new Field();
 		field.setLength(fieldLength);
@@ -49,7 +51,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
-		vectors = createField();
+		try {
+			vectors = createField();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
