@@ -12,7 +12,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
 
-	double h =0.001;
+	double h = 0.001;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
@@ -29,12 +29,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	int counter = 0;
 	Vector[][] vectors;
 	boolean fieldCreated = false;
+	int fieldLength = 50;
+	int fieldWidth = 65;
 
 	public Vector[][] createField() {
 		HeightFunction f = new HeightFunction();
 		Field field = new Field();
-		field.setLength(50);
-		field.setWidth(50);
+		field.setLength(fieldLength);
+		field.setWidth(fieldWidth);
 		vectors = field.createField();;
 		for(int i = 0; i < vectors.length; i++) {
 			for(int j = 0; j < vectors[0].length; j++) {
@@ -59,6 +61,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+		Gdx.graphics.setWindowedMode(650, 500);
+		for(int i = 0; i < fieldWidth; i++) {
+			for(int j = 0; j < fieldLength; j++) {
+				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+				shapeRenderer.setColor(0, color, 0, 1);
+				shapeRenderer.rect(10*i, 10*j, 10, 10);
+
+			}
+		}
+
 
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
