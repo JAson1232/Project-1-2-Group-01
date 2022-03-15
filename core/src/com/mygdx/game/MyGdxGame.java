@@ -33,6 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	boolean fieldCreated = false;
 	int fieldLength = 50;
 	int fieldWidth = 65;
+	int numOfHits = 0;
 
 	public Vector[][] createField() throws FileNotFoundException {
 		HeightFunction f = new HeightFunction();
@@ -105,7 +106,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
 				// Resets; prepares for next user inputs
-				System.out.println("Ball stopped");
+				System.out.println("Ball stopped at x: " + ballX + ", y: " + ballY);
+				System.out.println("Number of hits: " + numOfHits);
 				counter = 0;
 				strengthLength = 0;
 				try {
@@ -143,6 +145,8 @@ public class MyGdxGame extends ApplicationAdapter {
 				// Decreases holdConstant (to simulate ball going further from holding space bar for longer)
 				holdConstant *= 0.975;
 				// Signifies that movement is to be expected
+				if(!moving)
+					numOfHits++;
 				moving = true;
 				// Increases length of strength bar if pressing of space bar is sustained
 				if(strengthLength < 1)
