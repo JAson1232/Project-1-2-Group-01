@@ -10,16 +10,16 @@ import java.util.Scanner;
 public class HeightFunction implements Function{
     @Override
     public double f(double x, double y,double vx,double vy) throws FileNotFoundException {
-        return 0;
-//        Expression expression = new ExpressionBuilder(reader())
-//                .variables("x", "y")
-//                .build()
-//                .setVariable("x", x)
-//                .setVariable("y", y);
-//
-//        double result = expression.evaluate();
-//
-//        return result;
+        // return 0;
+        Expression expression = new ExpressionBuilder(reader())
+                .variables("x", "y")
+                .build()
+                .setVariable("x", x)
+                .setVariable("y", y);
+
+        double result = expression.evaluate();
+
+        return result;
     }
 
     public static String reader() throws FileNotFoundException {

@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.io.FileNotFoundException;
@@ -77,6 +79,18 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 		}
+		// Text to display xy-coordinates of ball & number of hits
+		SpriteBatch spriteBatch;
+		BitmapFont font;
+		CharSequence coordinates = ("Ball at x: " + ballX + ", y: " + ballY);
+		CharSequence hits = ("Number of hits: " + numOfHits);
+		spriteBatch = new SpriteBatch();
+		font = new BitmapFont();
+		spriteBatch.begin();
+		font.draw(spriteBatch, coordinates, 10, 40);
+		font.draw(spriteBatch, hits, 10, 20);
+		spriteBatch.end();
+
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			// Ball continues to move
@@ -106,8 +120,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
 				// Resets; prepares for next user inputs
-				System.out.println("Ball stopped at x: " + ballX + ", y: " + ballY);
-				System.out.println("Number of hits: " + numOfHits);
 				counter = 0;
 				strengthLength = 0;
 				try {
