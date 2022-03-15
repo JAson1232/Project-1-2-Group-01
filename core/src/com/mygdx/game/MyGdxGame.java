@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
@@ -54,8 +57,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		// Max value = 1.5, min value = -0.5; range = 2
 =======
+=======
+>>>>>>> Stashed changes
 
 		// Max value = 1.5, min value = =0.5; range = 2
 
@@ -79,8 +85,12 @@ public class MyGdxGame extends ApplicationAdapter {
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 					h = 0.001;
+=======
+					h=0.01;
+>>>>>>> Stashed changes
 =======
 					h=0.01;
 >>>>>>> Stashed changes
@@ -107,6 +117,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 				h+= 0.01;
+<<<<<<< Updated upstream
+=======
+
+			}
+>>>>>>> Stashed changes
 
 >>>>>>> Stashed changes
 			}
@@ -137,10 +152,13 @@ public class MyGdxGame extends ApplicationAdapter {
 					ball.state.setY(0);
 					ball.state.setVx(10);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 					ball.state.setVy(0.1);
 					h=0.001;
 				}
 =======
+=======
+>>>>>>> Stashed changes
 					ball.state.setVy(3);
 					h=0.01;
 				}else{
