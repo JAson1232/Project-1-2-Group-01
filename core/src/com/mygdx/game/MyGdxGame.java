@@ -7,12 +7,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+<<<<<<< Updated upstream
+=======
+import java.sql.Time;
+import java.util.concurrent.TimeUnit;
+
+>>>>>>> Stashed changes
 public class MyGdxGame extends ApplicationAdapter {
-	Vector state = new Vector(0,0,0,null,10,0);
+	Vector state = new Vector(0,0,0,null,10,3);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
 
-	double h =0.001;
+	double h =0.01;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
@@ -47,7 +53,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
+<<<<<<< Updated upstream
 		// Max value = 1.5, min value = -0.5; range = 2
+=======
+
+		// Max value = 1.5, min value = =0.5; range = 2
+
+>>>>>>> Stashed changes
 		vectors = createField();
 	}
 
@@ -66,19 +78,37 @@ public class MyGdxGame extends ApplicationAdapter {
 				ball.state = math.euler(ball.state,h);
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
+<<<<<<< Updated upstream
 
 					h = 0.001;
+=======
+					h=0.01;
+>>>>>>> Stashed changes
 				}
+
 				ballX += ball.state.getX();
 				System.out.println(ballX);
 				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
 					ball.state.setY(ball.state.getY()*-1);
 
+<<<<<<< Updated upstream
 					h = 0.001;
 				}
 				ballY += ball.state.getY();
 
 				h+= 0.001;
+=======
+
+
+					h= 0.01;
+				}
+				ballY += ball.state.getY();
+
+
+
+				h+= 0.01;
+
+>>>>>>> Stashed changes
 			}
 
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
@@ -106,9 +136,29 @@ public class MyGdxGame extends ApplicationAdapter {
 					ball.state.setX(0);
 					ball.state.setY(0);
 					ball.state.setVx(10);
+<<<<<<< Updated upstream
 					ball.state.setVy(0.1);
 					h=0.001;
 				}
+=======
+					ball.state.setVy(3);
+					h=0.01;
+				}else{
+					moving = true;
+					ball.state.setVx(-1*Math.abs(ball.state.getVx()));
+					ball.state.setVy(-1*Math.abs(ball.state.getVy()));
+				}
+			}else{
+				moving = false;
+				ball.state.setX(0);
+				ball.state.setY(0);
+				ball.state.setVx(10);
+				ball.state.setVy(3);
+				h=0.01;
+			}
+
+
+>>>>>>> Stashed changes
 			}
 		}
 		else {
@@ -153,7 +203,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		// Ball
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
+
 			shapeRenderer.circle(ballX, ballY, 20);
+			
+
 		}
 		shapeRenderer.end();
 	}
@@ -163,15 +216,5 @@ public class MyGdxGame extends ApplicationAdapter {
 		shapeRenderer.dispose();
 	}
 
-	public void calculatePos(double vo,int x, int y, int angle){
 
-	}
-
-	public double calculateHeight(int x, int y){
-		return Math.sin((x-y)/7)+0.5;
-	}
-
-	public int getUserInputAngle(){
-		return 0;
-	}
 }
