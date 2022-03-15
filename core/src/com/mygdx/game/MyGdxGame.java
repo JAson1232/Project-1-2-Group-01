@@ -14,7 +14,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
 
-	double h = 0.001;
+	double h = 0.01;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
@@ -88,17 +88,17 @@ public class MyGdxGame extends ApplicationAdapter {
 				// Bounce-off
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
-					h = 0.001;
+					h = 0.01;
 				}
 				ballX += ball.state.getX();
 				System.out.println(ballX);
 				// Bounce-off
 				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
 					ball.state.setY(ball.state.getY()*-1);
-					h = 0.001;
+					h = 0.01;
 				}
 				ballY += ball.state.getY();
-				h += 0.001;
+				h += 0.01;
 			}
 
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
@@ -117,7 +117,7 @@ public class MyGdxGame extends ApplicationAdapter {
 							ball.state.setY(0);
 							ball.state.setVx(10);
 							ball.state.setVy(0.1);
-							h = 0.001;
+							h = 0.01;
 						} else {
 							moving = true;
 							// Ball starts falling down slope
@@ -130,7 +130,7 @@ public class MyGdxGame extends ApplicationAdapter {
 						ball.state.setY(0);
 						ball.state.setVx(10);
 						ball.state.setVy(0.1);
-						h = 0.001;
+						h = 0.01;
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
