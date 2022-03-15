@@ -7,21 +7,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-import java.sql.Time;
-import java.util.concurrent.TimeUnit;
-
->>>>>>> Stashed changes
 public class MyGdxGame extends ApplicationAdapter {
-	Vector state = new Vector(0,0,0,null,10,3);
+	Vector state = new Vector(0,0,0,null,10,0);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
 
-	double h =0.01;
+	double h = 0.001;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	float ballX = 400;
@@ -38,12 +29,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	int counter = 0;
 	Vector[][] vectors;
 	boolean fieldCreated = false;
+	int fieldLength = 50;
+	int fieldWidth = 65;
 
 	public Vector[][] createField() {
 		HeightFunction f = new HeightFunction();
 		Field field = new Field();
-		field.setLength(50);
-		field.setWidth(50);
+		field.setLength(fieldLength);
+		field.setWidth(fieldWidth);
 		vectors = field.createField();;
 		for(int i = 0; i < vectors.length; i++) {
 			for(int j = 0; j < vectors[0].length; j++) {
@@ -56,16 +49,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-		// Max value = 1.5, min value = -0.5; range = 2
-=======
-=======
->>>>>>> Stashed changes
-
-		// Max value = 1.5, min value = =0.5; range = 2
-
->>>>>>> Stashed changes
 		vectors = createField();
 	}
 
@@ -78,52 +61,36 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
+		Gdx.graphics.setWindowedMode(650, 500);
+		for(int i = 0; i < fieldWidth; i++) {
+			for(int j = 0; j < fieldLength; j++) {
+				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+				shapeRenderer.setColor(0, color, 0, 1);
+				shapeRenderer.rect(10*i, 10*j, 10, 10);
+
+			}
+		}
+
+
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
 				ball.state = math.euler(ball.state,h);
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
 					h = 0.001;
-=======
-					h=0.01;
->>>>>>> Stashed changes
-=======
-					h=0.01;
->>>>>>> Stashed changes
 				}
-
 				ballX += ball.state.getX();
 				System.out.println(ballX);
 				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
 					ball.state.setY(ball.state.getY()*-1);
 
-<<<<<<< Updated upstream
 					h = 0.001;
 				}
 				ballY += ball.state.getY();
 
 				h+= 0.001;
-=======
-
-
-					h= 0.01;
-				}
-				ballY += ball.state.getY();
-
-
-
-				h+= 0.01;
-<<<<<<< Updated upstream
-=======
-
-			}
->>>>>>> Stashed changes
-
->>>>>>> Stashed changes
 			}
 
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
@@ -151,32 +118,9 @@ public class MyGdxGame extends ApplicationAdapter {
 					ball.state.setX(0);
 					ball.state.setY(0);
 					ball.state.setVx(10);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 					ball.state.setVy(0.1);
 					h=0.001;
 				}
-=======
-=======
->>>>>>> Stashed changes
-					ball.state.setVy(3);
-					h=0.01;
-				}else{
-					moving = true;
-					ball.state.setVx(-1*Math.abs(ball.state.getVx()));
-					ball.state.setVy(-1*Math.abs(ball.state.getVy()));
-				}
-			}else{
-				moving = false;
-				ball.state.setX(0);
-				ball.state.setY(0);
-				ball.state.setVx(10);
-				ball.state.setVy(3);
-				h=0.01;
-			}
-
-
->>>>>>> Stashed changes
 			}
 		}
 		else {
@@ -221,10 +165,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		// Ball
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
-
 			shapeRenderer.circle(ballX, ballY, 20);
-			
-
 		}
 		shapeRenderer.end();
 	}
@@ -234,5 +175,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		shapeRenderer.dispose();
 	}
 
+	public void calculatePos(double vo,int x, int y, int angle){
 
+	}
+
+	public double calculateHeight(int x, int y){
+		return Math.sin((x-y)/7)+0.5;
+	}
+
+	public int getUserInputAngle(){
+		return 0;
+	}
 }
