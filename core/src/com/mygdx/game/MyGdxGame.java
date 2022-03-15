@@ -60,7 +60,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
+		// Illustrates heights of field
 		Gdx.graphics.setWindowedMode(650, 500);
 		for(int i = 0; i < fieldWidth; i++) {
 			for(int j = 0; j < fieldLength; j++) {
@@ -70,27 +70,25 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 		}
-
-
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
+			// Ball continues to move
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
-				ball.state = math.euler(ball.state,h);
+				ball.state = math.euler(ball.state, h);
+				// Bounce-off
 				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
 					ball.state.setX(ball.state.getX()*-1.0);
-
 					h = 0.001;
 				}
 				ballX += ball.state.getX();
 				System.out.println(ballX);
+				// Bounce-off
 				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
 					ball.state.setY(ball.state.getY()*-1);
-
 					h = 0.001;
 				}
 				ballY += ball.state.getY();
-
-				h+= 0.001;
+				h += 0.001;
 			}
 
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
@@ -100,16 +98,18 @@ public class MyGdxGame extends ApplicationAdapter {
 				System.out.println("Ball stopped");
 				counter = 0;
 				strengthLength = 0;
-				if(px.getX(ball.state.getX(), ball.state.getY(),0,0)!=0 ||px.getY(ball.state.getX(), ball.state.getY(),0,0)!=0) {
-					if (Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+				if(px.getX(ball.state.getX(), ball.state.getY(), 0, 0) != 0 || px.getY(ball.state.getX(), ball.state.getY(), 0, 0) != 0) {
+					// Ball comes to stop due to static friction
+					if(Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
 						moving = false;
 						ball.state.setX(0);
 						ball.state.setY(0);
 						ball.state.setVx(10);
 						ball.state.setVy(0.1);
-						h=0.001;
+						h = 0.001;
 					} else {
 						moving = true;
+						// Ball starts falling down slope
 						ball.state.setVx(-1*Math.abs(ball.state.getVx()));
 						ball.state.setVy(-1*Math.abs(ball.state.getVy()));
 					}
@@ -119,7 +119,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					ball.state.setY(0);
 					ball.state.setVx(10);
 					ball.state.setVy(0.1);
-					h=0.001;
+					h = 0.001;
 				}
 			}
 		}
