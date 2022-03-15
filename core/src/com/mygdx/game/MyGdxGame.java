@@ -49,7 +49,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		shapeRenderer = new ShapeRenderer();
-		// Max value = 1.5, min value = -0.5; range = 2
 		vectors = createField();
 	}
 
