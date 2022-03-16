@@ -9,13 +9,14 @@ public class Experiments {
     static double h = 1;
     static double time = 10.0;
 
-    static Vector state =new Vector(0, 0, 0, null, 10, 10);
+    static Vector state =new Vector(0, 0, 0, null, -5, 1);
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        for(double i = 0.0;i < time+h;i+=h) {
-            state = math.euler(state,h);
-            //System.out.println(state);
+        while((state.getVx() < 0.1 && state.getVx() > -0.1) && (state.getVy() < 0.1 && state.getVy() > -0.1)) {
+            state = math.euler(state, h);
+            System.out.println(state);
         }
+
     }
 }

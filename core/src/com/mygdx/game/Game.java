@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Game extends ApplicationAdapter {
 
-	Vector state = new Vector(40,40,0,null,10,0);
+	Vector state = new Vector(40,40,0,null,-5,1);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
-	double stepSize = 0.5;
+	double stepSize = 0.3;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
@@ -112,7 +112,7 @@ public class Game extends ApplicationAdapter {
 			readVelocity = false;
 
 			// Ball continues to move
-			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
+			if(!((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15)))) {
 				double prevX = ball.state.getX();
 
 				double prevY = ball.state.getY();
@@ -147,7 +147,7 @@ public class Game extends ApplicationAdapter {
 			//System.out.println(ball.state.getX());
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
 
-			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
+			if((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15))) { // TODO
 				// Resets; prepares for next user inputs
 				counter = 0;
 				strengthLength = 0;
@@ -187,11 +187,14 @@ public class Game extends ApplicationAdapter {
 					e.printStackTrace();
 				}
 			}
-			if(ball.state.getX() < 0 || ball.state.getY() <0){
-				inWater = true;
-				ball.state.setX(prevX);
-				ball.state.setY(prevY);
+			try {
+				if(f.f(ball.state.getX(),ball.state.getY(),0,0) < 0){
+					holeIn = true;
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			}
+
 		}
 		else {
 			// User giving inputs
@@ -252,6 +255,7 @@ public class Game extends ApplicationAdapter {
 					 prevY = ball.state.getY();
 					ball.state.setVx(vXX * 20);
 					ball.state.setVy(vYY * 20);
+
 				}
 
 
