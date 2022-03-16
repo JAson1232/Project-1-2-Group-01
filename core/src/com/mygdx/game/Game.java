@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game extends ApplicationAdapter {
+
 	Vector state = new Vector(40,40,0,null,10,0);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
@@ -20,10 +24,10 @@ public class Game extends ApplicationAdapter {
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
-	float ballX = 100;
-	float ballY = 70;
-	float holeX = 550;
-	float holeY = 430;
+	float ballX = Float.parseFloat(Reader.resultOfCord.get(0))*25;
+	float ballY = Float.parseFloat(Reader.resultOfCord.get(1))*25;
+	float holeX = Float.parseFloat(Reader.resultOfCord.get(2))*25;
+	float holeY = Float.parseFloat(Reader.resultOfCord.get(3))*25;
 	boolean holeIn = false;
 	float trajecX, trajecY;
 	double angle = 90;
@@ -38,6 +42,9 @@ public class Game extends ApplicationAdapter {
 	int fieldWidth = 65;
 	int numOfHits = 0;
 	boolean readVelocity = true;
+
+	public Game() throws FileNotFoundException {
+	}
 
 	public Vector[][] createField() throws FileNotFoundException {
 		HeightFunction f = new HeightFunction();
@@ -75,13 +82,9 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(650, 500);
 		for(int i = 0; i < fieldWidth; i++) {
 			for(int j = 0; j < fieldLength; j++) {
-				if(vectors[j][i].getZ() > 0) {
-					float color = (float) (vectors[j][i].getZ() + 0.5)/2;
-					shapeRenderer.setColor(0, color, 0, 1);
-				}
-				else {
-					shapeRenderer.setColor(0, 0, 1, 1);
-				}
+				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+
+				shapeRenderer.setColor(0, color, 0, 1);
 				shapeRenderer.rect(10*i, 10*j, 10, 10);
 
 			}
