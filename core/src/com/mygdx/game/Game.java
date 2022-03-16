@@ -20,10 +20,10 @@ public class Game extends ApplicationAdapter {
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
-	float ballX = 40;
-	float ballY = 40;
-	float holeX = 50;
-	float holeY = 250;
+	float ballX = 100;
+	float ballY = 70;
+	float holeX = 550;
+	float holeY = 430;
 	boolean holeIn = false;
 	float trajecX, trajecY;
 	double angle = 90;
@@ -75,9 +75,13 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(650, 500);
 		for(int i = 0; i < fieldWidth; i++) {
 			for(int j = 0; j < fieldLength; j++) {
-				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
-
-				shapeRenderer.setColor(0, color, 0, 1);
+				if(vectors[j][i].getZ() > 0) {
+					float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+					shapeRenderer.setColor(0, color, 0, 1);
+				}
+				else {
+					shapeRenderer.setColor(0, 0, 1, 1);
+				}
 				shapeRenderer.rect(10*i, 10*j, 10, 10);
 
 			}
