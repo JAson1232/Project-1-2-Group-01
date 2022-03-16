@@ -7,8 +7,7 @@ public class Field {
     Vector[][] vectors;
 
     public Vector[][] createField() {
-        vectors = new Vector[length][width];
-        return vectors;
+        return new Vector[length][width];
     }
 
     public double getFrictionKinetic() {

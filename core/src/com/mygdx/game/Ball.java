@@ -62,9 +62,9 @@ public class Ball {
     }
     public boolean isMoving(){
         if(currentVelocity == 0){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public Vector getState(){
