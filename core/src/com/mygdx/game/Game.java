@@ -86,9 +86,12 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(650, 500);
 		for(int i = 0; i < fieldWidth; i++) {
 			for(int j = 0; j < fieldLength; j++) {
-				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
-
-				shapeRenderer.setColor(0, color, 0, 1);
+				if(vectors[j][i].getZ() >= 0) {
+					float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+					shapeRenderer.setColor(0, color, 0, 1);
+				} else {
+					shapeRenderer.setColor(0, 0, 1, 1);
+				}
 				shapeRenderer.rect(10*i, 10*j, 10, 10);
 
 			}
