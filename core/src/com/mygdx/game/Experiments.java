@@ -6,13 +6,16 @@ public class Experiments {
     static MathFunctions math = new MathFunctions();
 
 
-    static double h = 0.1;
-    static double time = 1.0;
+    static double h = 1;
+    static double time = 10.0;
+
+    static Vector state =new Vector(0, 0, 0, null, 10, 10);
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        for(double i = 0.0;i < time;i+=h) {
-            System.out.println(math.euler(new Vector(0, 0, 0, null, 100, 100), i));
+        for(double i = 0.0;i < time+h;i+=h) {
+            state = math.euler(state,h);
+            //System.out.println(state);
         }
     }
 }

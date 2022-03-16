@@ -27,7 +27,7 @@ public class HeightFunction implements Function{
 
         double result = expression.evaluate();
 
-        return result;
+        return 0;
     }
 
     /**
