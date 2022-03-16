@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class HeightFunction implements Function{
     @Override
     public double f(double x, double y,double vx,double vy) throws FileNotFoundException {
-        // return 0;
+         //return 0;
         Expression expression = new ExpressionBuilder(reader())
                 .variables("x", "y")
                 .build()
@@ -23,8 +23,8 @@ public class HeightFunction implements Function{
     }
 
     public static String reader() throws FileNotFoundException {
-        // File file = new File("C:\\Users\\jason\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
-        File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
+        File file = new File("C:\\Users\\jason\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
+        //File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
         Scanner scanner = new Scanner(file);
         int count = 0;
         ArrayList<String> result = new ArrayList<>();

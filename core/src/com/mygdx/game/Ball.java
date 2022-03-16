@@ -1,11 +1,13 @@
 package com.mygdx.game;
 
+import java.io.FileNotFoundException;
+
 public class Ball {
 
     Vector state;
     private double x;
     private double y;
-    private int z;
+    private double z;
     private double mass;
     private double currentVelocity;
     private double acceleration;
@@ -14,10 +16,11 @@ public class Ball {
         this.state = state.clone();
     }
 
-    public Ball(double x, double y, int z, double mass){
+    public Ball(double x, double y, int z, double mass) throws FileNotFoundException {
         this.x = x;
         this.y = y;
-        this.z = z;
+        HeightFunction hf = new HeightFunction();
+        this.z = hf.f(x,y,0,0);
         this.mass = mass;
     }
     public double getX(){
@@ -32,10 +35,10 @@ public class Ball {
     public void setY(double y){
         this.y = y;
     }
-    public int getZ(){
+    public double getZ(){
         return z;
     }
-    public void setZ(int z){
+    public void setZ(double z){
         this.z = z;
     }
     public double getMass(){

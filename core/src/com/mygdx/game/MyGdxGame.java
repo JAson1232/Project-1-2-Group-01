@@ -75,6 +75,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		for(int i = 0; i < fieldWidth; i++) {
 			for(int j = 0; j < fieldLength; j++) {
 				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+
 				shapeRenderer.setColor(0, color, 0, 1);
 				shapeRenderer.rect(10*i, 10*j, 10, 10);
 
@@ -106,15 +107,15 @@ public class MyGdxGame extends ApplicationAdapter {
 					e.printStackTrace();
 				}
 				// Bounce-off
-				if(ballX < 0 || ballX > Gdx.graphics.getWidth()) {
+				if(ballX < 30 || ballX > Gdx.graphics.getWidth()-30) {
 					ball.state.setVx(ball.state.getVx()*-1.0);
 					ball.state.setX(ball.state.getX()*-1.0);
 					h = stepSize;
 				}
 				ballX += ball.state.getX();
-				System.out.println(ball.state.getVx());
+				//System.out.println(ball.state.getVx());
 				// Bounce-off
-				if(ballY < 0 || ballY > Gdx.graphics.getHeight()) {
+				if(ballY < 30 || ballY > Gdx.graphics.getHeight()-30) {
 					ball.state.setVy(ball.state.getVy()*-1);
 					ball.state.setY(ball.state.getY()*-1.0);
 
@@ -137,8 +138,8 @@ public class MyGdxGame extends ApplicationAdapter {
 							moving = false;
 							ball.state.setX(0);
 							ball.state.setY(0);
-							ball.state.setVx(10);
-							ball.state.setVy(0.1);
+							//ball.state.setVx(10);
+							//ball.state.setVy(0.1);
 							h = stepSize;
 						} else {
 							moving = true;
@@ -150,8 +151,8 @@ public class MyGdxGame extends ApplicationAdapter {
 						moving = false;
 						ball.state.setX(0);
 						ball.state.setY(0);
-						ball.state.setVx(10);
-						ball.state.setVy(0.1);
+						//ball.state.setVx(10);
+						//ball.state.setVy(0.1);
 						h = stepSize;
 					}
 				} catch (FileNotFoundException e) {
@@ -169,13 +170,11 @@ public class MyGdxGame extends ApplicationAdapter {
 					numOfHits++;
 				moving = true;
 				// Increases length of strength bar if pressing of space bar is sustained
-				if(strengthLength < 1)
-					strengthLength += 0.025;
+				if(strengthLength < 5)
+					strengthLength += 0.125;
 			}
 			// Falls into hole
-			if(Math.abs(holeX - ballX) <= 30 && Math.abs(holeY - ballY) <= 30) {
-				holeIn = true;
-			}
+
 			// Trajectory line
 			if(!holeIn) {
 				// Trajectory
@@ -185,22 +184,56 @@ public class MyGdxGame extends ApplicationAdapter {
 				if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 					angle -= 2;
 				// New location (angle) of trajectory line from ball
+				if(angle>360){
+					angle -=360;
+				}
+				if(angle<0){
+					angle += 360;
+				}
 				trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
 				trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
+
 				shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
 				// Strength
-				float strengthX = (float) (ballX + strengthLength*(trajecX - ballX));
-				float strengthY = (float) (ballY + strengthLength*(trajecY - ballY));
+				float strengthX = (float) (ballX + strengthLength/5*(trajecX - ballX));
+				double vXX = strengthLength;
+				double vYY = strengthLength;
+				float strengthY = (float) (ballY + strengthLength/5*(trajecY - ballY));
+
+				if(angle <= 270 && angle > 180){
+					vXX = strengthLength*-1*Math.cos(Math.toRadians(angle-180));
+					vYY = strengthLength*-1*Math.sin(Math.toRadians(angle-180));
+				}else if(angle > 270){
+					vXX = strengthLength*Math.cos(Math.toRadians(360-angle));
+					vYY = strengthLength*-1*Math.sin(Math.toRadians(360-angle));
+				}else if(angle<=180 && angle >90){
+					vXX = strengthLength*-1*Math.cos(Math.toRadians(180-angle));
+					vYY = strengthLength*Math.sin(Math.toRadians(180-angle));
+				}else{
+					vXX = strengthLength*-1*Math.cos(Math.toRadians(angle));
+					vYY = strengthLength*Math.sin(Math.toRadians(angle));
+				}
+				ball.state.setVx(vXX*2);
+				ball.state.setVy(vYY*2);
+
+				//System.out.println(vYY);
 				shapeRenderer.setColor(Color.RED);
 				shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 			}
 		}
-
+		try {
+			System.out.println(calculateHeight(ballX,ballY));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		// Hole
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.circle(holeX, holeY, 30);
 
 		// Ball
+		if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
+			holeIn = true;
+		}
 		if(!holeIn) {
 			shapeRenderer.setColor(1, 1, 1, 1);
 
@@ -221,8 +254,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
-	public double calculateHeight(int x, int y){
-		return Math.sin((x-y)/7)+0.5;
+	public double calculateHeight(double x, double y) throws FileNotFoundException {
+		HeightFunction hf = new HeightFunction();
+
+		return hf.f(x,y,0,0);
 	}
 
 	public int getUserInputAngle(){
