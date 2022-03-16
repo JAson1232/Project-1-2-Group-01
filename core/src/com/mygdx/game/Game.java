@@ -24,11 +24,13 @@ public class Game extends ApplicationAdapter {
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
-	float ballX = Float.parseFloat(Reader.resultOfCord.get(0))*25;
-	float ballY = Float.parseFloat(Reader.resultOfCord.get(1))*25;
-	float holeX = Float.parseFloat(Reader.resultOfCord.get(2))*25;
-	float holeY = Float.parseFloat(Reader.resultOfCord.get(3))*25;
+	Reader reader = new Reader();
+	float ballX = Float.parseFloat(reader.compute().get(0))+25;
+	float ballY = Float.parseFloat((reader.compute().get(1)))+25;
+	float holeX = Float.parseFloat((reader.compute().get(2)))+25*4;
+	float holeY = Float.parseFloat((reader.compute().get(3)))+25*4;
 	boolean holeIn = false;
+	boolean inWater = false;
 	float trajecX, trajecY;
 	double angle = 90;
 	double lineLength = 100;
@@ -41,6 +43,8 @@ public class Game extends ApplicationAdapter {
 	int fieldLength = 50;
 	int fieldWidth = 65;
 	int numOfHits = 0;
+	double prevX = ballX;
+	double prevY = ballY;
 	boolean readVelocity = true;
 
 	public Game() throws FileNotFoundException {
@@ -106,6 +110,7 @@ public class Game extends ApplicationAdapter {
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			readVelocity = false;
+
 			// Ball continues to move
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
 				double prevX = ball.state.getX();
@@ -182,6 +187,11 @@ public class Game extends ApplicationAdapter {
 					e.printStackTrace();
 				}
 			}
+			if(ball.state.getX() < 0 || ball.state.getY() <0){
+				inWater = true;
+				ball.state.setX(prevX);
+				ball.state.setY(prevY);
+			}
 		}
 		else {
 			// User giving inputs
@@ -238,6 +248,8 @@ public class Game extends ApplicationAdapter {
 				}
 				if(readVelocity) {
 					//System.out.println("here");
+					 prevX = ball.state.getX();
+					 prevY = ball.state.getY();
 					ball.state.setVx(vXX * 20);
 					ball.state.setVy(vYY * 20);
 				}
@@ -257,14 +269,20 @@ public class Game extends ApplicationAdapter {
 		if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 			holeIn = true;
 		}
-		if(!holeIn) {
-			shapeRenderer.setColor(1, 1, 1, 1);
 
 
 
-				shapeRenderer.circle(ballX, ballY, 20);
+		if(!holeIn && !inWater ) {
+				shapeRenderer.setColor(1, 1, 1, 1);
 
-		}
+
+
+					shapeRenderer.circle(ballX, ballY, 20);
+
+			}
+
+
+
 		shapeRenderer.end();
 	}
 	
