@@ -152,9 +152,15 @@ public class Game extends ApplicationAdapter {
 							h = stepSize;
 						} else {
 							moving = true;
+							///////
+
+							if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1)){
+								ball.state.setVx(-1*Math.abs(ball.state.getVx()));
+							}
 							// Ball starts falling down slope
-							ball.state.setVx(-1*Math.abs(ball.state.getVx()));
-							ball.state.setVy(-1*Math.abs(ball.state.getVy()));
+							if(((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) {
+								ball.state.setVy(-1 * Math.abs(ball.state.getVy()));
+							}
 						}
 					} else {
 						moving = false;
