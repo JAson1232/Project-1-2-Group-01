@@ -22,7 +22,7 @@ public class MathFunctions {
         Vector newState = StateVector.sum((
                 new Vector(StateVector.getVx()*h,
                         StateVector.getVy()*h,
-                        StateVector.getZ()*h,
+                        StateVector.getZ(),
                         null,
                         ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
                         ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy())))

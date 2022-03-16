@@ -16,7 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Vector state = new Vector(0,0,0,null,10,0);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
-	double stepSize = 0.005;
+	double stepSize = 0.1;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
@@ -93,14 +93,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.draw(spriteBatch, hits, 10, 20);
 		spriteBatch.end();
 
-		double prevX = ballX;
-		double prevY = ballY;
+
 
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 
 			// Ball continues to move
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
+				double prevX = ball.state.getX();
+				double prevY = ball.state.getY();
 				try {
 					ball.state = math.euler(ball.state, h);
 				} catch (FileNotFoundException e) {
@@ -108,21 +109,28 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 				// Bounce-off
 				if(ballX < 30 || ballX > Gdx.graphics.getWidth()-30) {
-					ball.state.setVx(ball.state.getVx()*-1.0);
-					ball.state.setX(ball.state.getX()*-1.0);
+
+
+						ball.state.setVx(ball.state.getVx()*-1.0);
+						ball.state.setX(ball.state.getX()*-1);
+
+
 					h = stepSize;
 				}
 				ballX += ball.state.getX();
-				//System.out.println(ball.state.getVx());
+				//System.out.println(ball.state.getVy());
 				// Bounce-off
 				if(ballY < 30 || ballY > Gdx.graphics.getHeight()-30) {
-					ball.state.setVy(ball.state.getVy()*-1);
-					ball.state.setY(ball.state.getY()*-1.0);
+
+						ball.state.setVy(ball.state.getVy()*-1.0);
+						ball.state.setY(ball.state.getY()*-1 );
+
+
 
 					h = stepSize;
 				}
 				ballY += ball.state.getY();
-				h += stepSize;
+				h = stepSize;
 			}
 
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
@@ -210,22 +218,18 @@ public class MyGdxGame extends ApplicationAdapter {
 					vXX = strengthLength*-1*Math.cos(Math.toRadians(180-angle));
 					vYY = strengthLength*Math.sin(Math.toRadians(180-angle));
 				}else{
-					vXX = strengthLength*-1*Math.cos(Math.toRadians(angle));
+					vXX = strengthLength*Math.cos(Math.toRadians(angle));
 					vYY = strengthLength*Math.sin(Math.toRadians(angle));
 				}
 				ball.state.setVx(vXX*2);
 				ball.state.setVy(vYY*2);
 
-				//System.out.println(vYY);
+				System.out.println(angle);
 				shapeRenderer.setColor(Color.RED);
 				shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 			}
 		}
-		try {
-			System.out.println(calculateHeight(ballX,ballY));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+
 		// Hole
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.circle(holeX, holeY, 30);
