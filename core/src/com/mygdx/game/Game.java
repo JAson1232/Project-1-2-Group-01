@@ -17,18 +17,20 @@ import java.util.concurrent.TimeUnit;
 
 public class Game extends ApplicationAdapter {
 
-	Vector state = new Vector(40,40,0,null,10,0);
+	Vector state = new Vector(40,40,0,null,-5,1);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
-	double stepSize = 0.5;
+	double stepSize = 0.3;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
-	float ballX = Float.parseFloat(Reader.resultOfCord.get(0))*25;
-	float ballY = Float.parseFloat(Reader.resultOfCord.get(1))*25;
-	float holeX = Float.parseFloat(Reader.resultOfCord.get(2))*25;
-	float holeY = Float.parseFloat(Reader.resultOfCord.get(3))*25;
+	Reader reader = new Reader();
+	float ballX = Float.parseFloat(reader.compute().get(0))+25;
+	float ballY = Float.parseFloat((reader.compute().get(1)))+25;
+	float holeX = Float.parseFloat((reader.compute().get(2)))+25*4;
+	float holeY = Float.parseFloat((reader.compute().get(3)))+25*4;
 	boolean holeIn = false;
+	boolean inWater = false;
 	float trajecX, trajecY;
 	double angle = 90;
 	double lineLength = 100;
@@ -41,6 +43,8 @@ public class Game extends ApplicationAdapter {
 	int fieldLength = 50;
 	int fieldWidth = 65;
 	int numOfHits = 0;
+	double prevX = ballX;
+	double prevY = ballY;
 	boolean readVelocity = true;
 
 	public Game() throws FileNotFoundException {
@@ -82,9 +86,12 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(650, 500);
 		for(int i = 0; i < fieldWidth; i++) {
 			for(int j = 0; j < fieldLength; j++) {
-				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
-
-				shapeRenderer.setColor(0, color, 0, 1);
+				if(vectors[j][i].getZ() >= 0) {
+					float color = (float) (vectors[j][i].getZ() + 0.5)/2;
+					shapeRenderer.setColor(0, color, 0, 1);
+				} else {
+					shapeRenderer.setColor(0, 0, 1, 1);
+				}
 				shapeRenderer.rect(10*i, 10*j, 10, 10);
 
 			}
@@ -106,8 +113,9 @@ public class Game extends ApplicationAdapter {
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			readVelocity = false;
+
 			// Ball continues to move
-			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
+			if(!((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15)))) {
 				double prevX = ball.state.getX();
 
 				double prevY = ball.state.getY();
@@ -142,7 +150,7 @@ public class Game extends ApplicationAdapter {
 			//System.out.println(ball.state.getX());
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
 
-			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
+			if((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15))) { // TODO
 				// Resets; prepares for next user inputs
 				counter = 0;
 				strengthLength = 0;
@@ -182,6 +190,14 @@ public class Game extends ApplicationAdapter {
 					e.printStackTrace();
 				}
 			}
+			try {
+				if(f.f(ball.state.getX(),ball.state.getY(),0,0) < 0){
+					holeIn = true;
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
 		}
 		else {
 			// User giving inputs
@@ -238,8 +254,11 @@ public class Game extends ApplicationAdapter {
 				}
 				if(readVelocity) {
 					//System.out.println("here");
+					 prevX = ball.state.getX();
+					 prevY = ball.state.getY();
 					ball.state.setVx(vXX * 20);
 					ball.state.setVy(vYY * 20);
+
 				}
 
 
@@ -257,14 +276,20 @@ public class Game extends ApplicationAdapter {
 		if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 			holeIn = true;
 		}
-		if(!holeIn) {
-			shapeRenderer.setColor(1, 1, 1, 1);
 
 
 
-				shapeRenderer.circle(ballX, ballY, 20);
+		if(!holeIn && !inWater ) {
+				shapeRenderer.setColor(1, 1, 1, 1);
 
-		}
+
+
+					shapeRenderer.circle(ballX, ballY, 20);
+
+			}
+
+
+
 		shapeRenderer.end();
 	}
 	
