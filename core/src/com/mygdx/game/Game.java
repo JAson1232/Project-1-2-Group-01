@@ -20,8 +20,8 @@ public class Game extends ApplicationAdapter {
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
-	float ballX = 400;
-	float ballY = 400;
+	float ballX = 40;
+	float ballY = 40;
 	float holeX = 50;
 	float holeY = 250;
 	boolean holeIn = false;

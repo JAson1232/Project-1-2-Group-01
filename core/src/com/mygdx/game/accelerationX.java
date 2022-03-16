@@ -5,6 +5,14 @@ import java.io.FileNotFoundException;
 public class accelerationX implements Function{
     double g = 9.8;
     @Override
+    /**
+     * Calculates acceleration in x direction
+     * @param x Current x position
+     * @param y Current y position
+     * @param vx Velocity in x direction
+     * @param vy Velocity in y direction
+     * @return Acceleration in x direction
+     */
     public double f(double x, double y,double vx,double vy) throws FileNotFoundException {
         HeightFunction f  = new HeightFunction();
         PartialDerivative px = new PartialDerivative(f);
