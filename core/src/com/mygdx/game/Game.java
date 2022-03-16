@@ -46,7 +46,7 @@ public class Game extends ApplicationAdapter {
 		vectors = field.createField();;
 		for(int i = 0; i < vectors.length; i++) {
 			for(int j = 0; j < vectors[0].length; j++) {
-				vectors[i][j] = new Vector(j, i, f.f((double) j*10, (double) i*10, 0, 0), null, 0, 0);
+				vectors[i][j] = new Vector(j, i, f.f((double) j, (double) i, 0, 0), null, 0, 0);
 			}
 		}
 		return vectors;
