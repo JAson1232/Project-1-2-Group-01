@@ -20,7 +20,7 @@ public class Game extends ApplicationAdapter {
 
 
 	ShapeRenderer shapeRenderer;
-	double stepSize = 0.3;
+	double stepSize = 0.1;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
