@@ -20,14 +20,14 @@ public class MathFunctions {
         accelerationY ay = new accelerationY();
         HeightFunction heightFunction = new HeightFunction();
         Vector newState = StateVector.sum((
-                new Vector(StateVector.getVx()*h,
-                        StateVector.getVy()*h,
+                new Vector(StateVector.getVx(),
+                        StateVector.getVy(),
                         StateVector.getZ(),
                         null,
                         ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
                         ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy())))
                         .scale(h));
-            //System.out.println(newState.getVx());
+            System.out.println(newState);
 
         return newState;
     }
