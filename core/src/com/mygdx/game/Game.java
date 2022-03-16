@@ -13,10 +13,10 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 public class Game extends ApplicationAdapter {
-	Vector state = new Vector(0,0,0,null,10,0);
+	Vector state = new Vector(40,40,0,null,10,0);
 	Ball ball = new Ball(state);
 	ShapeRenderer shapeRenderer;
-	double stepSize = 0.1;
+	double stepSize = 0.5;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
@@ -37,6 +37,7 @@ public class Game extends ApplicationAdapter {
 	int fieldLength = 50;
 	int fieldWidth = 65;
 	int numOfHits = 0;
+	boolean readVelocity = true;
 
 	public Vector[][] createField() throws FileNotFoundException {
 		HeightFunction f = new HeightFunction();
@@ -97,42 +98,41 @@ public class Game extends ApplicationAdapter {
 
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
-
+			readVelocity = false;
 			// Ball continues to move
 			if(!((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1)))) {
 				double prevX = ball.state.getX();
+
 				double prevY = ball.state.getY();
 				try {
 					ball.state = math.euler(ball.state, h);
+
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 				// Bounce-off
-				if(ballX < 30 || ballX > Gdx.graphics.getWidth()-30) {
-
+				if( ball.state.getX() < 30 ||  ball.state.getX() > Gdx.graphics.getWidth()-30) {
 
 						ball.state.setVx(ball.state.getVx()*-1.0);
-						ball.state.setX(ball.state.getX()*-1);
-
-
-					h = stepSize;
+						h = stepSize;
 				}
-				ballX += ball.state.getX();
-				//System.out.println(ball.state.getVy());
+				ballX = (float) ball.state.getX();
+
 				// Bounce-off
-				if(ballY < 30 || ballY > Gdx.graphics.getHeight()-30) {
+				if(ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight()-30) {
 
 						ball.state.setVy(ball.state.getVy()*-1.0);
-						ball.state.setY(ball.state.getY()*-1 );
+						//ball.state.setY(ball.state.getY()*-1 );
 
 
 
 					h = stepSize;
 				}
-				ballY += ball.state.getY();
+				ballY = (float) ball.state.getY();
 				h = stepSize;
 			}
-
+			System.out.println(ball.state.getVx());
+			//System.out.println(ball.state.getX());
 			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
 
 			if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1) && ((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) { // TODO
@@ -144,8 +144,9 @@ public class Game extends ApplicationAdapter {
 						// Ball comes to stop due to static friction
 						if(Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
 							moving = false;
-							ball.state.setX(0);
-							ball.state.setY(0);
+							readVelocity = true;
+							//ball.state.setX(0);
+							//ball.state.setY(0);
 							//ball.state.setVx(10);
 							//ball.state.setVy(0.1);
 							h = stepSize;
@@ -157,8 +158,9 @@ public class Game extends ApplicationAdapter {
 						}
 					} else {
 						moving = false;
-						ball.state.setX(0);
-						ball.state.setY(0);
+						readVelocity = true;
+						//ball.state.setX(0);
+						//ball.state.setY(0);
 						//ball.state.setVx(10);
 						//ball.state.setVy(0.1);
 						h = stepSize;
@@ -221,10 +223,14 @@ public class Game extends ApplicationAdapter {
 					vXX = strengthLength*Math.cos(Math.toRadians(angle));
 					vYY = strengthLength*Math.sin(Math.toRadians(angle));
 				}
-				ball.state.setVx(vXX*2);
-				ball.state.setVy(vYY*2);
+				if(readVelocity) {
+					//System.out.println("here");
+					ball.state.setVx(vXX * 20);
+					ball.state.setVy(vYY * 20);
+				}
 
-				System.out.println(angle);
+
+
 				shapeRenderer.setColor(Color.RED);
 				shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 			}
