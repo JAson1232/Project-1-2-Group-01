@@ -17,18 +17,20 @@ import java.util.concurrent.TimeUnit;
 
 public class Game extends ApplicationAdapter {
 
-	Vector state = new Vector(40,40,0,null,-5,1);
-	Ball ball = new Ball(state);
+
+
 	ShapeRenderer shapeRenderer;
 	double stepSize = 0.3;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	Reader reader = new Reader();
-	float ballX = Float.parseFloat(reader.compute().get(0))+25;
-	float ballY = Float.parseFloat((reader.compute().get(1)))+25;
-	float holeX = Float.parseFloat((reader.compute().get(2)))+25*4;
-	float holeY = Float.parseFloat((reader.compute().get(3)))+25*4;
+	float ballX = Float.parseFloat(reader.compute().get(0))+100;
+	float ballY = Float.parseFloat((reader.compute().get(1)))+50;
+	float holeX = Float.parseFloat((reader.compute().get(2)))+100*4;
+	float holeY = Float.parseFloat((reader.compute().get(3)))+100*4;
+	Vector state = new Vector(ballX,ballY,0,null,-5,1);
+	Ball ball = new Ball(state);
 	boolean holeIn = false;
 	boolean inWater = false;
 	float trajecX, trajecY;
@@ -99,7 +101,7 @@ public class Game extends ApplicationAdapter {
 		// Text to display xy-coordinates of ball & number of hits
 		SpriteBatch spriteBatch;
 		BitmapFont font;
-		CharSequence coordinates = ("Ball at x: " + ballX + ", y: " + ballY);
+		CharSequence coordinates = ("Ball at x: " + ballX/10 + ", y: " + ballY/10);
 		CharSequence hits = ("Number of hits: " + numOfHits);
 		spriteBatch = new SpriteBatch();
 		font = new BitmapFont();
@@ -191,8 +193,12 @@ public class Game extends ApplicationAdapter {
 				}
 			}
 			try {
-				if(f.f(ball.state.getX(),ball.state.getY(),0,0) < 0){
+				if(!holeIn) {
+					System.out.println(f.f(ballX/10, ballY/10, 0, 0));
+				}
+				if(f.f(ballX/10,ballY/10,0,0) < 0){
 					holeIn = true;
+					moving = false;
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -215,7 +221,7 @@ public class Game extends ApplicationAdapter {
 			// Falls into hole
 
 			// Trajectory line
-			if(!holeIn) {
+			if(!holeIn && !inWater) {
 				// Trajectory
 				shapeRenderer.setColor(Color.LIGHT_GRAY);
 				if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
@@ -281,10 +287,7 @@ public class Game extends ApplicationAdapter {
 
 		if(!holeIn && !inWater ) {
 				shapeRenderer.setColor(1, 1, 1, 1);
-
-
-
-					shapeRenderer.circle(ballX, ballY, 20);
+				shapeRenderer.circle(ballX, ballY, 20);
 
 			}
 

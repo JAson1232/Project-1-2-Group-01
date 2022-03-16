@@ -27,7 +27,7 @@ public class MathFunctions {
                         ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
                         ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy())))
                         .scale(h));
-            System.out.println(newState);
+            //System.out.println(newState);
 
         return newState;
     }
