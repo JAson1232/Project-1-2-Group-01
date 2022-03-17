@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import java.io.FileNotFoundException;
 
 public class Game extends ApplicationAdapter {
@@ -50,42 +49,17 @@ public class Game extends ApplicationAdapter {
 	double prevY = ballY;
 	boolean readVelocity = true;
 
-
-	//menu
-	//stage
+	// Menu
 	private Stage stage;
-	//skin
-	private Skin btnSkin;
-	private Skin backSkin;
 	private Image image;
-	//button
-	private Button start;
-	private Button score;
-	private Button botMode;
-	//label
 	private Label title;
 	private Label groupName;
-	private Label hM;
-	private Label s;
-	private Label bM;
-	//font
 	private BitmapFont bmf;
-	//Table
-	private Table table;
-
-	//Texture
-	private Texture upTexture;
-	private Texture downTexture;
 	private Texture human;
 	private Texture bot;
-	//status
 	private boolean isStarted = false;
-
-
-	//test
 	private float titleX = 125;
 	private float titleY = 330;
-
 	private float gNX = 400;
 	private float gNY = 280;
 
@@ -116,41 +90,23 @@ public class Game extends ApplicationAdapter {
 		try {
 			vectors = createField();
 
-			//menu create
-			// 设置日志输出级别
+			// Create menu
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-			// 使用伸展视口（StretchViewport）创建舞台
 			stage = new Stage(new FitViewport(515,400));
-
-
-			// 将输入处理设置到舞台
 			Gdx.input.setInputProcessor(stage);
-
-			bmf = new BitmapFont(Gdx.files.internal("font/bitmapfont.fnt"));//font label
+			bmf = new BitmapFont(Gdx.files.internal("font/bitmapfont.fnt"));
 			Label.LabelStyle style = new Label.LabelStyle();
-
 			style.font = bmf;
 			style.fontColor = new Color(255,255,255,1);
-
-			groupName = new Label("Group01",style);
+			groupName = new Label("Group 01", style);
 			groupName.setPosition(gNX,gNY);
 			groupName.setFontScale(0.7f);
-
-			title = new Label("Crazy Putting",style);
+			title = new Label("Crazy Putting!",style);
 			title.setPosition(titleX,titleY);
 			title.setFontScale(1.5f);
-
-
-
-
 			human = new Texture(Gdx.files.internal("human.png"));
 			bot = new Texture(Gdx.files.internal("bot.png"));
-
 			image = new Image(human);
-
-
-
 			stage.addListener(new ClickListener(){
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -160,10 +116,6 @@ public class Game extends ApplicationAdapter {
 
 				}
 			});
-
-			//stage.addListener(new MyInputListener());
-
-
 			stage.addActor(title);
 			stage.addActor(groupName);
 			stage.addActor(image);
@@ -178,13 +130,11 @@ public class Game extends ApplicationAdapter {
 			if (Gdx.input.getX()>Gdx.graphics.getWidth()/2) {
 				image = new Image(bot);
 				stage.addActor(image);
-				//stage.addActor(title);
 
 			}
 			if (Gdx.input.getX()<Gdx.graphics.getWidth()/2) {
 				image = new Image(human);
 				stage.addActor(image);
-				//stage.addActor(title);
 			}
 			stage.act();
 			stage.draw();
@@ -276,9 +226,6 @@ public class Game extends ApplicationAdapter {
 					}
 				}
 				try {
-					if(!holeIn) {
-						System.out.println(f.f(ballX/10, ballY/10, 0, 0));
-					}
 					if(f.f(ballX/10,ballY/10,0,0) < 0){
 						holeIn = true;
 						moving = false;
@@ -372,42 +319,4 @@ public class Game extends ApplicationAdapter {
 	public void dispose () {
 		shapeRenderer.dispose();
 	}
-
-	//this function is made for adjusting components' locations
-	private class MyInputListener extends InputListener {
-
-		@Override
-		public boolean keyDown(InputEvent event, int keycode) {
-			switch (keycode) {
-				case Input.Keys.UP: {
-					gNY = gNY + 5;
-					groupName.setY(gNY);
-					System.out.println(groupName.getY());
-					break;
-				}
-				case Input.Keys.DOWN: {
-					gNY = gNY - 5;
-					groupName.setY(gNY);
-					System.out.println(groupName.getY());
-					break;
-				}
-				case Input.Keys.LEFT: {
-					gNX = gNX - 5;
-					groupName.setX(gNX);
-					System.out.println(groupName.getX());
-					break;
-				}
-				case Input.Keys.RIGHT: {
-					gNX = gNX + 5;
-					groupName.setX(gNX);
-					System.out.println(groupName.getX());
-					break;
-				}
-				default: {
-
-					break;
-				}
-			}
-			return false;
-		}}
 }
