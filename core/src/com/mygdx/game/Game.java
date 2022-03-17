@@ -8,17 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class Game extends ApplicationAdapter {
-
-
-
 	ShapeRenderer shapeRenderer;
 	double stepSize = 0.1;
 	double h =stepSize;
@@ -49,9 +41,13 @@ public class Game extends ApplicationAdapter {
 	double prevY = ballY;
 	boolean readVelocity = true;
 
-	public Game() throws FileNotFoundException {
-	}
+	public Game() throws FileNotFoundException {}
 
+	/**
+	 * Creates 2D array of Vectors indicating heights of field
+	 * @return created field
+	 * @throws FileNotFoundException
+	 */
 	public Vector[][] createField() throws FileNotFoundException {
 		HeightFunction f = new HeightFunction();
 		Field field = new Field();
@@ -109,49 +105,31 @@ public class Game extends ApplicationAdapter {
 		font.draw(spriteBatch, coordinates, 10, 40);
 		font.draw(spriteBatch, hits, 10, 20);
 		spriteBatch.end();
-
-
-
 		// User input just given, ball in motion
 		if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 			readVelocity = false;
-
 			// Ball continues to move
 			if(!((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15)))) {
-				double prevX = ball.state.getX();
-
-				double prevY = ball.state.getY();
 				try {
 					ball.state = math.euler(ball.state, h);
-
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 				// Bounce-off
 				if( ball.state.getX() < 30 ||  ball.state.getX() > Gdx.graphics.getWidth()-30) {
-
 						ball.state.setVx(ball.state.getVx()*-1.0);
 						h = stepSize;
 				}
 				ballX = (float) ball.state.getX();
-
 				// Bounce-off
 				if(ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight()-30) {
-
 						ball.state.setVy(ball.state.getVy()*-1.0);
 						//ball.state.setY(ball.state.getY()*-1 );
-
-
-
 					h = stepSize;
 				}
 				ballY = (float) ball.state.getY();
 				h = stepSize;
 			}
-			System.out.println(ball.state.getVx());
-			//System.out.println(ball.state.getX());
-			//System.out.println(Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(),0,0))*(px.getX(ball.state.getX(), ball.state.getY(),0,0))))+((px.getY(ball.state.getX(), ball.state.getY(),0,0))*(px.getY(ball.state.getX(), ball.state.getY(),0,0))));
-
 			if((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15))) { // TODO
 				// Resets; prepares for next user inputs
 				counter = 0;
@@ -162,15 +140,9 @@ public class Game extends ApplicationAdapter {
 						if(Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
 							moving = false;
 							readVelocity = true;
-							//ball.state.setX(0);
-							//ball.state.setY(0);
-							//ball.state.setVx(10);
-							//ball.state.setVy(0.1);
 							h = stepSize;
 						} else {
 							moving = true;
-							///////
-
 							if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1)){
 								ball.state.setVx(-1*Math.abs(ball.state.getVx()));
 							}
@@ -182,10 +154,6 @@ public class Game extends ApplicationAdapter {
 					} else {
 						moving = false;
 						readVelocity = true;
-						//ball.state.setX(0);
-						//ball.state.setY(0);
-						//ball.state.setVx(10);
-						//ball.state.setVy(0.1);
 						h = stepSize;
 					}
 				} catch (FileNotFoundException e) {
@@ -218,8 +186,6 @@ public class Game extends ApplicationAdapter {
 				if(strengthLength < 5)
 					strengthLength += 0.125;
 			}
-			// Falls into hole
-
 			// Trajectory line
 			if(!holeIn && !inWater) {
 				// Trajectory
@@ -259,16 +225,11 @@ public class Game extends ApplicationAdapter {
 					vYY = strengthLength*Math.sin(Math.toRadians(angle));
 				}
 				if(readVelocity) {
-					//System.out.println("here");
 					 prevX = ball.state.getX();
 					 prevY = ball.state.getY();
 					ball.state.setVx(vXX * 20);
 					ball.state.setVy(vYY * 20);
-
 				}
-
-
-
 				shapeRenderer.setColor(Color.RED);
 				shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 			}
@@ -283,35 +244,16 @@ public class Game extends ApplicationAdapter {
 			holeIn = true;
 		}
 
-
-
+		// Ball still visible
 		if(!holeIn && !inWater ) {
 				shapeRenderer.setColor(1, 1, 1, 1);
 				shapeRenderer.circle(ballX, ballY, 20);
-
 			}
-
-
-
 		shapeRenderer.end();
 	}
 	
 	@Override
 	public void dispose () {
 		shapeRenderer.dispose();
-	}
-
-	public void calculatePos(double vo,int x, int y, int angle){
-
-	}
-
-	public double calculateHeight(double x, double y) throws FileNotFoundException {
-		HeightFunction hf = new HeightFunction();
-
-		return hf.f(x,y,0,0);
-	}
-
-	public int getUserInputAngle(){
-		return 0;
 	}
 }
