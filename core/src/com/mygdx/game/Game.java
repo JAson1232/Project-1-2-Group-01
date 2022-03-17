@@ -296,6 +296,7 @@ public class Game extends ApplicationAdapter {
 			// Ball
 			if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 				holeIn = true;
+				moving = false;
 			}
 			// Ball still visible
 			if(!holeIn && !inWater) {
