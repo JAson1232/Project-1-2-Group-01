@@ -47,8 +47,6 @@ public class Game extends ApplicationAdapter {
 	double prevX = ballX;
 	double prevY = ballY;
 	boolean readVelocity = true;
-
-
 	// Menu
 	private Stage stage;
 	private Image image;
@@ -137,7 +135,7 @@ public class Game extends ApplicationAdapter {
 			}
 			stage.act();
 			stage.draw();
-		}else{
+		} else {
 			HeightFunction f  = new HeightFunction();
 			PartialDerivative px = new PartialDerivative(f);
 			// Changes color of background
@@ -155,7 +153,6 @@ public class Game extends ApplicationAdapter {
 						shapeRenderer.setColor(0, 0, 1, 1);
 					}
 					shapeRenderer.rect(10*i, 10*j, 10, 10);
-
 				}
 			}
 			// Text to display xy-coordinates of ball & number of hits
@@ -264,14 +261,12 @@ public class Game extends ApplicationAdapter {
 					}
 					trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
 					trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
-
 					shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
 					// Strength
 					float strengthX = (float) (ballX + strengthLength/5*(trajecX - ballX));
 					double vXX = strengthLength;
 					double vYY = strengthLength;
 					float strengthY = (float) (ballY + strengthLength/5*(trajecY - ballY));
-
 					if(angle <= 270 && angle > 180){
 						vXX = strengthLength*-1*Math.cos(Math.toRadians(angle-180));
 						vYY = strengthLength*-1*Math.sin(Math.toRadians(angle-180));
@@ -295,16 +290,13 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 				}
 			}
-
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
 			shapeRenderer.circle(holeX, holeY, 30);
-
 			// Ball
 			if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 				holeIn = true;
 			}
-
 			// Ball still visible
 			if(!holeIn && !inWater) {
 				shapeRenderer.setColor(1, 1, 1, 1);

@@ -11,8 +11,14 @@ public class WallLong implements Obstacle{
     private double radius;
     private List<Wall> obstacles = new ArrayList<Wall>();
 
-
-
+    /**
+     * Constructor
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @param radius
+     */
     public WallLong(double x1, double y1,double x2,double y2,double radius){
         this.radius = radius;
         startPosition = new Vector(x1,y1,0,null,0,0);
@@ -38,6 +44,10 @@ public class WallLong implements Obstacle{
         obstacles.add(new Wall(endPosition, radius));
     }
 
+    /**
+     * Whether collision occurred
+     * @return T/F
+     */
     public boolean collision(Vector currentPos) {
         for (int i=0;i<obstacles.size();i++){
             if (obstacles.get(i).collision(currentPos)){
@@ -47,6 +57,11 @@ public class WallLong implements Obstacle{
         return false;
     }
 
+    /**
+     * Effect of collision
+     * @param currentVelocity
+     * @param currentPos
+     */
     public void effect(Vector currentVelocity,Vector currentPos){
         double angle=0;
         double pow = getV(currentVelocity);
@@ -76,11 +91,7 @@ public class WallLong implements Obstacle{
                     System.out.println(angle);
                 }
             }
-
             angle *= -1;
-
-
-
             currentVelocity.setX(adj(pow, angle));
             currentVelocity.setY(op(pow, angle));
         }
@@ -91,31 +102,57 @@ public class WallLong implements Obstacle{
 
     }
 
+    /**
+     * Getter method
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Getter method
+     * @return radius
+     */
     public double getRadius() {
         return radius;
     }
 
-    @Override
-    public Vector getPosition() {
-        return null;
-    }
-
+    /**
+     * Getter method
+     * @return obstacles
+     */
     public List<Wall> getObstacles() {
         return obstacles;
     }
 
+    /**
+     * Getter method
+     * @param Vector a
+     * @return velocity
+     */
     private double getV(Vector a){
         double x = a.getX();
         double y = a.getY();
         return Math.sqrt((Math.pow(x, 2)+Math.pow(y, 2)));
     }
-    private double op (double power, double angle){
+
+    /**
+     * Returns opposite side
+     * @param power
+     * @param angle
+     * @return Length of opposite side
+     */
+    private double op(double power, double angle){
         return (Math.sin(Math.toRadians(angle))*power);
     }
+
+    /**
+     * Returns adjacent side
+     * @param power
+     * @param angle
+     * @return Length of adjacent side
+     */
     private double adj (double power, double angle){
         return (Math.cos(Math.toRadians(angle))*power);
     }

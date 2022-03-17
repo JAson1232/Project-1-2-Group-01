@@ -112,8 +112,6 @@ public class Vector {
         this.vy = vy;
     }
 
-
-
     @Override
     /**
      * Clones vector
@@ -148,8 +146,6 @@ public class Vector {
     public String toString(){
         return "x: " + this.x + " y: " + this.y + " z: " + this.z + " vx: " + this.vx + " vy: " + this.vy;
     }
-
-
 
     /**
      * Checks if the distance between currentVector and a is smaller than tolerance
