@@ -225,8 +225,8 @@ public class Game extends ApplicationAdapter {
 					vYY = strengthLength*Math.sin(Math.toRadians(angle));
 				}
 				if(readVelocity) {
-					 prevX = ball.state.getX();
-					 prevY = ball.state.getY();
+					prevX = ball.state.getX();
+					prevY = ball.state.getY();
 					ball.state.setVx(vXX * 20);
 					ball.state.setVy(vYY * 20);
 				}
@@ -245,7 +245,7 @@ public class Game extends ApplicationAdapter {
 		}
 
 		// Ball still visible
-		if(!holeIn && !inWater ) {
+		if(!holeIn && !inWater) {
 				shapeRenderer.setColor(1, 1, 1, 1);
 				shapeRenderer.circle(ballX, ballY, 20);
 			}
