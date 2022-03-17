@@ -149,4 +149,30 @@ public class Vector {
         return "x: " + this.x + " y: " + this.y + " z: " + this.z + " vx: " + this.vx + " vy: " + this.vy;
     }
 
+
+
+    /**
+     * Checks if the distance between currentVector and a is smaller than tolerance
+     * @param a
+     * @param tolerance
+     * @return true if distance <=tolerance
+     *          false if distance>tolerance
+     */
+    public boolean equals(Vector a,double tolerance){
+        if(Math.sqrt(Math.pow((a.getX()-this.x), 2)+Math.pow((a.getY()-this.y), 2))<=tolerance){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean doesntEqual(Vector a,double tolerance) {
+        if (Math.sqrt(Math.pow((x - a.getX()), 2) + Math.pow((y - a.getY()), 2)) > tolerance) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
