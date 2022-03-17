@@ -26,8 +26,7 @@ public class HeightFunction implements Function{
                 .setVariable("y", y);
 
         double result = expression.evaluate();
-
-        return (Math.exp(-((x*x)  + (y*y))/(40)));
+        return result;
 
     }
 
@@ -38,8 +37,8 @@ public class HeightFunction implements Function{
      */
     public static String reader() throws FileNotFoundException {
         //File file = new File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/example_inputfile.txt");
-        File file = new File("C:\\Users\\jason\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
-        //File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
+        //File file = new File("C:\\Users\\jason\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
+        File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
         Scanner scanner = new Scanner(file);
         int count = 0;
         ArrayList<String> result = new ArrayList<>();

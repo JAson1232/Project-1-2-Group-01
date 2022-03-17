@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Experiments",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.Experiments",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch MathFunctions",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.MathFunctions",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch calculateTruth",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.calculateTruth",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch velocityReader",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.velocityReader",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch DesktopLauncher",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.desktop.DesktopLauncher",
+            "projectName": "Project-1-2-desktop"
+        }
+    ]
+}
