@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,7 +22,7 @@ public class Game extends ApplicationAdapter {
 	double stepSize = 0.1;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
-	// Starting position
+	// Game logistics
 	Reader reader = new Reader();
 	float ballX = Float.parseFloat(reader.compute().get(0))+100;
 	float ballY = Float.parseFloat((reader.compute().get(1)))+50;
@@ -48,7 +47,6 @@ public class Game extends ApplicationAdapter {
 	double prevX = ballX;
 	double prevY = ballY;
 	boolean readVelocity = true;
-
 	// Menu
 	private Stage stage;
 	private Image image;
@@ -89,7 +87,6 @@ public class Game extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		try {
 			vectors = createField();
-
 			// Create menu
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 			stage = new Stage(new FitViewport(515,400));
@@ -101,7 +98,7 @@ public class Game extends ApplicationAdapter {
 			groupName = new Label("Group 01", style);
 			groupName.setPosition(gNX,gNY);
 			groupName.setFontScale(0.7f);
-			title = new Label("Crazy Putting!",style);
+			title = new Label("Crazy Putting",style);
 			title.setPosition(titleX,titleY);
 			title.setFontScale(1.5f);
 			human = new Texture(Gdx.files.internal("human.png"));
@@ -130,7 +127,6 @@ public class Game extends ApplicationAdapter {
 			if (Gdx.input.getX()>Gdx.graphics.getWidth()/2) {
 				image = new Image(bot);
 				stage.addActor(image);
-
 			}
 			if (Gdx.input.getX()<Gdx.graphics.getWidth()/2) {
 				image = new Image(human);
@@ -296,16 +292,13 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 				}
 			}
-
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
 			shapeRenderer.circle(holeX, holeY, 30);
-
 			// Ball
 			if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 				holeIn = true;
 			}
-
 			// Ball still visible
 			if(!holeIn && !inWater) {
 				shapeRenderer.setColor(1, 1, 1, 1);
