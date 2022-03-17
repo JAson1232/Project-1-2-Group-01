@@ -262,8 +262,8 @@ public class Game extends ApplicationAdapter {
 					//System.out.println("here");
 					 prevX = ball.state.getX();
 					 prevY = ball.state.getY();
-					ball.state.setVx(vXX * 20);
-					ball.state.setVy(vYY * 20);
+					ball.state.setVx(vXX * 10);
+					ball.state.setVy(vYY * 10);
 
 				}
 
@@ -281,6 +281,7 @@ public class Game extends ApplicationAdapter {
 		// Ball
 		if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 			holeIn = true;
+			moving = false;
 		}
 
 
