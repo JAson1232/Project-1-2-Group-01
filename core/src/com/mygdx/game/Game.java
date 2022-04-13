@@ -280,6 +280,10 @@ public class Game extends ApplicationAdapter {
 						vXX = strengthLength*Math.cos(Math.toRadians(angle));
 						vYY = strengthLength*Math.sin(Math.toRadians(angle));
 					}
+
+					//////MAKE THIS PART FALSE IF YOU DONT WANT TO CONSIDER USER INPUTS
+					///// CHANGE READVELOCITY TO FALSE
+					//readVelocity = false;
 					if(readVelocity) {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();
