@@ -223,7 +223,7 @@ public class Game extends ApplicationAdapter {
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 				readVelocity = false;
 				// Ball continues to move
-				if(!((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15)))) {
+				if(!((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5)))) {
 					try {
 						ball.state = math.euler(ball.state, h);
 					} catch (FileNotFoundException e) {
@@ -244,7 +244,7 @@ public class Game extends ApplicationAdapter {
 					ballY = (float) ball.state.getY();
 					h = stepSize;
 				}
-				if((ball.state.getVx() < 0.15 && ball.state.getVx() > -0.15) && ((ball.state.getVy() < 0.15 && ball.state.getVy() > -0.15))) { // TODO
+				if((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5))) { // TODO
 					// Resets; prepares for next user inputs
 					counter = 0;
 					strengthLength = 0;
@@ -276,7 +276,7 @@ public class Game extends ApplicationAdapter {
 				}
 				try {
 					if(!holeIn) {
-						System.out.println(f.f(ballX/10, ballY/10, 0, 0));
+						System.out.println(ball.state.getVx());
 					}
 					if(f.f(ballX/10,ballY/10,0,0) < 0){
 						holeIn = true;
