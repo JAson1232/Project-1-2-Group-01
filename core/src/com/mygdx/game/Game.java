@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import java.io.FileNotFoundException;
 
 public class Game extends ApplicationAdapter {
@@ -48,43 +47,17 @@ public class Game extends ApplicationAdapter {
 	double prevX = ballX;
 	double prevY = ballY;
 	boolean readVelocity = true;
-
-
-	//menu
-	//stage
+	// Menu
 	private Stage stage;
-	//skin
-	private Skin btnSkin;
-	private Skin backSkin;
 	private Image image;
-	//button
-	private Button start;
-	private Button score;
-	private Button botMode;
-	//label
 	private Label title;
 	private Label groupName;
-	private Label hM;
-	private Label s;
-	private Label bM;
-	//font
 	private BitmapFont bmf;
-	//Table
-	private Table table;
-
-	//Texture
-	private Texture upTexture;
-	private Texture downTexture;
 	private Texture human;
 	private Texture bot;
-	//status
 	private boolean isStarted = false;
-
-
-	//test
 	private float titleX = 125;
 	private float titleY = 330;
-
 	private float gNX = 400;
 	private float gNY = 280;
 
@@ -114,42 +87,23 @@ public class Game extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		try {
 			vectors = createField();
-
-			//menu create
-			// 设置日志输出级别
+			// Creating menu
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-			// 使用伸展视口（StretchViewport）创建舞台
 			stage = new Stage(new FitViewport(515,400));
-
-
-			// 将输入处理设置到舞台
 			Gdx.input.setInputProcessor(stage);
-
-			bmf = new BitmapFont(Gdx.files.internal("font/bitmapfont.fnt"));//font label
+			bmf = new BitmapFont(Gdx.files.internal("font/bitmapfont.fnt"));
 			Label.LabelStyle style = new Label.LabelStyle();
-
 			style.font = bmf;
 			style.fontColor = new Color(255,255,255,1);
-
-			groupName = new Label("Group01",style);
+			groupName = new Label("Group 01",style);
 			groupName.setPosition(gNX,gNY);
 			groupName.setFontScale(0.7f);
-
 			title = new Label("Crazy Putting",style);
 			title.setPosition(titleX,titleY);
 			title.setFontScale(1.5f);
-
-
-
-
 			human = new Texture(Gdx.files.internal("human.png"));
 			bot = new Texture(Gdx.files.internal("bot.png"));
-
 			image = new Image(human);
-
-
-
 			stage.addListener(new ClickListener(){
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -159,10 +113,6 @@ public class Game extends ApplicationAdapter {
 
 				}
 			});
-
-			//stage.addListener(new MyInputListener());
-
-
 			stage.addActor(title);
 			stage.addActor(groupName);
 			stage.addActor(image);
@@ -177,17 +127,15 @@ public class Game extends ApplicationAdapter {
 			if (Gdx.input.getX()>Gdx.graphics.getWidth()/2) {
 				image = new Image(bot);
 				stage.addActor(image);
-				//stage.addActor(title);
 
 			}
 			if (Gdx.input.getX()<Gdx.graphics.getWidth()/2) {
 				image = new Image(human);
 				stage.addActor(image);
-				//stage.addActor(title);
 			}
 			stage.act();
 			stage.draw();
-		}else{
+		} else {
 			HeightFunction f  = new HeightFunction();
 			PartialDerivative px = new PartialDerivative(f);
 			// Changes color of background
@@ -205,7 +153,6 @@ public class Game extends ApplicationAdapter {
 						shapeRenderer.setColor(0, 0, 1, 1);
 					}
 					shapeRenderer.rect(10*i, 10*j, 10, 10);
-
 				}
 			}
 			// Text to display xy-coordinates of ball & number of hits
@@ -275,9 +222,12 @@ public class Game extends ApplicationAdapter {
 					}
 				}
 				try {
+
 					if(!holeIn) {
 						System.out.println(ball.state.getVx());
 					}
+
+
 					if(f.f(ballX/10,ballY/10,0,0) < 0){
 						holeIn = true;
 						moving = false;
@@ -317,14 +267,12 @@ public class Game extends ApplicationAdapter {
 					}
 					trajecX = (float) (ballX + (lineLength*Math.cos(Math.toRadians(angle))));
 					trajecY = (float) (ballY + (lineLength*Math.sin(Math.toRadians(angle))));
-
 					shapeRenderer.rectLine(ballX, ballY, trajecX, trajecY, 5);
 					// Strength
 					float strengthX = (float) (ballX + strengthLength/5*(trajecX - ballX));
 					double vXX = strengthLength;
 					double vYY = strengthLength;
 					float strengthY = (float) (ballY + strengthLength/5*(trajecY - ballY));
-
 					if(angle <= 270 && angle > 180){
 						vXX = strengthLength*-1*Math.cos(Math.toRadians(angle-180));
 						vYY = strengthLength*-1*Math.sin(Math.toRadians(angle-180));
@@ -338,6 +286,10 @@ public class Game extends ApplicationAdapter {
 						vXX = strengthLength*Math.cos(Math.toRadians(angle));
 						vYY = strengthLength*Math.sin(Math.toRadians(angle));
 					}
+
+					//////MAKE THIS PART FALSE IF YOU DONT WANT TO CONSIDER USER INPUTS
+					///// CHANGE READVELOCITY TO FALSE
+					//readVelocity = false;
 					if(readVelocity) {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();
@@ -348,16 +300,14 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 				}
 			}
-
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
 			shapeRenderer.circle(holeX, holeY, 30);
-
 			// Ball
 			if(Math.abs(holeX - ballX) <= 40 && Math.abs(holeY - ballY) <= 40) {
 				holeIn = true;
+				moving = false;
 			}
-
 			// Ball still visible
 			if(!holeIn && !inWater) {
 				shapeRenderer.setColor(1, 1, 1, 1);

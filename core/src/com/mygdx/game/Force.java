@@ -3,7 +3,6 @@ package com.mygdx.game;
 public class Force {
   private String name;
   private double power;
-  private int[] directions = new int[2];
 
   /**
    * Getter method

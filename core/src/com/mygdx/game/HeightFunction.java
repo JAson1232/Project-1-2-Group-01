@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,13 +16,11 @@ public class HeightFunction implements Function{
      * @throws FileNotFoundException
      */
     public double f(double x, double y,double vx,double vy) throws FileNotFoundException {
-         //return 0;
         Expression expression = new ExpressionBuilder(reader())
                 .variables("x", "y")
                 .build()
                 .setVariable("x", x)
                 .setVariable("y", y);
-
         double result = expression.evaluate();
         return 0;
 

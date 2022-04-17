@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 public class accelerationY implements Function{
     double g = 9.8;
+    
     @Override
     /**
      * Calculates acceleration in y direction

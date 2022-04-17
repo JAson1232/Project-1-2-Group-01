@@ -5,5 +5,4 @@ public interface Obstacle {
     void effect(Vector currentVelocity, Vector currentPos);
     String getName();
     double getRadius();
-    Vector getPosition();
 }

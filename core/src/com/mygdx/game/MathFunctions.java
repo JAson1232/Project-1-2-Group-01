@@ -11,10 +11,13 @@ public class MathFunctions {
         System.out.println(newPosition.toString());
     }
 
-
-
-
-    // Function for Euler formula
+    /**
+     * Function for Euler's formula
+     * @param StateVector
+     * @param h
+     * @return New state
+     * @throws FileNotFoundException
+     */
     Vector euler(Vector StateVector, double h) throws FileNotFoundException {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
@@ -27,13 +30,8 @@ public class MathFunctions {
                         ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
                         ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy())))
                         .scale(h));
-            //System.out.println(newState);
 
         return newState;
-    }
-
-    public int calculateDx(){
-        return 0;
     }
 
     public double computeAngle(double angle){
@@ -42,8 +40,5 @@ public class MathFunctions {
         }else{
             return Math.abs(angle-180);
         }
-
     }
-
-
 }

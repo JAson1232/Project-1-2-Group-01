@@ -1,17 +1,29 @@
 package com.mygdx.game;
 
 public class Tile {
-  //private texture t;
   private boolean hitable = false;
   private String name;
 
-  public String getNmae(){
+  /**
+   * Getter method
+   * @return name
+   */
+  public String getName(){
     return name;
   }
-  public boolean getHitable(){
+
+  /**
+   * Whether tile is obstacle that can be hit
+   * @return T/F
+   */
+  public boolean getHittable(){
     return hitable;
   }
 
+  /**
+   * Setter method
+   * @param name
+   */
   public void setName(String name){
     this.name = name;
   }

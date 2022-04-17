@@ -1,5 +1,0 @@
-TODO
-- Making travel distance & strength proportional
-- Border (bounce-off)
-- (Later) Field designs
-- (Later) Field heights
