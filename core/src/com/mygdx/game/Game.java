@@ -172,7 +172,7 @@ public class Game extends ApplicationAdapter {
 				// Ball continues to move
 				if(!((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5)))) {
 					try {
-						ball.state = math.euler(ball.state, h);
+						ball.state = math.RK2(ball.state, h);
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -222,20 +222,13 @@ public class Game extends ApplicationAdapter {
 					}
 				}
 				try {
-
-					if(!holeIn) {
-						System.out.println(ball.state.getVx());
-					}
-
-
-					if(f.f(ballX/10,ballY/10,0,0) < 0){
+					if(f.f(ballX/10,ballY/10,0,0) < 0) {
 						holeIn = true;
 						moving = false;
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-
 			}
 			else {
 				// User giving inputs
