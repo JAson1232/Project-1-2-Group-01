@@ -15,7 +15,7 @@ public class Vector {
      * @param vx
      * @param vy
      */
-    public Vector(double x, double y, double z, Tile t, double vx, double vy){
+    public Vector(double x, double y, double z, Tile t, double vx, double vy) {
         this.x = x;
         this.y = y;
         this.z = z;

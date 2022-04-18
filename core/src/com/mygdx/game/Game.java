@@ -287,9 +287,8 @@ public class Game extends ApplicationAdapter {
 						vYY = strengthLength*Math.sin(Math.toRadians(angle));
 					}
 
-					//////MAKE THIS PART FALSE IF YOU DONT WANT TO CONSIDER USER INPUTS
-					///// CHANGE READVELOCITY TO FALSE
-					//readVelocity = false;
+					// Set readVelocity to false to disable manual velocity inputs
+					// readVelocity = false;
 					if(readVelocity) {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();

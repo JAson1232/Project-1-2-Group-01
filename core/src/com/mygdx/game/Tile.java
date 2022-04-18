@@ -1,7 +1,7 @@
 package com.mygdx.game;
 
 public class Tile {
-  private boolean hitable = false;
+  private boolean hittable = false;
   private String name;
 
   /**
@@ -17,7 +17,7 @@ public class Tile {
    * @return T/F
    */
   public boolean getHittable(){
-    return hitable;
+    return hittable;
   }
 
   /**

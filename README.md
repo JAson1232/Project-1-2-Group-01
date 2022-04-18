@@ -32,7 +32,8 @@ Steps
 -----
 - Step 1: Installing and setting up LibGDX online (https://libgdx.com/wiki/start/setup)
 - Step 2: Change the file paths accordingly on the following files: HeightFunction.java (line 40), Reader (line 19), and velocityReader.java (line 10).
-- Step 3: Launch the application by running the main method on DesktopLauncher.java
+- Step 3 (Optional): (Un)comment Line 291 in Game.java to choose velocity input --> INSTRUCTIONS INCOMPLETE
+- Step 4: Launch the application by running the main method on DesktopLauncher.java
 - Note: This application might run into errors on Macs and/or on VSCode. Windows and IntelliJ are therefore recommended for running this software.
 
 To Play the Game:
