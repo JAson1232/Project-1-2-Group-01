@@ -172,7 +172,7 @@ public class Game extends ApplicationAdapter {
 				// Ball continues to move
 				if(!((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5)))) {
 					try {
-						ball.state = math.RK2(ball.state, h);
+						ball.state = math.RK4(ball.state, h);
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
