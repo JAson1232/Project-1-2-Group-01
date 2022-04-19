@@ -52,12 +52,13 @@ public class MathFunctions {
                                 ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
                                 ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()));
         // 3f(t_i + 2h/3, w_i + f(t_i, w_i)*2h/3)
-        Vector k_i_2 = new Vector(StateVector.getVx() + 2*h/3,
-                                StateVector.getVy() + 2*h/3,
+        Vector intermediate = StateVector.sum(k_i_1.scale(h*2/3));
+        Vector k_i_2 = new Vector(intermediate.getVx(),
+                                intermediate.getVy(),
                                 StateVector.getZ(),
                                 null,
-                                ax.f(StateVector.getX() + 2*h/3, StateVector.getY() + 2*h/3, StateVector.getVx() + k_i_1.scale(h*2/3).getVx(), StateVector.getVy() + k_i_1.scale(h*2/3).getVy()),
-                                ay.f(StateVector.getX() + 2*h/3, StateVector.getY() + 2*h/3, StateVector.getVx() + k_i_1.scale(h*2/3).getVx(), StateVector.getVy() + k_i_1.scale(h*2/3).getVy()))
+                                ax.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()),
+                                ay.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()))
                                 .scale(3);
         return StateVector.sum(k_i_1.sum(k_i_2).scale(h/4));
     }
