@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 
 public class Game extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
-	double stepSize = 0.1;
+	double stepSize = 0.5;
 	double h =stepSize;
 	MathFunctions math = new MathFunctions();
 	// Starting position
@@ -170,7 +170,7 @@ public class Game extends ApplicationAdapter {
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
 				readVelocity = false;
 				// Ball continues to move
-				if(!((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5)))) {
+				if(!((ball.state.getVx() < stepSize*5 && ball.state.getVx() > stepSize*-5) && ((ball.state.getVy() < stepSize*5 && ball.state.getVy() > stepSize*-5)))) {
 					try {
 						ball.state = math.RK4(ball.state, h);
 					} catch (FileNotFoundException e) {
@@ -203,11 +203,11 @@ public class Game extends ApplicationAdapter {
 								readVelocity = true;
 								h = stepSize;
 							} else {
-								moving = true;
-								if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1)){
-									ball.state.setVx(-1*Math.abs(ball.state.getVx()));
-								}
 								// Ball starts falling down slope
+								moving = true;
+								if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1)) {
+									ball.state.setVx(-1 * Math.abs(ball.state.getVx()));
+								}
 								if(((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) {
 									ball.state.setVy(-1 * Math.abs(ball.state.getVy()));
 								}
@@ -222,6 +222,7 @@ public class Game extends ApplicationAdapter {
 					}
 				}
 				try {
+					// Falling into hole
 					if(f.f(ballX/10,ballY/10,0,0) < 0) {
 						holeIn = true;
 						moving = false;
