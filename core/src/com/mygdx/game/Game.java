@@ -160,11 +160,15 @@ public class Game extends ApplicationAdapter {
 			BitmapFont font;
 			CharSequence coordinates = ("Ball at x: " + ballX/10 + ", y: " + ballY/10);
 			CharSequence hits = ("Number of hits: " + numOfHits);
+			CharSequence altitude1 = ("Lighter = higher altitude");
+			CharSequence altitude2 = ("Darker = lower altitude");
 			spriteBatch = new SpriteBatch();
 			font = new BitmapFont();
 			spriteBatch.begin();
 			font.draw(spriteBatch, coordinates, 10, 40);
 			font.draw(spriteBatch, hits, 10, 20);
+			font.draw(spriteBatch, altitude1, 10, 490);
+			font.draw(spriteBatch, altitude2, 10, 470);
 			spriteBatch.end();
 			// User input just given, ball in motion
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
