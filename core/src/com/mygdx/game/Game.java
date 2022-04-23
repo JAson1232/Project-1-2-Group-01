@@ -177,8 +177,7 @@ public class Game extends ApplicationAdapter {
 			spriteBatch.end();
 			// User input just given, ball in motion
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
-				//readVelocity = false;
-				inWater=false;
+				inWater = false;
 				// Ball continues to move
 				if(!((ball.state.getVx() < stepSize*5 && ball.state.getVx() > stepSize*-5) && ((ball.state.getVy() < stepSize*5 && ball.state.getVy() > stepSize*-5)))) {
 					try {
@@ -195,7 +194,6 @@ public class Game extends ApplicationAdapter {
 					// Bounce-off
 					if(ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight()-30) {
 						ball.state.setVy(ball.state.getVy()*-1.0);
-						//ball.state.setY(ball.state.getY()*-1 );
 						h = stepSize;
 					}
 					ballY = (float) ball.state.getY();
@@ -252,7 +250,6 @@ public class Game extends ApplicationAdapter {
 				}
 			}
 			else {
-				//strengthLength=0;
 				// User giving inputs
 				if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 					// Decreases holdConstant (to simulate ball going further from holding space bar for longer)
@@ -312,26 +309,17 @@ public class Game extends ApplicationAdapter {
 						ball.state.setVy(vYY * 20);
 						vXX=0;
 						vYY=0;
-						
-					}else{
-						//ball.state.setVx(vx);
-						//ball.state.setVy(vy);
 					}
-					System.out.println(readVelocity);
-					System.out.println(ball.state.getVx());
-
 					if(inWater){
 						ball.state.setVx(0);
 						ball.state.setVy(0);
 					}
-					
 					if(!inWater){
 						shapeRenderer.setColor(Color.RED);
 						shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
 						strengthX=0;
 						strengthY=0;
 					}
-					
 				}
 			}
 			// Hole
