@@ -232,7 +232,7 @@ public class Game extends ApplicationAdapter {
 					}
 				}
 				try {
-					// Falling into hole
+					// Falling into water
 					if(f.f(ballX/10,ballY/10,0,0) < 0) {
 						ballX=(float) prevX;
 						ballY=(float) prevY;
@@ -240,8 +240,10 @@ public class Game extends ApplicationAdapter {
 						ball.state.setY(prevY);
 						ball.state.setVx(0);
 						ball.state.setVy(0);
-					//	holeIn = true;
-					inWater = true;
+						counter = 0;
+						strengthLength = 0;
+						holdConstant = 20;
+						inWater = true;
 						moving = false;
 						
 					}
@@ -344,6 +346,7 @@ public class Game extends ApplicationAdapter {
 			if(!holeIn) {
 				shapeRenderer.setColor(1, 1, 1, 1);
 				shapeRenderer.circle(ballX, ballY, 20);
+				inWater = false;
 			}
 			shapeRenderer.end();
 		}
