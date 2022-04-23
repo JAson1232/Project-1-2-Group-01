@@ -28,6 +28,9 @@ public class Game extends ApplicationAdapter {
 	float ballY = Float.parseFloat((reader.compute().get(1)))+50;
 	float holeX = Float.parseFloat((reader.compute().get(2)))+100*4;
 	float holeY = Float.parseFloat((reader.compute().get(3)))+100*4;
+	velocityReader reader2 = new velocityReader();
+	float vx = reader2.compute().get(0);
+	float vy = reader2.compute().get(1);
 	Vector state = new Vector(ballX,ballY,0,null,-5,1);
 	Ball ball = new Ball(state);
 	boolean holeIn = false;
@@ -174,7 +177,8 @@ public class Game extends ApplicationAdapter {
 			spriteBatch.end();
 			// User input just given, ball in motion
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
-				readVelocity = false;
+				//readVelocity = false;
+				inWater=false;
 				// Ball continues to move
 				if(!((ball.state.getVx() < stepSize*5 && ball.state.getVx() > stepSize*-5) && ((ball.state.getVy() < stepSize*5 && ball.state.getVy() > stepSize*-5)))) {
 					try {
@@ -230,14 +234,23 @@ public class Game extends ApplicationAdapter {
 				try {
 					// Falling into hole
 					if(f.f(ballX/10,ballY/10,0,0) < 0) {
-						holeIn = true;
+						ballX=(float) prevX;
+						ballY=(float) prevY;
+						ball.state.setX(prevX);
+						ball.state.setY(prevY);
+						ball.state.setVx(0);
+						ball.state.setVy(0);
+					//	holeIn = true;
+					inWater = true;
 						moving = false;
+						
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
 			else {
+				//strengthLength=0;
 				// User giving inputs
 				if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 					// Decreases holdConstant (to simulate ball going further from holding space bar for longer)
@@ -251,7 +264,7 @@ public class Game extends ApplicationAdapter {
 						strengthLength += 0.125;
 				}
 				// Trajectory line
-				if(!holeIn && !inWater) {
+				if(!holeIn) {
 					// Trajectory
 					shapeRenderer.setColor(Color.LIGHT_GRAY);
 					if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
@@ -288,15 +301,35 @@ public class Game extends ApplicationAdapter {
 					}
 
 					// Set readVelocity to false to disable manual velocity inputs
-					// readVelocity = false;
+					//readVelocity = false;
 					if(readVelocity) {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();
+						
 						ball.state.setVx(vXX * 20);
 						ball.state.setVy(vYY * 20);
+						vXX=0;
+						vYY=0;
+						
+					}else{
+						//ball.state.setVx(vx);
+						//ball.state.setVy(vy);
 					}
-					shapeRenderer.setColor(Color.RED);
-					shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
+					System.out.println(readVelocity);
+					System.out.println(ball.state.getVx());
+
+					if(inWater){
+						ball.state.setVx(0);
+						ball.state.setVy(0);
+					}
+					
+					if(!inWater){
+						shapeRenderer.setColor(Color.RED);
+						shapeRenderer.rectLine(ballX, ballY, strengthX, strengthY, 5);
+						strengthX=0;
+						strengthY=0;
+					}
+					
 				}
 			}
 			// Hole
@@ -308,7 +341,7 @@ public class Game extends ApplicationAdapter {
 				moving = false;
 			}
 			// Ball still visible
-			if(!holeIn && !inWater) {
+			if(!holeIn) {
 				shapeRenderer.setColor(1, 1, 1, 1);
 				shapeRenderer.circle(ballX, ballY, 20);
 			}

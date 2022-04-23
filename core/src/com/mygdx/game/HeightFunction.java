@@ -22,7 +22,7 @@ public class HeightFunction implements Function{
                 .setVariable("x", x)
                 .setVariable("y", y);
         double result = expression.evaluate();
-        return 0;
+        return result;
 
     }
 
