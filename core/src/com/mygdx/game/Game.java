@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Game extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
@@ -32,7 +33,7 @@ public class Game extends ApplicationAdapter {
 	float vx = reader2.compute().get(0);
 	float vy = reader2.compute().get(1);
 	Vector state = new Vector(ballX,ballY,0,null,-5,1);
-	Ball ball = new Ball(state);
+
 	boolean holeIn = false;
 	boolean inWater = false;
 	float trajecX, trajecY;
@@ -50,6 +51,10 @@ public class Game extends ApplicationAdapter {
 	double prevX = ballX;
 	double prevY = ballY;
 	boolean readVelocity = true;
+	boolean testBot = false;
+	Ball ball = new Ball(state);
+	HeightFunction f  = new HeightFunction();
+	PartialDerivative px = new PartialDerivative(f);
 	// Menu
 	private Stage stage;
 	private Image image;
@@ -85,8 +90,13 @@ public class Game extends ApplicationAdapter {
 		return vectors;
 	}
 
+
+
+
+
 	@Override
 	public void create () {
+
 		shapeRenderer = new ShapeRenderer();
 		try {
 			vectors = createField();
@@ -124,13 +134,19 @@ public class Game extends ApplicationAdapter {
 		}
 	}
 
+
+
+
+
 	@Override
 	public void render() {
+
+
+
 		if(!isStarted){
 			if (Gdx.input.getX()>Gdx.graphics.getWidth()/2) {
 				image = new Image(bot);
 				stage.addActor(image);
-
 			}
 			if (Gdx.input.getX()<Gdx.graphics.getWidth()/2) {
 				image = new Image(human);
@@ -138,13 +154,18 @@ public class Game extends ApplicationAdapter {
 			}
 			stage.act();
 			stage.draw();
-		} else {
-			HeightFunction f  = new HeightFunction();
-			PartialDerivative px = new PartialDerivative(f);
+		}
+		else
+		{
+
+
+
 			// Changes color of background
 			Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+
 			// Illustrates heights of field
 			Gdx.graphics.setWindowedMode(650, 500);
 			for(int i = 0; i < fieldWidth; i++) {
@@ -158,6 +179,11 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.rect(10*i, 10*j, 10, 10);
 				}
 			}
+
+
+
+
+
 			// Text to display xy-coordinates of ball & number of hits
 			SpriteBatch spriteBatch;
 			BitmapFont font;
@@ -176,79 +202,17 @@ public class Game extends ApplicationAdapter {
 			font.draw(spriteBatch, altitude2, 10, 450);
 			spriteBatch.end();
 			// User input just given, ball in motion
-			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving) {
-				inWater = false;
-				// Ball continues to move
-				if(!((ball.state.getVx() < stepSize*5 && ball.state.getVx() > stepSize*-5) && ((ball.state.getVy() < stepSize*5 && ball.state.getVy() > stepSize*-5)))) {
-					try {
-						ball.state = math.RK4(ball.state, h);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-					// Bounce-off
-					if( ball.state.getX() < 30 ||  ball.state.getX() > Gdx.graphics.getWidth()-30) {
-						ball.state.setVx(ball.state.getVx()*-1.0);
-						h = stepSize;
-					}
-					ballX = (float) ball.state.getX();
-					// Bounce-off
-					if(ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight()-30) {
-						ball.state.setVy(ball.state.getVy()*-1.0);
-						h = stepSize;
-					}
-					ballY = (float) ball.state.getY();
-					h = stepSize;
-				}
-				if((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5))) { // TODO
-					// Resets; prepares for next user inputs
-					counter = 0;
-					strengthLength = 0;
-					try {
-						if(px.getX(ball.state.getX(), ball.state.getY(), 0, 0) != 0 || px.getY(ball.state.getX(), ball.state.getY(), 0, 0) != 0) {
-							// Ball comes to stop due to static friction
-							if(Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
-								moving = false;
-								readVelocity = true;
-								h = stepSize;
-							} else {
-								// Ball starts falling down slope
-								moving = true;
-								if((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1)) {
-									ball.state.setVx(-1 * Math.abs(ball.state.getVx()));
-								}
-								if(((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) {
-									ball.state.setVy(-1 * Math.abs(ball.state.getVy()));
-								}
-							}
-						} else {
-							moving = false;
-							readVelocity = true;
-							h = stepSize;
-						}
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-				try {
-					// Falling into water
-					if(f.f(ballX/10,ballY/10,0,0) < 0) {
-						ballX=(float) prevX;
-						ballY=(float) prevY;
-						ball.state.setX(prevX);
-						ball.state.setY(prevY);
-						ball.state.setVx(0);
-						ball.state.setVy(0);
-						counter = 0;
-						strengthLength = 0;
-						holdConstant = 20;
-						inWater = true;
-						moving = false;
-						
-					}
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+
+
+
+
+
+
+
+			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving ) {
+				ball = moveBall(ball);
 			}
+
 			else {
 				// User giving inputs
 				if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -265,11 +229,14 @@ public class Game extends ApplicationAdapter {
 				// Trajectory line
 				if(!holeIn) {
 					// Trajectory
-					shapeRenderer.setColor(Color.LIGHT_GRAY);
-					if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-						angle += 2;
-					if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-						angle -= 2;
+
+
+						shapeRenderer.setColor(Color.LIGHT_GRAY);
+						if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+							angle += 2;
+						if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+							angle -= 2;
+
 					// New location (angle) of trajectory line from ball
 					if(angle>360){
 						angle -=360;
@@ -301,10 +268,11 @@ public class Game extends ApplicationAdapter {
 
 					// Set readVelocity to false to disable manual velocity inputs
 					//readVelocity = false;
+
 					if(readVelocity) {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();
-						
+
 						ball.state.setVx(vXX * 20);
 						ball.state.setVy(vYY * 20);
 						vXX=0;
@@ -339,7 +307,89 @@ public class Game extends ApplicationAdapter {
 			shapeRenderer.end();
 		}
 	}
-	
+
+
+
+	public Ball moveBall(Ball ball1){
+
+		Ball ball = ball1;
+		inWater = false;
+		// Ball continues to move
+		if (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5) && ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
+			try {
+				ball.state = math.RK4(ball.state, h);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			// Bounce-off
+			if (ball.state.getX() < 30 || ball.state.getX() > Gdx.graphics.getWidth() - 30) {
+				ball.state.setVx(ball.state.getVx() * -1.0);
+				h = stepSize;
+			}
+			ballX = (float) ball.state.getX();
+			// Bounce-off
+			if (ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight() - 30) {
+				ball.state.setVy(ball.state.getVy() * -1.0);
+				h = stepSize;
+			}
+			ballY = (float) ball.state.getY();
+			h = stepSize;
+		}
+		if ((ball.state.getVx() < 0.5 && ball.state.getVx() > -0.5) && ((ball.state.getVy() < 0.5 && ball.state.getVy() > -0.5))) { // TODO
+			// Resets; prepares for next user inputs
+			counter = 0;
+			strengthLength = 0;
+			try {
+				if (px.getX(ball.state.getX(), ball.state.getY(), 0, 0) != 0 || px.getY(ball.state.getX(), ball.state.getY(), 0, 0) != 0) {
+					// Ball comes to stop due to static friction
+					if (Field.frictionStatic > Math.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getX(ball.state.getX(), ball.state.getY(), 0, 0)))) + ((px.getY(ball.state.getX(), ball.state.getY(), 0, 0)) * (px.getY(ball.state.getX(), ball.state.getY(), 0, 0)))) {
+						moving = false;
+
+						readVelocity = true;
+						h = stepSize;
+					} else {
+						// Ball starts falling down slope
+						moving = true;
+						if ((ball.state.getVx() < 0.1 && ball.state.getVx() > -0.1)) {
+							ball.state.setVx(-1 * Math.abs(ball.state.getVx()));
+						}
+						if (((ball.state.getVy() < 0.1 && ball.state.getVy() > -0.1))) {
+							ball.state.setVy(-1 * Math.abs(ball.state.getVy()));
+						}
+					}
+				} else {
+					moving = false;
+
+					readVelocity = true;
+					h = stepSize;
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			// Falling into water
+			if (f.f(ballX / 10, ballY / 10, 0, 0) < 0) {
+				ballX = (float) prevX;
+				ballY = (float) prevY;
+				ball.state.setX(prevX);
+				ball.state.setY(prevY);
+				ball.state.setVx(0);
+				ball.state.setVy(0);
+				counter = 0;
+				strengthLength = 0;
+				holdConstant = 20;
+				inWater = true;
+				moving = false;
+
+
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return ball;
+	}
+
 	@Override
 	public void dispose () {
 		shapeRenderer.dispose();
