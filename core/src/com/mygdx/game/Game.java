@@ -234,9 +234,8 @@ public class Game extends ApplicationAdapter {
 						vXX = strengthLength*Math.cos(Math.toRadians(angle));
 						vYY = strengthLength*Math.sin(Math.toRadians(angle));
 					}
-					// Set readVelocity to false to disable manual velocity inputs
+					// Set readVelocity to false to disable manual velocity inputs as well as uncomment following else{} statement
 					//readVelocity = false;
-
 					if(readVelocity) {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();
@@ -245,10 +244,12 @@ public class Game extends ApplicationAdapter {
 						ball.state.setVy(vYY * 20);
 						vXX=0;
 						vYY=0;
-					} else {
-						ball.state.setVx(vx);
-						ball.state.setVy(vy);
+					// For changing to text file input
 					}
+					// else {
+					// 	ball.state.setVx(vx);
+					// 	ball.state.setVy(vy);
+					// }
 					if(inWater){
 						ball.state.setVx(0);
 						ball.state.setVy(0);
