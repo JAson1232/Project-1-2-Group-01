@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class Game extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
@@ -90,13 +89,8 @@ public class Game extends ApplicationAdapter {
 		return vectors;
 	}
 
-
-
-
-
 	@Override
 	public void create () {
-
 		shapeRenderer = new ShapeRenderer();
 		try {
 			vectors = createField();
@@ -134,14 +128,8 @@ public class Game extends ApplicationAdapter {
 		}
 	}
 
-
-
-
-
 	@Override
 	public void render() {
-
-
 
 		if(!isStarted){
 			if (Gdx.input.getX()>Gdx.graphics.getWidth()/2) {
@@ -157,14 +145,10 @@ public class Game extends ApplicationAdapter {
 		}
 		else
 		{
-
-
-
 			// Changes color of background
 			Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
 
 			// Illustrates heights of field
 			Gdx.graphics.setWindowedMode(650, 500);
@@ -179,10 +163,6 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.rect(10*i, 10*j, 10, 10);
 				}
 			}
-
-
-
-
 
 			// Text to display xy-coordinates of ball & number of hits
 			SpriteBatch spriteBatch;
@@ -203,17 +183,9 @@ public class Game extends ApplicationAdapter {
 			spriteBatch.end();
 			// User input just given, ball in motion
 
-
-
-
-
-
-
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && moving ) {
 				ball = moveBall(ball);
-			}
-
-			else {
+			} else {
 				// User giving inputs
 				if(!holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 					// Decreases holdConstant (to simulate ball going further from holding space bar for longer)
@@ -229,14 +201,11 @@ public class Game extends ApplicationAdapter {
 				// Trajectory line
 				if(!holeIn) {
 					// Trajectory
-
-
 						shapeRenderer.setColor(Color.LIGHT_GRAY);
 						if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 							angle += 2;
 						if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 							angle -= 2;
-
 					// New location (angle) of trajectory line from ball
 					if(angle>360){
 						angle -=360;
@@ -265,7 +234,6 @@ public class Game extends ApplicationAdapter {
 						vXX = strengthLength*Math.cos(Math.toRadians(angle));
 						vYY = strengthLength*Math.sin(Math.toRadians(angle));
 					}
-
 					// Set readVelocity to false to disable manual velocity inputs
 					//readVelocity = false;
 
@@ -277,6 +245,9 @@ public class Game extends ApplicationAdapter {
 						ball.state.setVy(vYY * 20);
 						vXX=0;
 						vYY=0;
+					} else {
+						ball.state.setVx(vx);
+						ball.state.setVy(vy);
 					}
 					if(inWater){
 						ball.state.setVx(0);
@@ -308,10 +279,7 @@ public class Game extends ApplicationAdapter {
 		}
 	}
 
-
-
 	public Ball moveBall(Ball ball1){
-
 		Ball ball = ball1;
 		inWater = false;
 		// Ball continues to move
