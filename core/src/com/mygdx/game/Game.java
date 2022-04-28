@@ -241,7 +241,7 @@ public class Game extends ApplicationAdapter {
 						prevY = ball.state.getY();
 
 						ball.state.setVx(vXX * 20);
-						ball.state.setVy(vYY * 20);
+						ball.state.setVy(vYY * 20); 
 						vXX=0;
 						vYY=0;
 					// For changing to text file input
