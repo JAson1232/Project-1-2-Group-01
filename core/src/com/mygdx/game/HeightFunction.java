@@ -17,10 +17,11 @@ public class HeightFunction implements Function{
      */
     public double f(double x, double y,double vx,double vy) throws FileNotFoundException {
         Expression expression = new ExpressionBuilder(reader())
-                .variables("x", "y")
+                .variables("x", "y", "e")
                 .build()
                 .setVariable("x", x)
-                .setVariable("y", y);
+                .setVariable("y", y)
+                .setVariable("e", Math.E);
         double result = expression.evaluate();
         return 0;
 
@@ -32,9 +33,9 @@ public class HeightFunction implements Function{
      * @throws FileNotFoundException
      */
     public static String reader() throws FileNotFoundException {
-        // File file = new File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/example_inputfile.txt");
+         File file = new File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/example_inputfile.txt");
         // File file = new File("C:\\Users\\jason\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
-        File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
+        //File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
         Scanner scanner = new Scanner(file);
         int count = 0;
         ArrayList<String> result = new ArrayList<>();

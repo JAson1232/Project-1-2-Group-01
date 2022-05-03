@@ -26,8 +26,8 @@ public class Game extends ApplicationAdapter {
 	Reader reader = new Reader();
 	float ballX = Float.parseFloat(reader.compute().get(0))+100;
 	float ballY = Float.parseFloat((reader.compute().get(1)))+50;
-	float holeX = Float.parseFloat((reader.compute().get(2)))+100*4;
-	float holeY = Float.parseFloat((reader.compute().get(3)))+100*4;
+	float holeX = Float.parseFloat((reader.compute().get(2))); //+100*4;
+	float holeY = Float.parseFloat((reader.compute().get(3))); //+100*4;
 	Vector state = new Vector(ballX,ballY,0,null,-5,1);
 	Ball ball = new Ball(state);
 	boolean holeIn = false;
@@ -42,7 +42,7 @@ public class Game extends ApplicationAdapter {
 	Vector[][] vectors;
 	boolean fieldCreated = false;
 	int fieldLength = 50;
-	int fieldWidth = 65;
+	int fieldWidth = 50;
 	int numOfHits = 0;
 	double prevX = ballX;
 	double prevY = ballY;
