@@ -11,6 +11,13 @@ public class Ball {
     private double mass;
     private double currentVelocity;
     private double acceleration;
+    public boolean holeIn = false;
+    public boolean moving = false;
+    public boolean inWater;
+    public boolean readVelocity;
+    public double vx;
+    public double vy;
+    public boolean winner = false;
 
     /**
      * Constructor; clones state of ball in parameter
@@ -18,6 +25,20 @@ public class Ball {
      */
     public Ball(Vector state){
         this.state = state.clone();
+    }
+
+    /**
+     * @return the holeIn
+     */
+    public boolean isHoleIn() {
+        return holeIn;
+    }
+
+    /**
+     * @param holeIn the holeIn to set
+     */
+    public void setHoleIn(boolean holeIn) {
+        this.holeIn = holeIn;
     }
 
     /**
@@ -149,5 +170,12 @@ public class Ball {
      */
     public Vector getState(){
         return this.state;
+    }
+
+    public double getVx(){
+        return this.vx;
+    }
+    public double getVy(){
+        return this.vy;
     }
 }

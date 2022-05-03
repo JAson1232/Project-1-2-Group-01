@@ -36,6 +36,10 @@ Steps
 - Step 4: Launch the application by running the main method on DesktopLauncher.java
 - Note: This application might run into errors on Macs and/or on VSCode. Windows and IntelliJ are therefore recommended for running this software.
 
+
+FIELD COMMENT!
+
+
 To Play the Game:
 -----------------------------------
 The application shows a green golf field with lighter greens indicating higher altitudes and darker greens indicating depressions. Elevations with a negative height indicate the presence of water, and are therefore colored blue. The left/right keys can be used to change the angle in which the ball is launched, the strength with which that is done depends on how long the space bar was held before it was released (to shoot). Alternatively, the ball's movements can also be determined separately from an input text file. The game is completed once the ball has been shot into the hole (and accordingly disappears). On the other hand, if the ball was shot into the water, it also disappears and becomes unretrievable (to which the game should be relaunched for another attempt).
