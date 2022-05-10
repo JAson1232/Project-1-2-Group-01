@@ -20,7 +20,8 @@ public class HeightFunction implements Function{
                 .variables("x", "y")
                 .build()
                 .setVariable("x", x)
-                .setVariable("y", y);
+                .setVariable("y", y)
+                .setVariable("e", Math.E);
         double result = expression.evaluate();
         return result;
 

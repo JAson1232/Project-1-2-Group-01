@@ -390,7 +390,7 @@ public class Game extends ApplicationAdapter {
 	
 	if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && ball.moving ) {
 		ball = moveBall(ball);
-		System.out.println(ball.state);
+		//(ball.state);
 	} else {
 		// User giving inputs
 		if(!ball.holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -421,7 +421,9 @@ public class Game extends ApplicationAdapter {
 			}
 			trajecX = (float) (ball.state.getX() + (lineLength*Math.cos(Math.toRadians(angle))));
 			trajecY = (float) (ball.state.getY() + (lineLength*Math.sin(Math.toRadians(angle))));
+			if(isStarted == false){
 			shapeRenderer.rectLine((float)ball.state.getX(), (float)ball.state.getY(), trajecX, trajecY, 5);
+			}
 			// Strength
 			float strengthX = (float) (ball.state.getX() + strengthLength/5*(trajecX - ball.state.getX()));
 			double vXX = strengthLength;
@@ -463,7 +465,9 @@ public class Game extends ApplicationAdapter {
 			}
 			if(!ball.inWater){
 				shapeRenderer.setColor(Color.RED);
+				if(isStarted == false){
 				shapeRenderer.rectLine((float)ball.state.getX(),(float) ball.state.getY(), strengthX, strengthY, 5);
+				}
 				strengthX=0;
 				strengthY=0;
 			}
