@@ -13,7 +13,7 @@ public class HillClimbing {
 
    // perform random shoots and if one stopped in threshold start climbing
    public Vector HillClimbing(Vector position, Vector[][] fieldToVisit, int n, double holeX, double holeY) throws FileNotFoundException {
-      double trashHold = 2 ;
+      double trashHold = 0.5;
       Vector hole = new Vector(holeX,holeY,0,null,0,0);
 
       for(int i=0; i< n; i++) {
@@ -62,11 +62,11 @@ public class HillClimbing {
       //System.out.println("VECTOR AFTER: " + stateCopy);
 
       if(stateCopy.distanceTo(hole) < 0.1){
-         //System.out.println("is in hole 1");
+         System.out.println("is in hole 1");
          return state;
       }
-      else if (stateCopy.getX() == hole.getX() && stateCopy.getY() == hole.getY() || Math.abs(stateCopy.getX() - hole.getX()) < 0.15 && Math.abs(stateCopy.getY() - hole.getY()) < 0.15) {
-         //System.out.println("is in hole 2");
+      else if (stateCopy.getX() == hole.getX() && stateCopy.getY() == hole.getY() || Math.abs(stateCopy.getX() - hole.getX()) < 0.17 && Math.abs(stateCopy.getY() - hole.getY()) < 0.17) {
+         System.out.println("is in hole 2");
          return state;
       }
 
