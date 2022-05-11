@@ -29,7 +29,7 @@ public class MathFunctions {
                         null,
                         ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
                         ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy())))
-                        .scale(h));
+                .scale(h));
 
         return newState;
     }
@@ -46,20 +46,20 @@ public class MathFunctions {
         accelerationY ay = new accelerationY();
         // f(t_i, w_i)
         Vector k_i_1 = new Vector(StateVector.getVx(),
-                                StateVector.getVy(),
-                                StateVector.getZ(),
-                                null,
-                                ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
-                                ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()));
+                StateVector.getVy(),
+                StateVector.getZ(),
+                null,
+                ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
+                ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()));
         // 3f(t_i + 2h/3, w_i + f(t_i, w_i)*2h/3)
         Vector intermediate = StateVector.sum(k_i_1.scale(h*2/3));
         Vector k_i_2 = new Vector(intermediate.getVx(),
-                                intermediate.getVy(),
-                                StateVector.getZ(),
-                                null,
-                                ax.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()),
-                                ay.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()))
-                                .scale(3);
+                intermediate.getVy(),
+                StateVector.getZ(),
+                null,
+                ax.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()),
+                ay.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()))
+                .scale(3);
         return StateVector.sum(k_i_1.sum(k_i_2).scale(h/4));
     }
 
@@ -71,39 +71,40 @@ public class MathFunctions {
      * @throws FileNotFoundException
      */
     Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
+        HillClimbing.counter1++;
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         // f(t_i, w_i)
         Vector k_i_1 = new Vector(StateVector.getVx(),
-                                StateVector.getVy(),
-                                StateVector.getZ(),
-                                null,
-                                ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
-                                ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()));
+                StateVector.getVy(),
+                StateVector.getZ(),
+                null,
+                ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
+                ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()));
         // f(t_i + h/2, w_i + k_i_1/2)
         Vector intermediate1 = StateVector.sum(k_i_1.scale(h/2));
         Vector k_i_2 = new Vector(intermediate1.getVx(),
-                                intermediate1.getVy(),
-                                StateVector.getZ(),
-                                null,
-                                ax.f(intermediate1.getX(), intermediate1.getY(), intermediate1.getVx(), intermediate1.getVy()),
-                                ay.f(intermediate1.getX(), intermediate1.getY(), intermediate1.getVx(), intermediate1.getVy()));
+                intermediate1.getVy(),
+                StateVector.getZ(),
+                null,
+                ax.f(intermediate1.getX(), intermediate1.getY(), intermediate1.getVx(), intermediate1.getVy()),
+                ay.f(intermediate1.getX(), intermediate1.getY(), intermediate1.getVx(), intermediate1.getVy()));
         // f(t_i + h/2, w_i + k_i_2/2)
         Vector intermediate2 = StateVector.sum(k_i_2.scale(h/2));
         Vector k_i_3 = new Vector(intermediate2.getVx(),
-                                intermediate2.getVy(),
-                                StateVector.getZ(),
-                                null,
-                                ax.f(intermediate2.getX(), intermediate2.getY(), intermediate2.getVx(), intermediate2.getVy()),
-                                ay.f(intermediate2.getX(), intermediate2.getY(), intermediate2.getVx(), intermediate2.getVy()));
+                intermediate2.getVy(),
+                StateVector.getZ(),
+                null,
+                ax.f(intermediate2.getX(), intermediate2.getY(), intermediate2.getVx(), intermediate2.getVy()),
+                ay.f(intermediate2.getX(), intermediate2.getY(), intermediate2.getVx(), intermediate2.getVy()));
         // f(t_i + h_i, w_i + k_i_3)
         Vector intermediate3 = StateVector.sum(k_i_3.scale(h));
         Vector k_i_4 = new Vector(intermediate3.getVx(),
-                                intermediate3.getVy(),
-                                StateVector.getZ(),
-                                null,
-                                ax.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()),
-                                ay.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()));
+                intermediate3.getVy(),
+                StateVector.getZ(),
+                null,
+                ax.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()),
+                ay.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()));
         Vector sum = k_i_1.sum(k_i_2.scale(2)).sum(k_i_3.scale(2)).sum(k_i_4);
         return StateVector.sum(sum.scale(h/6));
     }

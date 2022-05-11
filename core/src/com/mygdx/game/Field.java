@@ -3,10 +3,8 @@ package com.mygdx.game;
 public class Field {
     int width,height,length;
     int holeX,holeY,holeZ;
-    //static double  frictionStatic = 0.2,frictionKinetic = 0.1;
-    // WHEN YOU RUN THE GAME UNCOMMENT THIS
-     static double frictionStatic = 0.2*5,frictionKinetic = 0.1*10;
-    Vector[][] vectors;
+    static double  frictionStatic = 0.2,frictionKinetic = 0.08;
+    static Vector[][] vectors;
 
     /**
      * Creates new field (2D array) of Vectors

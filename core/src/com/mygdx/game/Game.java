@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.io.FileNotFoundException;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+
+
 
 public class Game extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
@@ -31,8 +31,8 @@ public class Game extends ApplicationAdapter {
 	float holeX = Float.parseFloat((reader.compute().get(2)))+100*4;
 	float holeY = Float.parseFloat((reader.compute().get(3)))+100*4;
 	velocityReader reader2 = new velocityReader();
-	float vx = reader2.compute().get(0);
-	float vy = reader2.compute().get(1);
+	float vx = velocityReader.compute().get(0);
+	float vy = velocityReader.compute().get(1);
 	Vector state = new Vector(ballX,ballY,0,null,-5,1);
 	double vXX;
 	double vYY;
@@ -222,7 +222,7 @@ public class Game extends ApplicationAdapter {
 
 
 				//strengthLength = getUserInput();
-				Random r = new Random();
+				
 			    double randomValue = 5;
 				strengthLength = randomValue;
 				if(!ball.moving){
@@ -522,10 +522,10 @@ public class Game extends ApplicationAdapter {
 					trajecY = (float) (ball.state.getY() + (lineLength*Math.sin(Math.toRadians(angle))));
 					//shapeRenderer.rectLine((float) ball.state.getX(), (float) ball.state.getY(), trajecX, trajecY, 5);
 					// Strength
-					float strengthX = (float) (ball.state.getX() + strengthLength/5*(trajecX - ball.state.getX()));
+					//float strengthX = (float) (ball.state.getX() + strengthLength/5*(trajecX - ball.state.getX()));
 					double vXX = strengthLength;
 					double vYY = strengthLength;
-					float strengthY = (float) (ball.state.getY() + strengthLength/5*(trajecY - ball.state.getY()));
+					//float strengthY = (float) (ball.state.getY() + strengthLength/5*(trajecY - ball.state.getY()));
 					if(angle <= 270 && angle > 180){
 						vXX = strengthLength*-1*Math.cos(Math.toRadians(angle-180));
 						vYY = strengthLength*-1*Math.sin(Math.toRadians(angle-180));

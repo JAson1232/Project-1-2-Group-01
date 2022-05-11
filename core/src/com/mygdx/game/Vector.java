@@ -77,7 +77,7 @@ public class Vector {
      * @param v
      */
     public double distanceTo(Vector v){
-        return Math.sqrt(((v.x-this.x)*(v.x-this.x))-((v.y-this.y)*(v.y-this.y)) - ((v.z - this.z)*(v.z - this.z)));
+        return Math.sqrt(((v.x-this.x)*(v.x-this.x))+((v.y-this.y)*(v.y-this.y)) + ((v.z - this.z)*(v.z - this.z)));
     }
 
     /**
