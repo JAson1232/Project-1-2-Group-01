@@ -179,19 +179,23 @@ public class Game extends ApplicationAdapter {
 			// Text to display xy-coordinates of ball & number of hits
 			SpriteBatch spriteBatch;
 			BitmapFont font;
-			CharSequence coordinates = ("Ball at x: " + ball.state.getX()/10 + ", y: " + ball.state.getY()/10);
-			CharSequence hits = ("Number of hits: " + numOfHits);
 			CharSequence legend = ("Legend:");
 			CharSequence altitude1 = ("Lighter = higher altitude");
 			CharSequence altitude2 = ("Darker = lower altitude");
+
+			CharSequence coordinates = ("Ball at x: " + ball.state.getX()/10 + ", y: " + ball.state.getY()/10);
+			CharSequence hits = ("Number of hits: " + numOfHits);
+			CharSequence filler = (" adsf   ");
+
 			spriteBatch = new SpriteBatch();
 			font = new BitmapFont();
 			spriteBatch.begin();
 			font.draw(spriteBatch, coordinates, 10, 40);
 			font.draw(spriteBatch, hits, 10, 20);
-			font.draw(spriteBatch, legend, 10, 490);
-			font.draw(spriteBatch, altitude1, 10, 470);
-			font.draw(spriteBatch, altitude2, 10, 450);
+			font.draw(spriteBatch, filler, 10, 470);
+			font.draw(spriteBatch, legend, 10, 450);
+			font.draw(spriteBatch, altitude1, 10, 430);
+			font.draw(spriteBatch, altitude2, 10, 410);
 			spriteBatch.end();
 			// User input just given, ball in motion
 			Ball[] balls = new Ball[20];
@@ -388,6 +392,7 @@ public class Game extends ApplicationAdapter {
 	BitmapFont font;
 	CharSequence coordinates = ("Ball at x: " + ball.state.getX() + ", y: " + ball.state.getY());
 	CharSequence hits = ("Number of hits: " + numOfHits);
+	CharSequence filler = ("     ");
 	CharSequence legend = ("Legend:");
 	CharSequence altitude1 = ("Lighter = higher altitude");
 	CharSequence altitude2 = ("Darker = lower altitude");
@@ -396,9 +401,10 @@ public class Game extends ApplicationAdapter {
 	spriteBatch.begin();
 	font.draw(spriteBatch, coordinates, 10, 40);
 	font.draw(spriteBatch, hits, 10, 20);
-	font.draw(spriteBatch, legend, 10, 490);
-	font.draw(spriteBatch, altitude1, 10, 470);
-	font.draw(spriteBatch, altitude2, 10, 450);
+	font.draw(spriteBatch, filler, 10, 490);
+	font.draw(spriteBatch, legend, 10, 470);
+	font.draw(spriteBatch, altitude1, 10, 450);
+	font.draw(spriteBatch, altitude2, 10, 430);
 	spriteBatch.end();
 	
 	if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && ball.moving ) {
