@@ -289,6 +289,7 @@ public class Game extends ApplicationAdapter {
 						//strengthY=0;
 					}
 				}
+				
 				if (ball.state.distanceTo(hole) <= 15) {
 					//               System.out.println("state " + state);
 					//               System.out.println("distance to hole " + state.distanceTo(hole));
@@ -300,15 +301,28 @@ public class Game extends ApplicationAdapter {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
+									System.out.println(ball.state.getX());
+									System.out.println(ball.state.getY());
+								   ball.holeIn = true;
+								   ball.moving = false;
+								   ball.winner = true;
+								   System.out.println("Hill");
+								   //System.out.println(ball.winner);
+								   holeIn = true;
+								   //shapeRenderer.end();
+								   //System.out.println(holeIn);
+								   shapeRenderer.flush();
+								   break;
 								}
 				//System.out.println("here");
+				
 				if(Math.abs(holeX - ball.state.getX()) <= 15 && Math.abs(holeY - ball.state.getY()) <= 15) {
 					 System.out.println(ball.state.getX());
 					 System.out.println(ball.state.getY());
 					ball.holeIn = true;
 					ball.moving = false;
 					ball.winner = true;
-					System.out.println("INNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+					System.out.println("Random");
 					//System.out.println(ball.winner);
 					holeIn = true;
 					//shapeRenderer.end();
@@ -316,6 +330,7 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.flush();
 					break;
 				}
+				
 				// Ball still visible
 				if(!ball.holeIn) {
 		
