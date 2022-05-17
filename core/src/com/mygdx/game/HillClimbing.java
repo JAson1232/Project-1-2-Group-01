@@ -42,7 +42,7 @@ public class HillClimbing {
             
           //  System.out.println(state);
           System.out.println(state.distanceTo(hole));
-            if (state.distanceTo(hole) <= 60) {
+            if (state.distanceTo(hole) <= 10) {
 //               System.out.println("state " + state);
 //               System.out.println("distance to hole " + state.distanceTo(hole));
                System.out.println("start climb");
@@ -55,9 +55,11 @@ public class HillClimbing {
    }
 
    // hill climbing itself
-   private Vector climb(Vector state, Vector hole, double n) throws FileNotFoundException {
+   public Vector climb(Vector state, Vector hole, double n) throws FileNotFoundException {
       //System.out.println("VECTOR BEFORE: " + state);
       Vector stateCopy = state;
+      Game game = new Game();
+      Ball ball = new Ball(stateCopy);
 
       while (hasNotStopped(stateCopy, px)) {
          if (Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy()) > 5*20) {
@@ -65,13 +67,13 @@ public class HillClimbing {
             stateCopy.setVx(5*20 * stateCopy.getVx() / v);
             stateCopy.setVy(5*20 * stateCopy.getVy() / v);
          }
-         Game game = new Game();
-         Ball ball = new Ball(stateCopy);
+        
 
          ball = game.moveBall(ball);
          stateCopy = ball.state;
          //stateCopy = matFun.RK2(stateCopy, 0.1);
          //stateCopy = matFun.euler(stateCopy, 0.1);
+         System.out.println(stateCopy.distanceTo(hole));
       }
       //System.out.println("VECTOR AFTER: " + stateCopy);
       System.out.println(stateCopy.distanceTo(hole));

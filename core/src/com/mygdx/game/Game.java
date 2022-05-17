@@ -26,6 +26,7 @@ public class Game extends ApplicationAdapter {
 	MathFunctions math = new MathFunctions();
 	// Starting position
 	Reader reader = new Reader();
+	HillClimbing hc = new HillClimbing();
 	float ballX = Float.parseFloat(reader.compute().get(0))+100;
 	float ballY = Float.parseFloat((reader.compute().get(1)))+50;
 	float holeX = Float.parseFloat((reader.compute().get(2)))+100*4;
@@ -35,7 +36,7 @@ public class Game extends ApplicationAdapter {
 	float vy = velocityReader.compute().get(1);
 	Vector state = new Vector(ballX,ballY,0,null,-5,1);
 	double vXX;
-	double vYY;
+	double vYY;Vector hole = new Vector(holeX,holeY,0,null,0,0);
 	boolean holeIn = false;
 	boolean inWater = false;
 	boolean first= false;
@@ -288,6 +289,18 @@ public class Game extends ApplicationAdapter {
 						//strengthY=0;
 					}
 				}
+				if (ball.state.distanceTo(hole) <= 15) {
+					//               System.out.println("state " + state);
+					//               System.out.println("distance to hole " + state.distanceTo(hole));
+								   System.out.println("start climb");
+					//               System.out.println("vectorToClimb " + stateCopy);
+								    try {
+										hc.climb(ball.state, hole, 0.075);
+									} catch (FileNotFoundException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
 				//System.out.println("here");
 				if(Math.abs(holeX - ball.state.getX()) <= 15 && Math.abs(holeY - ball.state.getY()) <= 15) {
 					 System.out.println(ball.state.getX());
@@ -344,7 +357,6 @@ public class Game extends ApplicationAdapter {
 	
 }else if(Bot){
 	// Changes color of background
-	
 	ball.setX(ballX);
 	ball.setY(ballY);
 	if(isStarted == false){
@@ -559,13 +571,13 @@ public class Game extends ApplicationAdapter {
 				e.printStackTrace();
 			}
 			// Bounce-off
-			if (ball.state.getX() < 30 || ball.state.getX() > 515-30) {
+			if (ball.state.getX() < 30 || ball.state.getX() > Gdx.graphics.getWidth() - 30) {
 				ball.state.setVx(ball.state.getVx() * -1.0);
 				h = stepSize;
 			}
 			//ballX = (float) ball.state.getX();
 			// Bounce-off
-			if (ball.state.getY() < 30 || ball.state.getY() > 400 - 30) {
+			if (ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight() - 30) {
 				ball.state.setVy(ball.state.getVy() * -1.0);
 				h = stepSize;
 			}
