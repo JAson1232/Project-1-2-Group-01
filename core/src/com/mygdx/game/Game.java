@@ -344,6 +344,7 @@ public class Game extends ApplicationAdapter {
 	
 }else if(Bot){
 	// Changes color of background
+	
 	ball.setX(ballX);
 	ball.setY(ballY);
 	if(isStarted == false){
@@ -558,13 +559,13 @@ public class Game extends ApplicationAdapter {
 				e.printStackTrace();
 			}
 			// Bounce-off
-			if (ball.state.getX() < 30 || ball.state.getX() > Gdx.graphics.getWidth() - 30) {
+			if (ball.state.getX() < 30 || ball.state.getX() > 515-30) {
 				ball.state.setVx(ball.state.getVx() * -1.0);
 				h = stepSize;
 			}
 			//ballX = (float) ball.state.getX();
 			// Bounce-off
-			if (ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight() - 30) {
+			if (ball.state.getY() < 30 || ball.state.getY() > 400 - 30) {
 				ball.state.setVy(ball.state.getVy() * -1.0);
 				h = stepSize;
 			}
