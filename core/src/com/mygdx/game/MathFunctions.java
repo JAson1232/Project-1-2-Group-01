@@ -4,6 +4,31 @@ import java.io.FileNotFoundException;
 import java.lang.Thread.State;
 
 public class MathFunctions {
+    public double closestDistance = 0;
+    Reader reader = new Reader();
+    float holeX;
+
+    {
+        try {
+            holeX = Float.parseFloat((reader.compute().get(2)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    float holeY;
+
+    {
+        try {
+            holeY = Float.parseFloat((reader.compute().get(3)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    Vector hole = new Vector(holeX,holeY,0,null, 0, 0);
+
+
 
     public static void main(String[] args) throws FileNotFoundException {
         MathFunctions m = new MathFunctions();
@@ -106,6 +131,9 @@ public class MathFunctions {
                 ax.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()),
                 ay.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()));
         Vector sum = k_i_1.sum(k_i_2.scale(2)).sum(k_i_3.scale(2)).sum(k_i_4);
+        if(closestDistance == 0 || closestDistance > StateVector.distanceTo(hole)){
+            closestDistance = StateVector.distanceTo(hole);
+        }
         return StateVector.sum(sum.scale(h/6));
     }
 
