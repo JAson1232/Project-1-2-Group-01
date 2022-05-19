@@ -89,9 +89,27 @@ public class Game extends ApplicationAdapter {
 		vectors = field.createField();;
 		for(int i = 0; i < vectors.length; i++) {
 			for(int j = 0; j < vectors[0].length; j++) {
-				vectors[i][j] = new Vector(j, i, f.f((double) j, (double) i, 0, 0), null, 0, 0);
+				vectors[i][j] = new Vector(j, i, f.f((double) j-field.length/2, (double) i-field.length/2, 0, 0), null, 0, 0);
 			}
 		}
+
+		for(int i = 5; i < 10; i++) {
+			for(int j = 50; j < 55; j++) {
+		vectors[i][j] =new Vector(j, i, 999999999, null, 0, 0);
+			}
+		}
+
+		for(int j = 5; j < 10; j++) {
+			for(int i = 30; i < 35; i++) {
+		vectors[i][j] =new Vector(j, i, 999999999, null, 0, 0);
+			}
+		}
+		for(int j = 55; j < 60; j++) {
+			for(int i = 35; i < 40; i++) {
+		vectors[i][j] =new Vector(j, i, 999999999, null, 0, 0);
+			}
+		}
+		
 		return vectors;
 	}
 
@@ -166,11 +184,13 @@ public class Game extends ApplicationAdapter {
 			
 			for(int i = 0; i < fieldWidth; i++) {
 				for(int j = 0; j < fieldLength; j++) {
-					if(vectors[j][i].getZ() >= 0) {
+					if(vectors[j][i].getZ() >= 0 && vectors[j][i].getZ() < 5) {
 						float color = (float) (vectors[j][i].getZ() + 0.5)/2;
 						shapeRenderer.setColor(0, color, 0, 1);
-					} else {
+					} else if(vectors[j][i].getZ() < 0){
 						shapeRenderer.setColor(0, 0, 1, 1);
+					}else{
+						shapeRenderer.setColor(Color.BROWN);
 					}
 					shapeRenderer.rect(10*i, 10*j, 10, 10);
 				}
@@ -209,6 +229,7 @@ public class Game extends ApplicationAdapter {
 			for(int i =0; i<balls.length;i++){
 				first = false;
 				ball = balls[i];
+				
 				/*
 			if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && ball.moving ) {
 				ball = moveBall(ball);
@@ -294,7 +315,7 @@ public class Game extends ApplicationAdapter {
 					}
 				}
 				
-				if (ball.state.distanceTo(hole) <= 15) {
+				if (ball.state.distanceTo(hole) <= 17) {
 					//               System.out.println("state " + state);
 					//               System.out.println("distance to hole " + state.distanceTo(hole));
 								   System.out.println("start climb");
@@ -391,11 +412,13 @@ public class Game extends ApplicationAdapter {
 	//Gdx.graphics.setWindowedMode(650, 500);
 	for(int i = 0; i < fieldWidth; i++) {
 		for(int j = 0; j < fieldLength; j++) {
-			if(vectors[j][i].getZ() >= 0) {
+			if(vectors[j][i].getZ() >= 0 && vectors[j][i].getZ() < 5) {
 				float color = (float) (vectors[j][i].getZ() + 0.5)/2;
 				shapeRenderer.setColor(0, color, 0, 1);
-			} else {
+			} else if(vectors[j][i].getZ() < 0){
 				shapeRenderer.setColor(0, 0, 1, 1);
+			}else{
+				shapeRenderer.setColor(Color.BROWN);
 			}
 			shapeRenderer.rect(10*i, 10*j, 10, 10);
 		}
@@ -602,6 +625,11 @@ public class Game extends ApplicationAdapter {
 				ball.state.setVy(ball.state.getVy() * -1.0);
 				h = stepSize;
 			}
+			System.out.println(vectors[(int)ball.state.getY()/10][(int)ball.state.getX()/10].getZ());
+			if (vectors[(int)(ball.state.getY()+20)/10][(int)(ball.state.getX()+20)/10].getZ() > 5 ||vectors[(int)(ball.state.getY()-20)/10][(int)(ball.state.getX()-20)/10].getZ() > 5 || vectors[(int)(ball.state.getY()+20)/10][(int)(ball.state.getX()-20)/10].getZ() > 5 || vectors[(int)(ball.state.getY()-20)/10][(int)(ball.state.getX()+20)/10].getZ() > 5){
+				ball.state.setVy(0);
+				ball.state.setVx(0);
+			}
 			//ballY = (float) ball.state.getY();
 			h = stepSize;
 		}
@@ -637,11 +665,14 @@ public class Game extends ApplicationAdapter {
 				e.printStackTrace();
 			}
 		}
+		
 		try {
+			//System.out.println(f.f(((ball.state.getX()+15)/10-fieldLength/2), ((ball.state.getY()+15)/10-fieldLength/2) , 0, 0));
 			// Falling into water
-			if (f.f(ball.state.getX() / 10, ball.state.getY() / 10, 0, 0) < 0) {
+			if (f.f(((ball.state.getX())/10-fieldLength/2), ((ball.state.getY())/10-fieldLength/2) , 0, 0) < 0) {
 				//ballX = (float) prevX;
 				//ballY = (float) prevY;
+				System.out.println("here");
 				ball.state.setX(prevX);
 				ball.state.setY(prevY);
 				ball.state.setVx(0);

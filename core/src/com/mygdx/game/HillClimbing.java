@@ -77,7 +77,7 @@ public class HillClimbing {
       }
       //System.out.println("VECTOR AFTER: " + stateCopy);
       System.out.println(stateCopy.distanceTo(hole));
-      if(stateCopy.distanceTo(hole) < 15){
+      if((int)stateCopy.distanceTo(hole) < 15){
          System.out.println("is in hole 1");
          return state;
       }
