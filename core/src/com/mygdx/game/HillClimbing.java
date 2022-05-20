@@ -12,7 +12,7 @@ public class HillClimbing {
    static int counter1 = 0;
 
    // perform random shoots and if one stopped in threshold start climbing
-   public Vector HillClimbing(Vector position, Vector[][] fieldToVisit, int n, double holeX, double holeY) throws FileNotFoundException {
+   public <Updated> Vector HillClimbing(Vector position, Vector[][] fieldToVisit, int n, double holeX, double holeY) throws FileNotFoundException {
       double trashHold = 1.5;
       Vector hole = new Vector(holeX,holeY,0,null,0,0);
 
@@ -25,14 +25,12 @@ public class HillClimbing {
          Vector stateCopy = state;
          //System.out.println("state " + state);
          while (hasNotStopped(state, px)) {
-            if (Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy()) > 5) {
-               double v = Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy());
-               state.setVx(5 * state.getVx() / v);
-               state.setVy(5 * state.getVy() / v);
-            }
             state = matFun.RK4(state, 0.1);
 
+
             if (matFun.closestDistance <= trashHold) {
+//            System.out.println("distance to hole " + state.distanceTo(hole));
+            if (state.distanceTo(hole) <= trashHold) {
 //               System.out.println("state " + state);
 //               System.out.println("distance to hole " + state.distanceTo(hole));
 //               System.out.println("start climb");
@@ -62,11 +60,11 @@ public class HillClimbing {
       }
       //System.out.println("VECTOR AFTER: " + stateCopy);
 
-      if(stateCopy.distanceTo(hole) < 0.1){
+      if(stateCopy.distanceTo(hole) < 0.15){
          System.out.println("is in hole 1");
          return state;
       }
-      else if (stateCopy.getX() == hole.getX() && stateCopy.getY() == hole.getY() || Math.abs(stateCopy.getX() - hole.getX()) < 0.17 && Math.abs(stateCopy.getY() - hole.getY()) < 0.17) {
+      else if (stateCopy.getX() == hole.getX() && stateCopy.getY() == hole.getY() || Math.abs(stateCopy.getX() - hole.getX()) < 0.15 && Math.abs(stateCopy.getY() - hole.getY()) < 0.15) {
          System.out.println("is in hole 2");
          return state;
       }
