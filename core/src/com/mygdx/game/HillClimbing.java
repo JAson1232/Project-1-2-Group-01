@@ -57,8 +57,10 @@ public class HillClimbing {
    // hill climbing itself
    public Vector climb(Vector state, Vector hole, double n) throws FileNotFoundException {
       //System.out.println("VECTOR BEFORE: " + state);
-      Vector stateCopy = state;
       Game game = new Game();
+      game.createField();
+      Vector stateCopy = state;
+      
       Ball ball = new Ball(stateCopy);
 
       while (hasNotStopped(stateCopy, px)) {
@@ -77,7 +79,7 @@ public class HillClimbing {
       }
       //System.out.println("VECTOR AFTER: " + stateCopy);
       System.out.println(stateCopy.distanceTo(hole));
-      if((int)stateCopy.distanceTo(hole) < 15){
+      if((int)stateCopy.distanceTo(hole) <= 15){
          System.out.println("is in hole 1");
          return state;
       }
