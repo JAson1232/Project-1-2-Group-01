@@ -13,8 +13,10 @@ public class Experiments {
 //what you want, also set height function to 0
 
     public static void main(String[] args) throws FileNotFoundException {
+
+        
         try {
-        FileWriter myWriter = new FileWriter("RK4ComputationTimesVsStepSize.txt");
+        FileWriter myWriter = new FileWriter("EulerComputationTimesVsStepSize.txt");
 
         
         long startTime = 0;
@@ -23,11 +25,11 @@ public class Experiments {
            // state = math.RK4(state,h);
             //state = math.RK2(state, h);
             state = math.euler(state, h);
-            System.out.println(state);
+           // System.out.println(state);
         }
         long stopTime = System.nanoTime();
-        System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
-        myWriter.write("Time: " + (stopTime - startTime)/1000000000.000000000 + " Step Size: "+ h + " Final Position: " + state);
+       // System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
+        System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000 + " Step Size: "+ h + " Final Position: " + state);
 
         myWriter.close();
        
