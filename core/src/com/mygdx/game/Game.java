@@ -28,8 +28,8 @@ public class Game extends ApplicationAdapter {
 	HillClimbing hc = new HillClimbing();
 	float ballX = Float.parseFloat(reader.compute().get(0)) + 100;
 	float ballY = Float.parseFloat((reader.compute().get(1))) + 50;
-	float holeX = Float.parseFloat((reader.compute().get(2))) + 100 * 4;
-	float holeY = Float.parseFloat((reader.compute().get(3))) + 100 * 4;
+	public float holeX = Float.parseFloat((reader.compute().get(2))) + 100 * 4;
+	public float holeY = Float.parseFloat((reader.compute().get(3))) + 100 * 4;
 	velocityReader reader2 = new velocityReader();
 	float vx = velocityReader.compute().get(0);
 	float vy = velocityReader.compute().get(1);

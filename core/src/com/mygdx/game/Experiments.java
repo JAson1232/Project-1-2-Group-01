@@ -2,6 +2,7 @@ package com.mygdx.game;
 import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.FileNotFoundException;
+import PSO.*;
 
 public class Experiments {
     static MathFunctions math = new MathFunctions();
@@ -21,10 +22,13 @@ public class Experiments {
         startTime = System.nanoTime();
         for(double i = 0.0; i < time+h; i+=h) {
            // state = math.RK4(state,h);
-            //state = math.RK2(state, h);
-            state = math.euler(state, h);
-            System.out.println(state);
+            state = math.RK2(state, h);
+            //state = math.euler(state, h);
+
+            //System.out.println(state);
         }
+        //PSO pso = new PSO();
+        //System.out.println(pso.holeInState(pso.initializeSwarm()));
         long stopTime = System.nanoTime();
         System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
         myWriter.write("Time: " + (stopTime - startTime)/1000000000.000000000 + " Step Size: "+ h + " Final Position: " + state);

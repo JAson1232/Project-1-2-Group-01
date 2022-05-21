@@ -70,7 +70,7 @@ public class MathFunctions {
      * @return New state
      * @throws FileNotFoundException
      */
-    Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
+    public Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
         HillClimbing.counter1++;
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
