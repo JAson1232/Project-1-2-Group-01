@@ -13,7 +13,7 @@ public class HillClimbing {
 
    // perform random shoots and if one stopped in threshold start climbing
    public Vector HillClimbing(Vector position, Vector[][] fieldToVisit, int n, double holeX, double holeY) throws FileNotFoundException {
-      double trashHold = 2 ;
+      double trashHold = 1.5;
       Vector hole = new Vector(holeX,holeY,0,null,0,0);
 
       for(int i=0; i< n; i++) {
@@ -32,13 +32,18 @@ public class HillClimbing {
             }
             state = matFun.RK4(state, 0.1);
 
-            if (state.distanceTo(hole) <= trashHold) {
+            //matFun.closestDistance
+            //state.distanceTo(hole)
+            //System.out.println("dist " + matFun.closestDistance);
+
+            if (matFun.closestDistance <= trashHold) {
 //               System.out.println("state " + state);
 //               System.out.println("distance to hole " + state.distanceTo(hole));
 //               System.out.println("start climb");
 //               System.out.println("vectorToClimb " + stateCopy);
                return climb(stateCopy, hole, 0.075);
             }
+            matFun.closestDistance = 0;
          }
       }
       return null;
@@ -60,13 +65,13 @@ public class HillClimbing {
          //stateCopy = matFun.euler(stateCopy, 0.1);
       }
       //System.out.println("VECTOR AFTER: " + stateCopy);
-
-      if(stateCopy.distanceTo(hole) < 0.1){
-         //System.out.println("is in hole 1");
+      //matFun.closestDistance
+      if(matFun.closestDistance < 0.15){
+         System.out.println("is in hole 1");
          return state;
       }
       else if (stateCopy.getX() == hole.getX() && stateCopy.getY() == hole.getY() || Math.abs(stateCopy.getX() - hole.getX()) < 0.15 && Math.abs(stateCopy.getY() - hole.getY()) < 0.15) {
-         //System.out.println("is in hole 2");
+         System.out.println("is in hole 2");
          return state;
       }
 
@@ -119,13 +124,14 @@ public class HillClimbing {
          //System.out.println("dist11 is smallest");
          return climb(state11, hole, n);
       }
-      return state;
+      return null;
    }
 
    // simulate a shoot and calculate the distance to the hole after
    private double simulate(Vector state, double h, Vector hole) throws FileNotFoundException {
       counter++;
       Vector stateCopy = state;
+      double dist = 0;
       while (hasNotStopped(stateCopy, px)) {
          if (Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy()) > 5) {
             double v = Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy());
@@ -133,9 +139,13 @@ public class HillClimbing {
             stateCopy.setVy(5 * stateCopy.getVy() / v);
          }
          stateCopy = matFun.RK4(stateCopy, h);
+         dist = matFun.closestDistance;
+         //System.out.println("dist " + matFun.closestDistance);
       }
+      matFun.closestDistance = 0;
       //System.out.println("stateStop " + stateCopy);
-      double dist = stateCopy.distanceTo(hole);
+      //double dist = stateCopy.distanceTo(hole);
+      //System.out.println("edist " + stateCopy.distanceTo(hole));
       return dist;
    }
 
@@ -173,6 +183,4 @@ public class HillClimbing {
       System.out.println("number of total simulations " + counter1);
 
    }
-
-
 }
