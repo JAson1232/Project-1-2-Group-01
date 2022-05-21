@@ -99,21 +99,22 @@ public class Game extends ApplicationAdapter {
 						f.f((double) j - field.length / 2, (double) i - field.length / 2, 0, 0), null, 0, 0);
 			}
 		}
-
-		for (int i = 5; i < 10; i++) {
+		//Obstacle 1
+		for (int i = 5; i < 20; i++) {
 			for (int j = 50; j < 55; j++) {
-				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+				//vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
 		}
-
+		//Obstacle 2
 		for (int j = 5; j < 10; j++) {
 			for (int i = 30; i < 35; i++) {
-				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+				//vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
 		}
+		//Obstacle 3
 		for (int j = 55; j < 60; j++) {
 			for (int i = 35; i < 40; i++) {
-				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+				//vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
 		}
 
@@ -345,6 +346,8 @@ public class Game extends ApplicationAdapter {
 										   ball.holeIn = true;
 										   ball.moving = false;
 										   ball.winner = true;
+										   ball.state.setVx(3.4971);
+			ball.state.setVy(0.5588);
 										   System.out.println("Hill");
 										   long stopTime = System.nanoTime();
 							
@@ -362,6 +365,8 @@ public class Game extends ApplicationAdapter {
 							ball.holeIn = true;
 							ball.moving = false;
 							ball.winner = true;
+							ball.state.setVx(3.4971);
+			ball.state.setVy(0.5588);
 							System.out.println("Random");
 							long stopTime = System.nanoTime();
 							
@@ -414,6 +419,7 @@ public class Game extends ApplicationAdapter {
 			// Changes color of background
 			ball.setX(ballX);
 			ball.setY(ballY);
+			
 			if (isStarted == false) {
 				ball.readVelocity = true;
 			}

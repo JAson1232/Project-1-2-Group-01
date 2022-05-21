@@ -14,8 +14,10 @@ public class Experiments {
 //what you want, also set height function to 0
 
     public static void main(String[] args) throws FileNotFoundException {
+
+        
         try {
-        FileWriter myWriter = new FileWriter("RK4ComputationTimesVsStepSize.txt");
+        FileWriter myWriter = new FileWriter("EulerComputationTimesVsStepSize.txt");
 
         
         long startTime = 0;
@@ -30,8 +32,8 @@ public class Experiments {
         //PSO pso = new PSO();
         //System.out.println(pso.holeInState(pso.initializeSwarm()));
         long stopTime = System.nanoTime();
-        System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
-        myWriter.write("Time: " + (stopTime - startTime)/1000000000.000000000 + " Step Size: "+ h + " Final Position: " + state);
+       // System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
+        System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000 + " Step Size: "+ h + " Final Position: " + state);
 
         myWriter.close();
        
