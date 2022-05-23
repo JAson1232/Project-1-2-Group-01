@@ -22,10 +22,10 @@ public class Experiments {
         long startTime = 0;
         startTime = System.nanoTime();
         for(double i = 0.0; i < time+h; i+=h) {
-           // state = math.RK4(state,h);
+           state = math.RK4(state,h);
             //state = math.RK2(state, h);
-            state = math.euler(state, h);
-           // System.out.println(state);
+           // state = math.euler(state, h);
+            System.out.println(state);
         }
         long stopTime = System.nanoTime();
        // System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);

@@ -41,7 +41,7 @@ public class HillClimbing {
             
             
           //  System.out.println(state);
-          System.out.println(state.distanceTo(hole));
+         // System.out.println(state.distanceTo(hole));
             if (state.distanceTo(hole) <= 10) {
 //               System.out.println("state " + state);
 //               System.out.println("distance to hole " + state.distanceTo(hole));
@@ -75,10 +75,10 @@ public class HillClimbing {
          stateCopy = ball.state;
          //stateCopy = matFun.RK2(stateCopy, 0.1);
          //stateCopy = matFun.euler(stateCopy, 0.1);
-         System.out.println(stateCopy.distanceTo(hole));
+        // System.out.println(stateCopy.distanceTo(hole));
       }
       //System.out.println("VECTOR AFTER: " + stateCopy);
-      System.out.println(stateCopy.distanceTo(hole));
+      //System.out.println(stateCopy.distanceTo(hole));
       if((int)stateCopy.distanceTo(hole) <= 15){
          System.out.println("is in hole 1");
          return state;

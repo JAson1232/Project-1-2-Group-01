@@ -16,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Game extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
@@ -30,6 +33,7 @@ public class Game extends ApplicationAdapter {
 	float ballY = Float.parseFloat((reader.compute().get(1))) + 50;
 	float holeX = Float.parseFloat((reader.compute().get(2))) + 100 * 4;
 	float holeY = Float.parseFloat((reader.compute().get(3))) + 100 * 4;
+	ArrayList<Double> times = new ArrayList<>();
 	velocityReader reader2 = new velocityReader();
 	float vx = velocityReader.compute().get(0);
 	float vy = velocityReader.compute().get(1);
@@ -100,7 +104,7 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 		//Obstacle 1
-		for (int i = 5; i < 20; i++) {
+		for (int i = 5; i < 10; i++) {
 			for (int j = 50; j < 55; j++) {
 				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
@@ -242,7 +246,8 @@ public class Game extends ApplicationAdapter {
 			for (int i = 0; i < balls.length; i++) {
 				first = false;
 				ball = balls[i];
-
+				
+				
 				/*
 				 * if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && ball.moving ) {
 				 * ball = moveBall(ball);
@@ -296,7 +301,7 @@ public class Game extends ApplicationAdapter {
 								first = !first;
 								System.out.println("Shooting with vx: " + ball.vx + " vy: " + ball.vy);
 							}
-							System.out.println(ball.state);
+							//System.out.println(ball.state);
 							// Set readVelocity to false to disable manual velocity inputs as well as
 							// uncomment following else{} statement
 							// readVelocity = false;
@@ -330,6 +335,7 @@ public class Game extends ApplicationAdapter {
 
 						
 						// System.out.println("here");
+						/*
 						if (ball.state.distanceTo(hole) <= 17) {
 							//               System.out.println("state " + state);
 							//               System.out.println("distance to hole " + state.distanceTo(hole));
@@ -341,42 +347,59 @@ public class Game extends ApplicationAdapter {
 												// TODO Auto-generated catch block
 												e.printStackTrace();
 											}
-											System.out.println(ball.state.getX());
-											System.out.println(ball.state.getY());
+											//System.out.println(ball.state.getX());
+											//System.out.println(ball.state.getY());
 										   ball.holeIn = true;
 										   ball.moving = false;
-										   ball.winner = true;
+										  ball.winner = true;
+										   if(!(times.size() < 11)){
+											holeIn =true;
+											ball.holeIn = true;
+										   ball.moving = false;
+										  ball.winner = true;
+										   }
+										   first2 = true;
 										   
-										   System.out.println("Hill");
+										   
+										  // System.out.println("Hill");
 										   long stopTime = System.nanoTime();
-							
+							double finalTime = (stopTime - startTime)/1000000000.000000000;
 											System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
 										   //System.out.println(ball.winner);
-										   holeIn = true;
+										   //holeIn = true;
 										   //shapeRenderer.end();
 										   //System.out.println(holeIn);
 										   shapeRenderer.flush();
+										   times.add(finalTime);
 										   break;
 										}
+										*/
 						if (Math.abs(holeX - ball.state.getX()) <= 15 && Math.abs(holeY - ball.state.getY()) <= 15) {
-							System.out.println(ball.state.getX());
-							System.out.println(ball.state.getY());
 							ball.holeIn = true;
-							ball.moving = false;
-							ball.winner = true;
-							ball.state.setVx(3.4971);
-			ball.state.setVy(0.5588);
-							System.out.println("Random");
-							long stopTime = System.nanoTime();
-							
-							System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
-							// System.out.println(ball.winner);
-							holeIn = true;
-							// shapeRenderer.end();
-							// System.out.println(holeIn);
-							shapeRenderer.flush();
-							break;
+										   ball.moving = false;
+										  ball.winner = true;
+										   if(!(times.size() < 101)){
+											holeIn =true;
+											ball.holeIn = true;
+										   ball.moving = false;
+										  ball.winner = true;
+										   }
+										   first2 = true;
+										   
+										   
+										  // System.out.println("Hill");
+										   long stopTime = System.nanoTime();
+							double finalTime = (stopTime - startTime)/1000000000.000000000;
+											System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
+										   //System.out.println(ball.winner);
+										   //holeIn = true;
+										   //shapeRenderer.end();
+										   //System.out.println(holeIn);
+										   shapeRenderer.flush();
+										   times.add(finalTime);
+										   break;
 						}
+						
 
 						// Ball still visible
 						if (!ball.holeIn) {
@@ -416,8 +439,31 @@ public class Game extends ApplicationAdapter {
 
 		} else if (Bot) {
 			// Changes color of background
+			try {
+				
+				if(first2){
+					FileWriter myWriter = new FileWriter("DataRandom.txt");
+					double sum =0;
+				for(double a : times){
+					System.out.println(a);
+					sum += a;
+					myWriter.write(Double.toString(a) + "\n");
+	
+				}
+				
+				myWriter.write("Average: " + sum/times.size());
+				first2 = false;
+				myWriter.close();
+			}
+			
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			ball.setX(ballX);
 			ball.setY(ballY);
+			
 			//System.out.println(ball.state.getVx());
 			//System.out.println(ball.state.getVy());
 			
