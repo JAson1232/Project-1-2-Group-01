@@ -378,13 +378,16 @@ public class Game extends ApplicationAdapter {
 							ball.holeIn = true;
 										   ball.moving = false;
 										  ball.winner = true;
+										  /*
 										   if(!(times.size() < 101)){
 											holeIn =true;
 											ball.holeIn = true;
 										   ball.moving = false;
 										  ball.winner = true;
 										   }
+										   
 										   first2 = true;
+										   */
 										   
 										   
 										  // System.out.println("Hill");
@@ -392,7 +395,7 @@ public class Game extends ApplicationAdapter {
 							double finalTime = (stopTime - startTime)/1000000000.000000000;
 											System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
 										   //System.out.println(ball.winner);
-										   //holeIn = true;
+										   holeIn = true;
 										   //shapeRenderer.end();
 										   //System.out.println(holeIn);
 										   shapeRenderer.flush();
