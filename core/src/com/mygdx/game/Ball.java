@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Ball {
 
@@ -18,6 +19,8 @@ public class Ball {
     public double vx;
     public double vy;
     public boolean winner = false;
+    ArrayList<int[]> velocities;
+    public int distanceToHole;
 
     /**
      * Constructor; clones state of ball in parameter
@@ -25,6 +28,8 @@ public class Ball {
      */
     public Ball(Vector state){
         this.state = state.clone();
+        this.velocities = new ArrayList<>();
+        this.distanceToHole = 9999;
     }
 
     /**

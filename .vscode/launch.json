@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MatrixShortestDistanceBFS",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.MatrixShortestDistanceBFS",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.Main",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch ShortestPath",
+            "request": "launch",
+            "mainClass": "com.mygdx.game.ShortestPath",
+            "projectName": "Project-1-2-core"
+        },
+        {
+            "type": "java",
             "name": "Launch HillClimbing",
             "request": "launch",
             "mainClass": "com.mygdx.game.HillClimbing",

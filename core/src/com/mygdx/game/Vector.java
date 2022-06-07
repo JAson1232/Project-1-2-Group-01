@@ -28,6 +28,10 @@ public class Vector {
      * Getter method
      * @return x
      */
+
+    public Tile getTile(){
+        return this.t;
+    }
     public double getX() {
         return this.x;
     }
