@@ -15,17 +15,19 @@ public class PSO {
     HeightFunction fhc  = new HeightFunction();
     PartialDerivative px = new PartialDerivative(fhc);
     MathFunctions matFun = new MathFunctions();
-    Particle[] swarm = new PSO().initializeSwarm();
+    
+    Particle[] swarm  = new Particle[SWARM_SIZE];
+    //swarm = initializeSwarm();
     
     public static int SWARM_SIZE = 100;
     //weight for personal best(pBest) component
-    double IND_WEIGHT = 2;
+    double IND_WEIGHT = 0.2;
     //weight for swarm best component
-    double  SOCIAL_WEIGHT = 2;
+    double  SOCIAL_WEIGHT = 0.5;
     //weight for Search component
-    int SEARCH_WEIGHT = 2;
+    double SEARCH_WEIGHT = 0.2;
     //# of iteartions of PSO
-    int iterationsNumber = 100;
+    int iterationsNumber = 10;
 
     //index of a bestFit particle
     int bestIndex = 0;
@@ -47,6 +49,7 @@ public class PSO {
             p.setVelocity(new Velocity(vx,vy));
             p.setLocation(new Position(xl,yl));
             swarm[i]=p;
+            pBest[i]=p;
         }
         return swarm;
     }
@@ -78,8 +81,9 @@ public class PSO {
     }
  
     public Vector holeInState(Particle[] swarm) throws FileNotFoundException {
+        swarm = initializeSwarm();
         Game game = new Game();
-        Vector hole = new Vector(game.holeX,game.holeY,0,null,0,0);
+        Vector hole = new Vector(404,401,0,null,0,0);
         Vector best = new Vector(0,0,0,null,0,0);
         for(int n=0;n<iterationsNumber;n++){
             for(int i=0;i<SWARM_SIZE;i++){
@@ -108,9 +112,8 @@ public class PSO {
                 double vx = calcNewVX(i,r1, r2);
                 double vy = calcNewVY(i,r1,r2);
                 swarm[i].setVelocity( new Velocity(vx,vy));
-                xl =pBest[i].getVelocity().getVx();
-                yl = pBest[i].getVelocity().getVx();
-                best =  new Vector(0, 0, 0,null,xl,yl);
+                //best.setVy(pBest[i].getVelocity().getVx());
+                //best.setVx(pBest[i].getVelocity().getVx());
             }
         }
 
