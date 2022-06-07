@@ -12,6 +12,34 @@ public class MathFunctions {
         System.out.println(newPosition.toString());
     }
 
+    /***
+     *  calculate the linear function derived from the ball trajectory and the wall segment
+     * @param StartX
+     * @param StartY
+     * @param EndX
+     * @param EndY
+     * @return A linear function derived from two points
+     */
+    public static LinearFunction linear(double StartX, double StartY,
+                          double EndX, double EndY){
+        double slope = (EndY-StartY)/(EndX-StartX);
+        double constant = StartY-slope*StartX;
+        return new LinearFunction(slope,constant);
+    }
+
+    /***
+     * calculate the intersection's x & y coordinate
+     * @param f1
+     * @param f2
+     * @return a vector with the intersection's x & y coordinate
+     */
+    public static Vector calculateLinearIntersection(LinearFunction f1,LinearFunction f2){
+        double x = (f2.getConstant()-f1.getConstant())/(f1.getSlope()-f2.getSlope());
+        double y = f1.getSlope()*x+f1.getConstant();
+
+        return new Vector(x ,y,0,null,0,0);
+    }
+
     /**
      * Function for Euler's formula
      * @param StateVector
@@ -106,7 +134,6 @@ public class MathFunctions {
                 ax.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()),
                 ay.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()));
         Vector sum = k_i_1.sum(k_i_2.scale(2)).sum(k_i_3.scale(2)).sum(k_i_4);
-        
         return StateVector.sum(sum.scale(h/6));
     }
 
