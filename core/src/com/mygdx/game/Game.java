@@ -626,9 +626,7 @@ public class Game extends ApplicationAdapter {
 		if (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 			try {
-
-				ball.state = math.euler(ball.state, h);
-				// System.out.println(ball.state);
+				ball.state = math.BD2(ball.state, h);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
