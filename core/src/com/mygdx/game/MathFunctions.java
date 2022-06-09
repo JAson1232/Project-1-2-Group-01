@@ -154,10 +154,11 @@ public class MathFunctions {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         // Using RK to bootstrap w_(i - 1) and w_(i - 2)
-        if(w_prev2 == null || w_prev == null) {
+        if(w_prev2 == null && w_prev == null) {
             // Bootstrap w_(i - 2)
-            w_prev2 = RK4(StateVector, h);
+            w_prev2 = StateVector;
             w_prev = RK4(StateVector, h);
+            return w_prev;
         }
 
         Vector first = new Vector(w_prev.getVx(),
@@ -177,8 +178,8 @@ public class MathFunctions {
 
         Vector sum = first.subtract(second).scale(h/2);
         w_prev2 = w_prev;
-        w_prev = StateVector;
-        return StateVector.sum(sum);
+        w_prev = w_prev.sum(sum);
+        return w_prev;
     }
 
     /**
@@ -193,11 +194,14 @@ public class MathFunctions {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         // Using RK to bootstrap w_(i - 1), w_(i - 2), and w_(i - 3)
-        if(w_prev3 == null || w_prev2 == null || w_prev == null) {
+        if(w_prev3 == null && w_prev2 == null && w_prev == null) {
             // Bootstrap w_(i - 2)
-            w_prev3 = RK4(StateVector, h);
+            w_prev3 = StateVector;
             w_prev2 = RK4(w_prev3, h);
+            return w_prev2;
+        } else if(w_prev == null) {
             w_prev = RK4(w_prev2, h);
+            return w_prev;
         }
 
         Vector first = new Vector(w_prev.getVx(),
@@ -227,8 +231,8 @@ public class MathFunctions {
         Vector sum = (first.subtract(second).sum(third)).scale(h/12);
         w_prev3 = w_prev2;
         w_prev2 = w_prev;
-        w_prev = StateVector;
-        return StateVector.sum(sum);
+        w_prev = w_prev.sum(sum);
+        return w_prev;
     }
 
     /**
@@ -243,10 +247,11 @@ public class MathFunctions {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         // Using RK to bootstrap w_(i - 1)
-        if(w_prev == null || w_current == null) {
+        if(w_prev == null && w_current == null) {
             // Bootstrap w_(i - 1), w_i
-            w_prev = RK4(StateVector, h);
+            w_prev = StateVector;
             w_current = RK4(w_prev, h);  
+            return w_current;
         }
 
         w_next = RK4(w_current, h);
@@ -275,7 +280,7 @@ public class MathFunctions {
                                     ay.f(w_prev.getX(), w_prev.getY(), w_prev.getVx(), w_prev.getVy()));
 
         Vector sum = first.sum(second).subtract(third).scale(h/12);
-        w_prev = StateVector;
+        w_prev = w_current;
         w_current = StateVector.sum(sum);
         return w_current;
     }
@@ -292,12 +297,14 @@ public class MathFunctions {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         // Using RK to bootstrap w_(i - 1)
-        if(w_prev == null || w_next == null) {
+        if(w_prev == null && w_current == null) {
             // Bootstrap w_(i - 1), w_i
-            w_prev = RK4(StateVector, h);
-            w_current = RK4(w_prev, h);
+            w_prev = StateVector;
+            w_current = RK4(StateVector, h);
+            return w_current;
         }
 
+        // Bootstrap w_(i + 1)
         w_next = RK4(w_current, h);
         
         Vector first = new Vector(w_next.getVx(),
@@ -308,9 +315,10 @@ public class MathFunctions {
                                     ay.f(w_next.getX(), w_next.getY(), w_next.getVx(), w_next.getVy()))
                                     .scale(2*h/3);
 
+        w_next = w_current.scale(4/3).subtract(w_prev.scale(1/3)).sum(first);
         w_prev = w_current;
-        w_current = w_current.scale(4/3).subtract(w_prev.scale(1/3)).sum(first);;
-        return w_current;
+        w_current = w_next;
+        return w_next;
     }
 
     public double computeAngle(double angle){
