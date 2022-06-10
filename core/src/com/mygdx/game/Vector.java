@@ -135,6 +135,15 @@ public class Vector {
     }
 
     /**
+     * Subtracts another vector from current vector
+     * @param v
+     * @return Added vectors
+     */
+    public Vector subtract(Vector v){
+        return new Vector(this.x - v.x,this.y - v.y, this.z - v.z, this.t, this.vx - v.vx, this.vy - v.vy);
+    }
+
+    /**
      * Scaled vectors
      * @param magnitude
      * @return Scaled vectors
