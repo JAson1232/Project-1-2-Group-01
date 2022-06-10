@@ -22,11 +22,13 @@ import java.util.ArrayList;
 
 public class Game extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
+	boolean prevBot = true;
 	double stepSize = 0.1;
 	double h = stepSize;
 	MathFunctions math = new MathFunctions();
 	long startTime;
 	// Starting position
+	ArrayList<double[]> velocities = new ArrayList<>();
 	Reader reader = new Reader();
 	HillClimbing hc = new HillClimbing();
 	float ballX = Float.parseFloat(reader.compute().get(0)) + 100;
@@ -45,6 +47,7 @@ public class Game extends ApplicationAdapter {
 	boolean inWater = false;
 	boolean first = false;
 	boolean first2 = true;
+	boolean one = true;;
 	float trajecX, trajecY;
 	double angle = 90;
 	double lineLength = 100;
@@ -102,25 +105,33 @@ public class Game extends ApplicationAdapter {
 						f.f((double) j - field.length / 2, (double) i - field.length / 2, 0, 0), null, 0, 0);
 			}
 		}
-		// Obstacle 1
-		for (int i = 5; i < 10; i++) {
-			for (int j = 50; j < 55; j++) {
-				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+		//Obstacle 1
+		for (int j = 10; j < 12; j++) {
+			for (int i = 10; i < 40; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
 			}
 		}
-		// Obstacle 2
-		for (int j = 5; j < 10; j++) {
-			for (int i = 30; i < 35; i++) {
-				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+		//Obstacle 2
+		for (int j = 10; j < 55; j++) {
+			for (int i = 10; i < 12; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
 			}
 		}
-		// Obstacle 3
-		for (int j = 55; j < 60; j++) {
-			for (int i = 35; i < 40; i++) {
-				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+		//Obstacle 4
+		for (int j = 10; j < 30; j++) {
+			for (int i = 38; i < 40; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
 			}
 		}
-
+		//Obstacle 3
+		for (int j = 53; j < 55; j++) {
+			for (int i = 12; i < 30; i++) {
+			vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+			}
+		}
+		//ShortestPath.convertMatrix(vectors);
+		//vectors[(int)ballX/10][(int)ballY/10].setZ(7.5);
+		vectors[(int)holeY/10][(int)holeX/10].setZ(9);
 		return vectors;
 	}
 
@@ -160,6 +171,7 @@ public class Game extends ApplicationAdapter {
 			stage.addActor(title);
 			stage.addActor(groupName);
 			stage.addActor(image);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -193,6 +205,8 @@ public class Game extends ApplicationAdapter {
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			// Illustrates heights of field
+			// Gdx.graphics.setWindowedMode(1030, 800);
+
 			for (int i = 0; i < fieldWidth; i++) {
 				for (int j = 0; j < fieldLength; j++) {
 					if (vectors[j][i].getZ() >= 0 && vectors[j][i].getZ() < 5) {
@@ -200,7 +214,7 @@ public class Game extends ApplicationAdapter {
 						shapeRenderer.setColor(0, color, 0, 1);
 					} else if (vectors[j][i].getZ() < 0) {
 						shapeRenderer.setColor(0, 0, 1, 1);
-					} else {
+					} else if(vectors[j][i].getZ() > 5 && vectors[j][i].getZ() <7){
 						shapeRenderer.setColor(Color.BROWN);
 					}
 					shapeRenderer.rect(10 * i, 10 * j, 10, 10);
@@ -237,6 +251,132 @@ public class Game extends ApplicationAdapter {
 				}
 			}
 			shapeRenderer.end();
+			boolean notIN =true;
+
+//-------------------------------------------------------------------------------------
+			if(prevBot){
+
+				while(notIN){
+				for (int i = 0; i < balls.length; i++) {
+					first = false;
+					ball = balls[i];
+
+					if (holeIn == false) {
+	
+						while (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
+								&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
+
+							ball = moveBall(ball);
+							double randomValue = 5;
+							strengthLength = randomValue;
+							if (!ball.moving) {
+								numOfHits++;
+								ball.moving = true;
+							}
+							if (!ball.holeIn) {
+								vXX = getSpeed((int) (Math.random() * 360))[0];
+								vYY = getSpeed((int) (Math.random() * 360))[1];
+								if (!first) {
+									ball.vx = vXX *10;
+									ball.vy = vYY * 10;
+									ball.state.setVx(ball.vx);
+									ball.state.setVy(ball.vy);
+									first = !first;
+									System.out.println("Shooting with vx: " + ball.vx + " vy: " + ball.vy);
+								}
+								if (ball.readVelocity) {
+									prevX = ball.state.getX();
+									prevY = ball.state.getY();
+								}
+								if (ball.inWater) {
+									ball.state.setVx(0);
+									ball.state.setVy(0);
+								}		
+							}
+							if (ball.state.distanceTo(hole) <= 17) {
+												try {
+													System.out.println(hc.climb(ball.state, hole, 0.075));
+												} catch (FileNotFoundException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+											   ball.holeIn = true;
+											   ball.moving = false;
+											   ball.winner = true;
+											   first2 = true;
+											   long stopTime = System.nanoTime();
+											   double finalTime = (stopTime - startTime)/1000000000.000000000;
+											   System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
+											   holeIn = true;
+											   notIN = false;
+											   shapeRenderer.flush();
+											   times.add(finalTime);
+											   break;
+											}
+							// Ball still visible
+							if (!ball.holeIn) {
+								ball.inWater = false;
+							}
+						}
+						try {
+							vectors = createField();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						vectors[(int)ball.state.getY()/10][(int)ball.state.getX()/10].setZ(7.5);
+						ball.distanceToHole = MatrixShortestDistanceBFS.getFood(MatrixShortestDistanceBFS.convertMatrix(vectors));
+						System.out.println("Done");
+						System.out.println(ball.distanceToHole);
+						
+	
+						// Hole
+	
+					} else if (holeIn) {
+	
+						// System.out.println("double");
+						for (int j = 0; j < balls.length; j++) {
+							// System.out.println(balls[j].winner);
+							if (balls[j].winner == true) {
+								ball = new Ball(new Vector(ballX, ballY, 0, null, balls[j].getVx(), balls[j].getVy()));
+								ball.holeIn = false;
+								ball.moving = false;
+								Bot = true;
+								notIN = false;
+	
+							}
+						}
+	
+					}
+					shapeRenderer.end();
+					
+				}
+				System.out.println("------------");
+				Ball min =balls[0];
+				for(int b =0; b<balls.length;b++){
+					if(balls[b].distanceToHole < min.distanceToHole){
+						min = balls[b];
+
+					}
+
+				}
+				double[] finalV = new double[2];
+				finalV[0] = min.getVx();
+				finalV[1] = min.getVy();
+				velocities.add(finalV);
+				
+				Vector state = new Vector(min.state.getX(), min.state.getY(), 0, null,0, 0);
+				for(int b =0; b<balls.length;b++){
+					balls[b] = new Ball(state);
+				}
+
+
+
+
+				//-------------------------------------------------------------------------------------------------------
+			}
+			System.out.println("Here");
+			}else{
 			for (int i = 0; i < balls.length; i++) {
 				first = false;
 				ball = balls[i];
@@ -311,71 +451,80 @@ public class Game extends ApplicationAdapter {
 								// strengthY=0;
 							}
 						}
-						/* Hill climbing
-						 * if (ball.state.distanceTo(hole) <= 17) {
-						 * // System.out.println("state " + state);
-						 * // System.out.println("distance to hole " + state.distanceTo(hole));
-						 * System.out.println("start climb");
-						 * // System.out.println("vectorToClimb " + stateCopy);
-						 * try {
-						 * System.out.println(hc.climb(ball.state, hole, 0.075));
-						 * } catch (FileNotFoundException e) {
-						 * e.printStackTrace();
-						 * }
-						 * //System.out.println(ball.state.getX());
-						 * //System.out.println(ball.state.getY());
-						 * ball.holeIn = true;
-						 * ball.moving = false;
-						 * ball.winner = true;
-						 * if(!(times.size() < 11)){
-						 * holeIn =true;
-						 * ball.holeIn = true;
-						 * ball.moving = false;
-						 * ball.winner = true;
-						 * }
-						 * first2 = true;
-						 * 
-						 * 
-						 * // System.out.println("Hill");
-						 * long stopTime = System.nanoTime();
-						 * double finalTime = (stopTime - startTime)/1000000000.000000000;
-						 * System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
-						 * //System.out.println(ball.winner);
-						 * //holeIn = true;
-						 * //shapeRenderer.end();
-						 * //System.out.println(holeIn);
-						 * shapeRenderer.flush();
-						 * times.add(finalTime);
-						 * break;
-						 * }
-						 */
+
+						
+						// System.out.println("here");
+						
+						if (ball.state.distanceTo(hole) <= 17) {
+							//               System.out.println("state " + state);
+							//               System.out.println("distance to hole " + state.distanceTo(hole));
+										   System.out.println("start climb");
+							//               System.out.println("vectorToClimb " + stateCopy);
+											try {
+												System.out.println(hc.climb(ball.state, hole, 0.075));
+											} catch (FileNotFoundException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											//System.out.println(ball.state.getX());
+											//System.out.println(ball.state.getY());
+										   ball.holeIn = true;
+										   ball.moving = false;
+										  ball.winner = true;
+										  /*
+										   if(!(times.size() < 11)){
+											holeIn =true;
+											ball.holeIn = true;
+										   ball.moving = false;
+										  ball.winner = true;
+										   }
+										   */
+										   first2 = true;
+										   
+										   
+										  // System.out.println("Hill");
+										   long stopTime = System.nanoTime();
+							double finalTime = (stopTime - startTime)/1000000000.000000000;
+											System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
+										   //System.out.println(ball.winner);
+										   holeIn = true;
+										   //shapeRenderer.end();
+										   //System.out.println(holeIn);
+										   shapeRenderer.flush();
+										   times.add(finalTime);
+										   break;
+										}
+									/*	
 						if (Math.abs(holeX - ball.state.getX()) <= 15 && Math.abs(holeY - ball.state.getY()) <= 15) {
 							ball.holeIn = true;
-							ball.moving = false;
-							ball.winner = true;
-							/*
-							 * if(!(times.size() < 101)){
-							 * holeIn =true;
-							 * ball.holeIn = true;
-							 * ball.moving = false;
-							 * ball.winner = true;
-							 * }
-							 * 
-							 * first2 = true;
-							 */
-
-							// System.out.println("Hill");
-							long stopTime = System.nanoTime();
-							double finalTime = (stopTime - startTime) / 1000000000.000000000;
-							System.out.println("Time: " + (stopTime - startTime) / 1000000000.000000000);
-							// System.out.println(ball.winner);
-							holeIn = true;
-							// shapeRenderer.end();
-							// System.out.println(holeIn);
-							shapeRenderer.flush();
-							times.add(finalTime);
-							break;
+										   ball.moving = false;
+										  ball.winner = true;
+										  /*
+										   if(!(times.size() < 101)){
+											holeIn =true;
+											ball.holeIn = true;
+										   ball.moving = false;
+										  ball.winner = true;
+										   }
+										   
+										   first2 = true;
+										   
+										   
+										   
+										  // System.out.println("Hill");
+										   long stopTime = System.nanoTime();
+							double finalTime = (stopTime - startTime)/1000000000.000000000;
+											System.out.println("Time: " + (stopTime - startTime)/1000000000.000000000);
+										   //System.out.println(ball.winner);
+										   holeIn = true;
+										   //shapeRenderer.end();
+										   //System.out.println(holeIn);
+										   shapeRenderer.flush();
+										   times.add(finalTime);
+										   break;
 						}
+						*/
+						
 
 						// Ball still visible
 						if (!ball.holeIn) {
@@ -410,6 +559,7 @@ public class Game extends ApplicationAdapter {
 				}
 				shapeRenderer.end();
 			}
+		}
 
 		} else if (Bot) {
 			// Changes color of background
@@ -452,7 +602,7 @@ public class Game extends ApplicationAdapter {
 						shapeRenderer.setColor(0, color, 0, 1);
 					} else if (vectors[j][i].getZ() < 0) {
 						shapeRenderer.setColor(0, 0, 1, 1);
-					} else {
+					} else if(vectors[j][i].getZ() > 5 && vectors[j][i].getZ() <7){
 						shapeRenderer.setColor(Color.BROWN);
 					}
 					shapeRenderer.rect(10 * i, 10 * j, 10, 10);
@@ -481,8 +631,27 @@ public class Game extends ApplicationAdapter {
 
 			if (!Gdx.input.isKeyPressed(Input.Keys.SPACE) && ball.moving) {
 				ball = moveBall(ball);
+				one = true;
+				
+				// (ball.state);
 			} else {
+				
 				// User giving inputs
+				if(one){
+					/*
+				Vector[][] newVectors = vectors.clone();
+				newVectors[(int) (ball.state.getY()) / 10][(int) (ball.state.getX() ) / 10].setZ(7.5);
+				newVectors[(int) (holeY) / 10][(int) (holeX ) / 10].setZ(9);
+				//char[][] matrix = ShortestPath.convertMatrix(newVectors);
+
+	        	System.out.println("here");
+	        	//int path = ShortestPath.pathExists(matrix);
+				//System.out.println(path);
+				one = false;
+				*/
+				}
+	        
+	      
 				if (!ball.holeIn && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 					// Decreases holdConstant (to simulate ball going further from holding space bar
 					// for longer)
@@ -541,8 +710,8 @@ public class Game extends ApplicationAdapter {
 						prevX = ball.state.getX();
 						prevY = ball.state.getY();
 
-						ball.state.setVx(vXX * 25);
-						ball.state.setVy(vYY * 25);
+						ball.state.setVx(vXX * 15);
+						ball.state.setVy(vYY * 15);
 						vXX = 0;
 						vYY = 0;
 						// For changing to text file input
@@ -568,7 +737,7 @@ public class Game extends ApplicationAdapter {
 			}
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
-			shapeRenderer.circle(holeX, holeY, 30);
+			shapeRenderer.circle(holeX, holeY, 25);
 			// Ball
 			if (Math.abs(holeX - ball.state.getX()) <= 40 && Math.abs(holeY - ball.state.getY()) <= 40) {
 				ball.holeIn = true;
@@ -578,7 +747,7 @@ public class Game extends ApplicationAdapter {
 			// Ball still visible
 			if (!ball.holeIn) {
 				shapeRenderer.setColor(1, 1, 1, 1);
-				shapeRenderer.circle((float) ball.state.getX(), (float) ball.state.getY(), 20);
+				shapeRenderer.circle((float) ball.state.getX(), (float) ball.state.getY(), 15);
 				ball.inWater = false;
 			}
 			shapeRenderer.end();
@@ -645,23 +814,29 @@ public class Game extends ApplicationAdapter {
 				e.printStackTrace();
 			}
 			// Bounce-off
-			if (ball.state.getX() < 30 || ball.state.getX() > Gdx.graphics.getWidth() - 30) {
+			if (ball.state.getX() < 20 || ball.state.getX() > Gdx.graphics.getWidth() - 20) {
 				ball.state.setVx(ball.state.getVx() * -1.0);
 				h = stepSize;
 			}
 			// ballX = (float) ball.state.getX();
 			// Bounce-off
-			if (ball.state.getY() < 30 || ball.state.getY() > Gdx.graphics.getHeight() - 30) {
+			if (ball.state.getY() < 20 || ball.state.getY() > Gdx.graphics.getHeight() - 20) {
 				ball.state.setVy(ball.state.getVy() * -1.0);
 				h = stepSize;
 			}
-			if (vectors[(int) (ball.state.getY() + 20) / 10][(int) (ball.state.getX() + 20) / 10].getZ() > 5
-					|| vectors[(int) (ball.state.getY() - 20) / 10][(int) (ball.state.getX() - 20) / 10].getZ() > 5
-					|| vectors[(int) (ball.state.getY() + 20) / 10][(int) (ball.state.getX() - 20) / 10].getZ() > 5
-					|| vectors[(int) (ball.state.getY() - 20) / 10][(int) (ball.state.getX() + 20) / 10].getZ() > 5) {
-				ball.state.setVy(0);
-				ball.state.setVx(0);
+			//System.out.println(vectors[(int) ball.state.getY() / 10][(int) ball.state.getX() / 10].getZ());
+			
+			if (vectors[(int) (ball.state.getY() + 20) / 10][(int) (ball.state.getX()) / 10].getZ() > 5 || vectors[Math.abs((int) (ball.state.getY() - 20) / 10)][(int) (ball.state.getX()) / 10].getZ() > 5){
+				ball.state.setVy(ball.state.getVy() * -1.0);
+				
 			}
+
+			if (vectors[(int) (ball.state.getY()) / 10][Math.abs((int) (ball.state.getX() - 22) / 10)].getZ() > 5 || vectors[(int) (ball.state.getY()) / 10][(int) (ball.state.getX() + 22) / 10].getZ() > 5){
+				ball.state.setVx(ball.state.getVx() * -1.0);
+				
+			}
+			
+			// ballY = (float) ball.state.getY();
 			h = stepSize;
 		}
 		if ((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > -stepSize * 5)
