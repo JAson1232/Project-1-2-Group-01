@@ -102,21 +102,27 @@ public class Game extends ApplicationAdapter {
 		//Obstacle 1
 		for (int i = 5; i < 20; i++) {
 			for (int j = 50; j < 55; j++) {
-				//vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
 		}
 		//Obstacle 2
 		for (int j = 5; j < 10; j++) {
 			for (int i = 30; i < 35; i++) {
-				//vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
 		}
 		//Obstacle 3
 		for (int j = 55; j < 60; j++) {
 			for (int i = 35; i < 40; i++) {
-				//vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
 			}
 		}
+//		//Obstacle 4
+//		for (int j = 15; j < 25; j++) {
+//			for (int i = 5; i < 25; i++) {
+//				vectors[i][j] = new Vector(j, i, 999999999, null, 0, 0);
+//			}
+//		}
 
 		return vectors;
 	}
