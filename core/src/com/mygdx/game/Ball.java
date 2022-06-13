@@ -15,7 +15,7 @@ public class Ball {
     public boolean holeIn = false;
     public boolean moving = false;
     public boolean inWater;
-    public boolean readVelocity;
+    public boolean readVelocity = false;
     public double vx;
     public double vy;
     public boolean winner = false;

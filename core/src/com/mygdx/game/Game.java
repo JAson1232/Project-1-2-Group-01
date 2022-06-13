@@ -45,7 +45,9 @@ public class Game extends ApplicationAdapter {
 	Vector hole = new Vector(holeX, holeY, 0, null, 0, 0);
 	boolean holeIn = false;
 	boolean inWater = false;
+	// For determining which bot finds a solution
 	boolean first = false;
+	// first2 to get start time
 	boolean first2 = true;
 	boolean one = true;;
 	float trajecX, trajecY;
@@ -63,7 +65,7 @@ public class Game extends ApplicationAdapter {
 	int numOfHits = 0;
 	double prevX = ballX;
 	double prevY = ballY;
-	boolean readVelocity = true;
+	boolean readVelocity;
 	boolean testBot = false;
 	Ball ball = new Ball(state);
 	HeightFunction f = new HeightFunction();
@@ -98,7 +100,8 @@ public class Game extends ApplicationAdapter {
 		field.setLength(fieldLength);
 		field.setWidth(fieldWidth);
 		vectors = field.createField();
-		;
+
+		// Adding height values to each Vector tile in field
 		for (int i = 0; i < vectors.length; i++) {
 			for (int j = 0; j < vectors[0].length; j++) {
 				vectors[i][j] = new Vector(j, i,
@@ -131,7 +134,7 @@ public class Game extends ApplicationAdapter {
 		}
 		//ShortestPath.convertMatrix(vectors);
 		//vectors[(int)ballX/10][(int)ballY/10].setZ(7.5);
-		vectors[(int)holeY/10][(int)holeX/10].setZ(9);
+		vectors[(int)holeY/10][(int)holeX/10].setZ(9); // Setting z as 9 = defining it as a hole (black color)
 		return vectors;
 	}
 
@@ -210,13 +213,17 @@ public class Game extends ApplicationAdapter {
 			for (int i = 0; i < fieldWidth; i++) {
 				for (int j = 0; j < fieldLength; j++) {
 					if (vectors[j][i].getZ() >= 0 && vectors[j][i].getZ() < 5) {
+						// Grass
 						float color = (float) (vectors[j][i].getZ() + 0.5) / 2;
 						shapeRenderer.setColor(0, color, 0, 1);
+						// Water
 					} else if (vectors[j][i].getZ() < 0) {
 						shapeRenderer.setColor(0, 0, 1, 1);
+						// Obstacle
 					} else if(vectors[j][i].getZ() > 5 && vectors[j][i].getZ() <7){
 						shapeRenderer.setColor(Color.BROWN);
 					}
+					// Hole
 					shapeRenderer.rect(10 * i, 10 * j, 10, 10);
 				}
 			}
@@ -242,6 +249,8 @@ public class Game extends ApplicationAdapter {
 			font.draw(spriteBatch, altitude1, 10, 430);
 			font.draw(spriteBatch, altitude2, 10, 410);
 			spriteBatch.end();
+
+			// TODO: What does this do?
 			// User input just given, ball in motion
 			Ball[] balls = new Ball[20];
 			if (holeIn == false) {
@@ -262,11 +271,13 @@ public class Game extends ApplicationAdapter {
 					ball = balls[i];
 
 					if (holeIn == false) {
-	
+
+						// Stopping conditions
 						while (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 								&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 
 							ball = moveBall(ball);
+							// Manual user inputs; trajectory bar
 							double randomValue = 5;
 							strengthLength = randomValue;
 							if (!ball.moving) {
@@ -274,30 +285,37 @@ public class Game extends ApplicationAdapter {
 								ball.moving = true;
 							}
 							if (!ball.holeIn) {
+								// Trajectory line GUI
 								vXX = getSpeed((int) (Math.random() * 360))[0];
 								vYY = getSpeed((int) (Math.random() * 360))[1];
+								// TODO: Likely manual inputs, probably not as important?
 								if (!first) {
-									ball.vx = vXX *10;
+									ball.vx = vXX * 10;
 									ball.vy = vYY * 10;
 									ball.state.setVx(ball.vx);
 									ball.state.setVy(ball.vy);
 									first = !first;
 									System.out.println("Shooting with vx: " + ball.vx + " vy: " + ball.vy);
 								}
+								// TODO: Check what is readVelocity?
+								// Listening to new manual inputs; updating the previous coordinates
+								// as the current ones before new shot is registered
 								if (ball.readVelocity) {
 									prevX = ball.state.getX();
 									prevY = ball.state.getY();
 								}
+								// Stops ball if it falls into water
 								if (ball.inWater) {
 									ball.state.setVx(0);
 									ball.state.setVy(0);
 								}		
 							}
+							// 0.17 multiplied by 100; random vicinity from the hole
+							// Value chosen since ball would be close enough (visually) to fall into the hole
 							if (ball.state.distanceTo(hole) <= 17) {
 												try {
 													System.out.println(hc.climb(ball.state, hole, 0.075));
 												} catch (FileNotFoundException e) {
-													// TODO Auto-generated catch block
 													e.printStackTrace();
 												}
 											   ball.holeIn = true;
@@ -313,6 +331,7 @@ public class Game extends ApplicationAdapter {
 											   times.add(finalTime);
 											   break;
 											}
+							// TODO: Messy code
 							// Ball still visible
 							if (!ball.holeIn) {
 								ball.inWater = false;
@@ -321,29 +340,24 @@ public class Game extends ApplicationAdapter {
 						try {
 							vectors = createField();
 						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						// TODO: Remove MatrixShortestDistanceBFS
 						vectors[(int)ball.state.getY()/10][(int)ball.state.getX()/10].setZ(7.5);
 						ball.distanceToHole = MatrixShortestDistanceBFS.getFood(MatrixShortestDistanceBFS.convertMatrix(vectors));
 						System.out.println("Done");
 						System.out.println(ball.distanceToHole);
-						
-	
+
 						// Hole
-	
 					} else if (holeIn) {
-	
-						// System.out.println("double");
 						for (int j = 0; j < balls.length; j++) {
-							// System.out.println(balls[j].winner);
 							if (balls[j].winner == true) {
+								// Setting global best ball as the one from 20 that finds a solution
 								ball = new Ball(new Vector(ballX, ballY, 0, null, balls[j].getVx(), balls[j].getVy()));
 								ball.holeIn = false;
 								ball.moving = false;
 								Bot = true;
 								notIN = false;
-	
 							}
 						}
 	
@@ -351,33 +365,32 @@ public class Game extends ApplicationAdapter {
 					shapeRenderer.end();
 					
 				}
-				System.out.println("------------");
-				Ball min =balls[0];
-				for(int b =0; b<balls.length;b++){
+				Ball min = balls[0];
+				// Finding best ball of batch --> "fittest" ball with smallest Euclidean distance from the hole
+				for(int b = 0; b<balls.length;b++){
 					if(balls[b].distanceToHole < min.distanceToHole){
 						min = balls[b];
 
 					}
 
 				}
+				// Adding velocities of "fittest" ball shot
 				double[] finalV = new double[2];
 				finalV[0] = min.getVx();
 				finalV[1] = min.getVy();
 				velocities.add(finalV);
-				
+
+				// Repeating again to generate a new batch of balls
 				Vector state = new Vector(min.state.getX(), min.state.getY(), 0, null,0, 0);
 				for(int b =0; b<balls.length;b++){
 					balls[b] = new Ball(state);
 				}
-
-
-
-
 				//-------------------------------------------------------------------------------------------------------
 			}
-			System.out.println("Here");
-			}else{
+			} else{
 			for (int i = 0; i < balls.length; i++) {
+				// Runs through two iterations of the first bot
+				// If solution is not found within these two iterations, the file goes on to first2 (second bot)
 				first = false;
 				ball = balls[i];
 				if (holeIn == false) {
@@ -413,13 +426,16 @@ public class Game extends ApplicationAdapter {
 							vXX = getSpeed((int) (Math.random() * 360))[0];
 							vYY = getSpeed((int) (Math.random() * 360))[1];
 							if (!first) {
+								// TODO: Why?
 								ball.vx = vXX * 25;
 								ball.vy = vYY * 25;
 								ball.state.setVx(ball.vx);
 								ball.state.setVy(ball.vy);
+								// Two iterations of first bot, then second bot, then back to first bot
 								first = !first;
 								System.out.println("Shooting with vx: " + ball.vx + " vy: " + ball.vy);
 							}
+							// TODO: Doesn't work!
 							// Set readVelocity to false to disable manual velocity inputs as well as
 							// uncomment following else{} statement
 							// readVelocity = false;
@@ -458,19 +474,21 @@ public class Game extends ApplicationAdapter {
 						if (ball.state.distanceTo(hole) <= 17) {
 							//               System.out.println("state " + state);
 							//               System.out.println("distance to hole " + state.distanceTo(hole));
-										   System.out.println("start climb");
+										   System.out.println("Start climb");
 							//               System.out.println("vectorToClimb " + stateCopy);
 											try {
 												System.out.println(hc.climb(ball.state, hole, 0.075));
 											} catch (FileNotFoundException e) {
-												// TODO Auto-generated catch block
 												e.printStackTrace();
 											}
 											//System.out.println(ball.state.getX());
 											//System.out.println(ball.state.getY());
-										   ball.holeIn = true;
-										   ball.moving = false;
-										  ball.winner = true;
+
+											// TODO: Change to accommodate obstacles between ball and hole
+											// Close enough with no obstacles = solution found
+										    ball.holeIn = true;
+										    ball.moving = false;
+										    ball.winner = true;
 										  /*
 										   if(!(times.size() < 11)){
 											holeIn =true;
@@ -586,6 +604,7 @@ public class Game extends ApplicationAdapter {
 
 			ball.setX(ballX);
 			ball.setY(ballY);
+			// isStarted == true means that user can play
 			if (isStarted == false) {
 				ball.readVelocity = true;
 			}
@@ -703,6 +722,7 @@ public class Game extends ApplicationAdapter {
 						vXX = strengthLength * Math.cos(Math.toRadians(angle));
 						vYY = strengthLength * Math.sin(Math.toRadians(angle));
 					}
+					// TODO: Again? What?
 					// Set readVelocity to false to disable manual velocity inputs as well as
 					// uncomment following else{} statement
 					// readVelocity = false;
@@ -738,7 +758,7 @@ public class Game extends ApplicationAdapter {
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
 			shapeRenderer.circle(holeX, holeY, 25);
-			// Ball
+			// Ball is close enough to fall into the hole
 			if (Math.abs(holeX - ball.state.getX()) <= 40 && Math.abs(holeY - ball.state.getY()) <= 40) {
 				ball.holeIn = true;
 
@@ -771,7 +791,9 @@ public class Game extends ApplicationAdapter {
 		return strengthLength;
 	}
 
+	// Returns array with vXX (index 0), vYY (index 1)
 	public double[] getSpeed(int angle) {
+		// Finding endpoint of the trajectory line
 		trajecX = (float) (ball.state.getX() + (lineLength * Math.cos(Math.toRadians(angle))));
 		trajecY = (float) (ball.state.getY() + (lineLength * Math.sin(Math.toRadians(angle))));
 		// shapeRenderer.rectLine((float) ball.state.getX(), (float) ball.state.getY(),
@@ -808,24 +830,27 @@ public class Game extends ApplicationAdapter {
 		if (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 			try {
-
-				ball.state = math.euler(ball.state, h);
+				ball.state = math.RK2(ball.state, h);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			// Bounce-off
+			// Dis/enabling bounce-off from borders of field
 			if (ball.state.getX() < 20 || ball.state.getX() > Gdx.graphics.getWidth() - 20) {
-				ball.state.setVx(ball.state.getVx() * -1.0);
+				ball.state.setVx(0);
+				ball.state.setVy(0);
+				//ball.state.setVx(ball.state.getVx() * -1.0);
 				h = stepSize;
 			}
-			// ballX = (float) ball.state.getX();
-			// Bounce-off
+
 			if (ball.state.getY() < 20 || ball.state.getY() > Gdx.graphics.getHeight() - 20) {
-				ball.state.setVy(ball.state.getVy() * -1.0);
+				ball.state.setVx(0);
+				ball.state.setVy(0);
+				//ball.state.setVy(ball.state.getVy() * -1.0);
 				h = stepSize;
 			}
-			//System.out.println(vectors[(int) ball.state.getY() / 10][(int) ball.state.getX() / 10].getZ());
-			
+
+			// Finding ball's location on vectors 2D array (field)
+			// Determining if ball is touching the obstacle (collision detection; if so, bounce off)
 			if (vectors[(int) (ball.state.getY() + 20) / 10][(int) (ball.state.getX()) / 10].getZ() > 5 || vectors[Math.abs((int) (ball.state.getY() - 20) / 10)][(int) (ball.state.getX()) / 10].getZ() > 5){
 				ball.state.setVy(ball.state.getVy() * -1.0);
 				
@@ -840,7 +865,7 @@ public class Game extends ApplicationAdapter {
 			h = stepSize;
 		}
 		if ((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > -stepSize * 5)
-				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > -stepSize * 5))) { // TODO
+				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > -stepSize * 5))) {
 			// Resets; prepares for next user inputs
 			counter = 0;
 			strengthLength = 0;
@@ -848,6 +873,7 @@ public class Game extends ApplicationAdapter {
 				if (px.getX(ball.state.getX(), ball.state.getY(), 0, 0) != 0
 						|| px.getY(ball.state.getX(), ball.state.getY(), 0, 0) != 0) {
 					// Ball comes to stop due to static friction
+					// TODO: Slope messed up?
 					if (Field.frictionStatic > Math
 							.sqrt(((px.getX(ball.state.getX(), ball.state.getY(), 0, 0))
 									* (px.getX(ball.state.getX(), ball.state.getY(), 0, 0))))
