@@ -6,7 +6,7 @@ import PSO.*;
 
 public class Experiments {
     static MathFunctions math = new MathFunctions();
-    static double h = 0.1 ;
+    static double h = 0.001 ;
     static double time = 10;
     static Vector state = new Vector(0, 0, 0, null, 10, 10);
 //IMPORTANT : When running experiments make sure that both in 
@@ -25,10 +25,10 @@ public class Experiments {
         for(double i = 0.0; i < time+h; i+=h) {
 
             //state = math.BD2(state,h);
-            //state = math.AM2(state,h);
+            state = math.AM2(state,h);
             //state = math.AB3(state,h);
             //state = math.AB2(state,h);
-            state = math.RK4(state,h);
+            //state = math.RK4(state,h);
             //state = math.RK2(state, h);
             //state = math.euler(state, h);
 
