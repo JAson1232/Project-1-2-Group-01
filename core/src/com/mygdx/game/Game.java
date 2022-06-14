@@ -466,7 +466,6 @@ public class Game extends ApplicationAdapter {
 					}
 
 					// Hole
-
 				} else if (holeIn) {
 					for (int j = 0; j < balls.length; j++) {
 						if (balls[j].winner == true) {
@@ -636,16 +635,16 @@ public class Game extends ApplicationAdapter {
 			}
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
-			shapeRenderer.circle(holeX, holeY, 25);
+			shapeRenderer.circle(holeX, holeY, 12);
 			// Ball is close enough to fall into the hole
-			if (Math.abs(holeX - ball.state.getX()) <= 40 && Math.abs(holeY - ball.state.getY()) <= 40) {
+			if (Math.abs(holeX - ball.state.getX()) <= 20 && Math.abs(holeY - ball.state.getY()) <= 20) {
 				ball.holeIn = true;
 				ball.moving = false;
 			}
 			// Ball still visible
 			if (!ball.holeIn) {
 				shapeRenderer.setColor(1, 1, 1, 1);
-				shapeRenderer.circle((float) ball.state.getX(), (float) ball.state.getY(), 15);
+				shapeRenderer.circle((float) ball.state.getX(), (float) ball.state.getY(), 8);
 				ball.inWater = false;
 			}
 			shapeRenderer.end();
