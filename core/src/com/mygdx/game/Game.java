@@ -60,8 +60,8 @@ public class Game extends ApplicationAdapter {
 	Vector[][] vectors;
 
 	boolean fieldCreated = false;
-	int fieldLength = 50;
-	int fieldWidth = 65;
+	int fieldLength = 100;
+	int fieldWidth = 130;
 	int numOfHits = 0;
 	double prevX = ballX;
 	double prevY = ballY;
@@ -104,11 +104,13 @@ public class Game extends ApplicationAdapter {
 		// Adding height values to each Vector tile in field
 		for (int i = 0; i < vectors.length; i++) {
 			for (int j = 0; j < vectors[0].length; j++) {
+				// TODO: Does this make it crash?
 				vectors[i][j] = new Vector(j, i,
 						f.f((double) j - field.length / 2, (double) i - field.length / 2, 0, 0), null, 0, 0);
 			}
 		}
 		//Obstacle 1
+		/*
 		for (int j = 10; j < 12; j++) {
 			for (int i = 10; i < 40; i++) {
 				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
@@ -132,7 +134,8 @@ public class Game extends ApplicationAdapter {
 			vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
 			}
 		}
-		vectors[(int)holeY/10][(int)holeX/10].setZ(9); // Setting z as 9 = defining it as a hole (black color)
+		 */
+		vectors[(int)holeY/5][(int)holeX/5].setZ(9); // Setting z as 9 = defining it as a hole (black color)
 		return vectors;
 	}
 
@@ -220,7 +223,7 @@ public class Game extends ApplicationAdapter {
 						shapeRenderer.setColor(Color.BROWN);
 					}
 					// Hole
-					shapeRenderer.rect(10 * i, 10 * j, 10, 10);
+					shapeRenderer.rect(5 * i, 5 * j, 5, 5);
 				}
 			}
 
@@ -341,7 +344,7 @@ public class Game extends ApplicationAdapter {
 							e.printStackTrace();
 						}
 						// TODO: Remove MatrixShortestDistanceBFS
-						vectors[(int)ball.state.getY()/10][(int)ball.state.getX()/10].setZ(7.5);
+						vectors[(int)ball.state.getY()/5][(int)ball.state.getX()/5].setZ(7.5);
 						ball.distanceToHole = MatrixShortestDistanceBFS.getFood(MatrixShortestDistanceBFS.convertMatrix(vectors));
 						System.out.println("Done");
 						System.out.println(ball.distanceToHole);
@@ -521,7 +524,7 @@ public class Game extends ApplicationAdapter {
 					} else if(vectors[j][i].getZ() > 5 && vectors[j][i].getZ() <7){
 						shapeRenderer.setColor(Color.BROWN);
 					}
-					shapeRenderer.rect(10 * i, 10 * j, 10, 10);
+					shapeRenderer.rect(5 * i, 5 * j, 5, 5);
 				}
 			}
 
@@ -718,11 +721,11 @@ public class Game extends ApplicationAdapter {
 
 			// Finding ball's location on vectors 2D array (field)
 			// Determining if ball is touching the obstacle (collision detection; if so, bounce off)
-			if (vectors[(int) (ball.state.getY() + 20) / 10][(int) (ball.state.getX()) / 10].getZ() > 5 || vectors[Math.abs((int) (ball.state.getY() - 20) / 10)][(int) (ball.state.getX()) / 10].getZ() > 5){
+			if (vectors[(int) (ball.state.getY() + 20) / 5][(int) (ball.state.getX()) / 5].getZ() > 5 || vectors[Math.abs((int) (ball.state.getY() - 20) / 5)][(int) (ball.state.getX()) / 5].getZ() > 5){
 				ball.state.setVy(ball.state.getVy() * -1.0);
 			}
 
-			if (vectors[(int) (ball.state.getY()) / 10][Math.abs((int) (ball.state.getX() - 22) / 10)].getZ() > 5 || vectors[(int) (ball.state.getY()) / 10][(int) (ball.state.getX() + 22) / 10].getZ() > 5) {
+			if (vectors[(int) (ball.state.getY()) / 5][Math.abs((int) (ball.state.getX() - 22) / 5)].getZ() > 5 || vectors[(int) (ball.state.getY()) / 5][(int) (ball.state.getX() + 22) / 5].getZ() > 5) {
 				ball.state.setVx(ball.state.getVx() * -1.0);
 			}
 			h = stepSize;
