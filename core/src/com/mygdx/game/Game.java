@@ -274,8 +274,13 @@ public class Game extends ApplicationAdapter {
 						// Stopping conditions
 						// Relation to step size --> changing velocity proportional to step size, so min velocity
 						// should also be proportional to step size
+						// TODO: Stopping condition
+						while(Math.sqrt(Math.pow(ball.state.getVx(), 2) + Math.pow(ball.state.getVy(), 2)) < stepSize * 5) {
+
+						/*
 						while (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 								&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
+						 */
 
 							ball = moveBall(ball);
 							// Manual user inputs; trajectory bar
@@ -395,9 +400,12 @@ public class Game extends ApplicationAdapter {
 				ball = balls[i];
 				if (holeIn == false) {
 
-					while (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
-							&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
+					while(Math.sqrt(Math.pow(ball.state.getVx(), 2) + Math.pow(ball.state.getVy(), 2)) < stepSize * 5) {
 
+						/*
+						while (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
+								&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
+						 */
 						ball = moveBall(ball);
 						double randomValue = 5;
 						strengthLength = randomValue;
