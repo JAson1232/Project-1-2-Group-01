@@ -11,9 +11,9 @@ public class calculateTruth {
         
         double x = 0;
         double y = 0;
-        double vX = 10;
-        double vY = 10;
-        double t = scanner.nextDouble();
+        double vX = 3;
+        double vY = 3;
+        double t = 3;//scanner.nextDouble();
         double distanceX = 0;
         double distanceY = 0;
         double aX;

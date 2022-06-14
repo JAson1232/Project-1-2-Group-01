@@ -273,6 +273,10 @@ public class Game extends ApplicationAdapter {
 					if (holeIn == false) {
 
 						// Stopping conditions
+						// Relation to step size --> always subtracting/changing
+						// proportional to step size
+						// Changing velocity proportional to step size --> min velocity should also be
+						// proportional to step size
 						while (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 								&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 
@@ -830,7 +834,7 @@ public class Game extends ApplicationAdapter {
 		if (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 			try {
-				ball.state = math.RK2(ball.state, h);
+				ball.state = math.euler(ball.state, h);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
