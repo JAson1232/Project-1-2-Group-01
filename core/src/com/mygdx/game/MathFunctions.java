@@ -54,11 +54,11 @@ public class MathFunctions {
         accelerationX ax = new accelerationX();
         accelerationY ay = new accelerationY();
         return new Vector (input.getVx(),
-                                input.getVy(),
-                                input.getZ(),
-                                null,
-                                ax.f(input.getX(), input.getY(), input.getVx(), input.getVy()),
-                                ay.f(input.getX(), input.getY(), input.getVx(), input.getVy()));
+                            input.getVy(),
+                            input.getZ(),
+                            null,
+                            ax.f(input.getX(), input.getY(), input.getVx(), input.getVy()),
+                            ay.f(input.getX(), input.getY(), input.getVx(), input.getVy()));
     }
 
     /**
@@ -81,11 +81,11 @@ public class MathFunctions {
      */
     Vector RK2(Vector StateVector, double h) throws FileNotFoundException {
         // f(t_i, w_i)
-        Vector k_i_1 = derivFinder(StateVector).scale(h);
+        Vector k_i_1 = derivFinder(StateVector);
         // 3f(t_i + 2h/3, w_i + f(t_i, w_i)*2h/3)
         Vector intermediate = StateVector.sum(k_i_1.scale(2/3.0));
-        Vector k_i_2 = derivFinder(intermediate).scale(3*h);
-        return StateVector.sum((k_i_1.sum(k_i_2).scale(1/4.0)));
+        Vector k_i_2 = derivFinder(intermediate);
+        return StateVector.sum((k_i_1.sum(k_i_2.scale(3))).scale(h/4.0));
     }
 
     /**
