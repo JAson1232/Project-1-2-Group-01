@@ -25,9 +25,9 @@ public class Experiments {
                 //stateCopy = math.AM2(stateCopy, h);
                 //stateCopy = math.AB3(stateCopy, h);
                 //stateCopy = math.AB2(stateCopy, h);
-                //stateCopy = math.RK4(stateCopy, h);
+                stateCopy = math.RK4(stateCopy, h);
                 //stateCopy = math.RK2(stateCopy, h);
-                stateCopy = math.euler(stateCopy, h);
+                //stateCopy = math.euler(stateCopy, h);
                 //System.out.println(stateCopy);
                 /*
                 if ((epsilon - 0.000001) <= i && i <= (epsilon + 0.00001)) {

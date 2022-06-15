@@ -46,6 +46,22 @@ public class MathFunctions {
     }
 
     /**
+     * Finds derivative of vector given input
+     * @param input
+     * @return Vector derivative of given Vector input
+     */
+    Vector derivFinder(Vector input) throws FileNotFoundException {
+        accelerationX ax = new accelerationX();
+        accelerationY ay = new accelerationY();
+        return new Vector (input.getVx(),
+                                input.getVy(),
+                                input.getZ(),
+                                null,
+                                ax.f(input.getX(), input.getY(), input.getVx(), input.getVy()),
+                                ay.f(input.getX(), input.getY(), input.getVx(), input.getVy()));
+    }
+
+    /**
      * Function for Euler's formula
      * @param StateVector
      * @param h Step size
@@ -53,17 +69,7 @@ public class MathFunctions {
      * @throws FileNotFoundException
      */
     Vector euler(Vector StateVector, double h) throws FileNotFoundException {
-        accelerationX ax = new accelerationX();
-        accelerationY ay = new accelerationY();
-        Vector newState = StateVector.sum((
-                        new Vector(StateVector.getVx(),
-                        StateVector.getVy(),
-                        StateVector.getZ(),
-                        null,
-                        ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
-                        ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy())))
-                        .scale(h));
-        return newState;
+        return StateVector.sum((derivFinder(StateVector).scale(h)));
     }
 
     /**
@@ -74,25 +80,11 @@ public class MathFunctions {
      * @throws FileNotFoundException
      */
     Vector RK2(Vector StateVector, double h) throws FileNotFoundException {
-        accelerationX ax = new accelerationX();
-        accelerationY ay = new accelerationY();
         // f(t_i, w_i)
-        Vector k_i_1 = new Vector(StateVector.getVx(),
-                StateVector.getVy(),
-                StateVector.getZ(),
-                null,
-                ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
-                ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()))
-                .scale(h);
+        Vector k_i_1 = derivFinder(StateVector).scale(h);
         // 3f(t_i + 2h/3, w_i + f(t_i, w_i)*2h/3)
         Vector intermediate = StateVector.sum(k_i_1.scale(2/3.0));
-        Vector k_i_2 = new Vector(intermediate.getVx(),
-                intermediate.getVy(),
-                StateVector.getZ(),
-                null,
-                ax.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()),
-                ay.f(intermediate.getX(), intermediate.getY(), intermediate.getVx(), intermediate.getVy()))
-                .scale(3*h);
+        Vector k_i_2 = derivFinder(intermediate).scale(3*h);
         return StateVector.sum((k_i_1.sum(k_i_2).scale(1/4.0)));
     }
 
@@ -105,43 +97,17 @@ public class MathFunctions {
      */
     Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
         HillClimbing.counter1++;
-        accelerationX ax = new accelerationX();
-        accelerationY ay = new accelerationY();
         // f(t_i, w_i)
-        Vector k_i_1 = new Vector(StateVector.getVx(),
-                StateVector.getVy(),
-                StateVector.getZ(),
-                null,
-                ax.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()),
-                ay.f(StateVector.getX(), StateVector.getY(), StateVector.getVx(), StateVector.getVy()))
-                .scale(h);
+        Vector k_i_1 = derivFinder(StateVector).scale(h);
         // f(t_i + h/2, w_i + k_i_1/2)
         Vector intermediate1 = StateVector.sum(k_i_1.scale(0.5));
-        Vector k_i_2 = new Vector(intermediate1.getVx(),
-                intermediate1.getVy(),
-                StateVector.getZ(),
-                null,
-                ax.f(intermediate1.getX(), intermediate1.getY(), intermediate1.getVx(), intermediate1.getVy()),
-                ay.f(intermediate1.getX(), intermediate1.getY(), intermediate1.getVx(), intermediate1.getVy()))
-                .scale(h);
+        Vector k_i_2 = derivFinder(intermediate1).scale(h);
         // f(t_i + h/2, w_i + k_i_2/2)
         Vector intermediate2 = StateVector.sum(k_i_2.scale(0.5));
-        Vector k_i_3 = new Vector(intermediate2.getVx(),
-                intermediate2.getVy(),
-                StateVector.getZ(),
-                null,
-                ax.f(intermediate2.getX(), intermediate2.getY(), intermediate2.getVx(), intermediate2.getVy()),
-                ay.f(intermediate2.getX(), intermediate2.getY(), intermediate2.getVx(), intermediate2.getVy()))
-                .scale(h);
+        Vector k_i_3 = derivFinder(intermediate2).scale(h);
         // f(t_i + h_i, w_i + k_i_3)
         Vector intermediate3 = StateVector.sum(k_i_3);
-        Vector k_i_4 = new Vector(intermediate3.getVx(),
-                intermediate3.getVy(),
-                StateVector.getZ(),
-                null,
-                ax.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()),
-                ay.f(intermediate3.getX(), intermediate3.getY(), intermediate3.getVx(), intermediate3.getVy()))
-                .scale(h);
+        Vector k_i_4 = derivFinder(intermediate3).scale(h);
         Vector sum = k_i_1.sum(k_i_2.scale(2)).sum(k_i_3.scale(2)).sum(k_i_4);
         return StateVector.sum(sum.scale(1/6.0));
     }
