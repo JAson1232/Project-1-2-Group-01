@@ -56,7 +56,7 @@ public class HillClimbing {
 
    // hill climbing itself
    public Vector climb(Vector state, Vector hole, double n) throws FileNotFoundException {
-      //System.out.println("VECTOR BEFORE: " + state);
+      System.out.println("VECTOR BEFORE: " + state);
       Game game = new Game();
       game.createField();
       Vector stateCopy = state;
@@ -77,7 +77,7 @@ public class HillClimbing {
          //stateCopy = matFun.euler(stateCopy, 0.1);
         // System.out.println(stateCopy.distanceTo(hole));
       }
-      //System.out.println("VECTOR AFTER: " + stateCopy);
+      System.out.println("VECTOR AFTER: " + stateCopy);
       //System.out.println(stateCopy.distanceTo(hole));
       if((int)stateCopy.distanceTo(hole) <= 15){
          System.out.println("is in hole 1");
@@ -141,7 +141,7 @@ public class HillClimbing {
    }
 
    // simulate a shoot and calculate the distance to the hole after
-   private double simulate(Vector state, double h, Vector hole) throws FileNotFoundException {
+   public double simulate(Vector state, double h, Vector hole) throws FileNotFoundException {
       counter++;
       Vector stateCopy = state;
       while (hasNotStopped(stateCopy, px)) {

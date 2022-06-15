@@ -85,6 +85,8 @@ public class Game extends ApplicationAdapter {
 	private float gNX = 400;
 	private float gNY = 280;
 
+	ruleBasedBot rule = new ruleBasedBot(ball,holeX,holeY);
+
 	public Game() throws FileNotFoundException {
 	}
 
@@ -416,8 +418,32 @@ public class Game extends ApplicationAdapter {
 
 						// Trajectory line
 						if (!ball.holeIn) {
+<<<<<<< Updated upstream
 							vXX = getSpeed((int) (Math.random() * 360))[0];
 							vYY = getSpeed((int) (Math.random() * 360))[1];
+=======
+
+							/*
+							 * // Trajectory
+							 * shapeRenderer.setColor(Color.LIGHT_GRAY);
+							 * if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+							 * angle += 2;
+							 * if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+							 * angle -= 2;
+							 * // New location (angle) of trajectory line from ball
+							 * if(angle>360){
+							 * angle -=360;
+							 * }
+							 * if(angle<0){
+							 * angle += 360;
+							 * }
+							 */
+//							vXX = getSpeed((int) (Math.random() * 360))[0];
+//							vYY = getSpeed((int) (Math.random() * 360))[1];
+							vXX = getSpeed((int) (rule.getCurAngle() * 360))[0];
+							vYY = getSpeed((int) (rule.getCurAngle() * 360))[1];
+
+>>>>>>> Stashed changes
 							if (!first) {
 								// TODO: Why?
 								ball.vx = vXX * 25;
@@ -470,6 +496,8 @@ public class Game extends ApplicationAdapter {
 						// Ball still visible
 						if (!ball.holeIn) {
 							ball.inWater = false;
+							rule.changeAnglesStepByStep();
+							rule.distanceCalculation();
 						}
 					}
 
@@ -707,7 +735,11 @@ public class Game extends ApplicationAdapter {
 		if (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 			try {
+<<<<<<< Updated upstream
 				ball.state = math.euler(ball.state, h);
+=======
+				ball.state = math.RK4(ball.state, h);
+>>>>>>> Stashed changes
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

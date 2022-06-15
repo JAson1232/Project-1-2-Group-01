@@ -10,11 +10,18 @@ public class velocityReader {
     }
 
     public static ArrayList<Float> compute() throws FileNotFoundException {
+<<<<<<< Updated upstream
         // File file = new
         // File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/VelocityTestTXT.txt");
         File file = new File("core/src/com/mygdx/game/VelocityTestTXT.txt");
         // File file = new
         // File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\VelocityTestTXT.txt");
+=======
+         File file = new
+         File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/VelocityTestTXT.txt");
+        // File file = new File("core/src/com/mygdx/game/VelocityTestTXT.txt");
+        //File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\VelocityTestTXT.txt");
+>>>>>>> Stashed changes
 
         Scanner scanner = new Scanner(file);
 

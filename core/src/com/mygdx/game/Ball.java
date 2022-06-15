@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Ball {
 
-    Vector state;
+    public Vector state;
     private double x;
     private double y;
     private double z;
