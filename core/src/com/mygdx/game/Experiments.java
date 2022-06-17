@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 
 public class Experiments {
     static MathFunctions math = new MathFunctions();
-    static double[] stepSizes = {0.00001};
+    static double[] stepSizes = {0.1, 0.01, 0.001};
     static double h;
     static double time = 1.0;
     static double epsilon = 0.0;
@@ -20,7 +20,7 @@ public class Experiments {
             long startTime = 0;
             startTime = System.nanoTime();
 
-            state = math.RK2_2(state, h, 0, time);
+            state = math.euler2(state, h, 0, time);
 
             for (double j = 0.0; j <= time - h; j += h) {
                 //state = math.BD2(state, h); // Off values
