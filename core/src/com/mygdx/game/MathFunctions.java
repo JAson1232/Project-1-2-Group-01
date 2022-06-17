@@ -12,9 +12,12 @@ public class MathFunctions {
 
     public static void main(String[] args) throws FileNotFoundException {
         MathFunctions m = new MathFunctions();
-        Vector state = new Vector(0,0,0,null,1.1,0);
-        Vector newPosition = m.euler(state,5);
-        System.out.println(newPosition.toString());
+        Vector state = new Vector(0,0,0,null,1,1);
+        // Vector newPosition = m.euler2(state, 0.1, 0.0, 0.1);
+        // Vector newPosition = m.euler2(state, 0.1, 0.0, 0.2);
+        // Vector newPosition = m.euler2(state, 0.01, 0.0, 0.1);
+        Vector newPosition = m.RK2_2(state,0.1, 0.0, 0.2);
+        System.out.println(newPosition);
     }
 
     /***
@@ -73,6 +76,22 @@ public class MathFunctions {
     }
 
     /**
+     * Euler's method but for experiments
+     * @param StateVector
+     * @param h Step size
+     * @return New state
+     * @throws FileNotFoundException
+     */
+    Vector euler2(Vector StateVector, double h, double t0, double tf) throws FileNotFoundException {
+        int N = (int) (tf/h);
+        for(int i = 0; i < N; i++) {
+        //for (double j = t0; j <= tf - h; j += h) {
+            StateVector = StateVector.sum((derivFinder(StateVector).scale(h)));
+        }
+        return StateVector;
+    }
+
+    /**
      * Function for second-order Runge-Kutta (Ralston's second-order method)
      * @param StateVector
      * @param h Step size
@@ -82,10 +101,31 @@ public class MathFunctions {
     Vector RK2(Vector StateVector, double h) throws FileNotFoundException {
         // f(t_i, w_i)
         Vector k_i_1 = derivFinder(StateVector);
+        // System.out.println(k_i_1);
         // 3f(t_i + 2h/3, w_i + f(t_i, w_i)*2h/3)
         Vector intermediate = StateVector.sum(k_i_1.scale(2/3.0));
+        // System.out.println(intermediate);
         Vector k_i_2 = derivFinder(intermediate);
+        // System.out.println(k_i_2);
         return StateVector.sum((k_i_1.sum(k_i_2.scale(3))).scale(h/4.0));
+    }
+
+    /**
+     * RK2 but for experiments
+     * @param StateVector
+     * @param h Step size
+     * @return New state
+     * @throws FileNotFoundException
+     */
+    Vector RK2_2(Vector StateVector, double h, double t0, double tf) throws FileNotFoundException {
+        int N = (int) (tf / h);
+        for (int i = 0; i < N; i++) {
+            Vector k_i_1 = derivFinder(StateVector).scale(h);
+            Vector intermediate = StateVector.sum(k_i_1.scale(2.0/3.0));
+            Vector k_i_2 = derivFinder(intermediate).scale(h);
+            StateVector = StateVector.sum((k_i_1.sum(k_i_2.scale(3.0))).scale(0.25));
+        }
+        return StateVector;
     }
 
     /**
@@ -99,17 +139,48 @@ public class MathFunctions {
         HillClimbing.counter1++;
         // f(t_i, w_i)
         Vector k_i_1 = derivFinder(StateVector).scale(h);
+        // System.out.println(k_i_1);
         // f(t_i + h/2, w_i + k_i_1/2)
         Vector intermediate1 = StateVector.sum(k_i_1.scale(0.5));
+        // System.out.println(intermediate1);
         Vector k_i_2 = derivFinder(intermediate1).scale(h);
+        // System.out.println(k_i_2);
         // f(t_i + h/2, w_i + k_i_2/2)
         Vector intermediate2 = StateVector.sum(k_i_2.scale(0.5));
+        // System.out.println(intermediate2);
         Vector k_i_3 = derivFinder(intermediate2).scale(h);
+        // System.out.println(k_i_3);
         // f(t_i + h_i, w_i + k_i_3)
         Vector intermediate3 = StateVector.sum(k_i_3);
+        // System.out.println(intermediate4);
         Vector k_i_4 = derivFinder(intermediate3).scale(h);
+        // System.out.println(k_i_4);
         Vector sum = k_i_1.sum(k_i_2.scale(2)).sum(k_i_3.scale(2)).sum(k_i_4);
+        // System.out.println(sum);
         return StateVector.sum(sum.scale(1/6.0));
+    }
+
+    /**
+     * RK4 but for experiments
+     * @param StateVector
+     * @param h Step size
+     * @return New state
+     * @throws FileNotFoundException
+     */
+    Vector RK4_2(Vector StateVector, double h, double t0, double tf) throws FileNotFoundException {
+        int N = (int) (tf / h);
+        for (int i = 0; i < N; i++) {
+            Vector k_i_1 = derivFinder(StateVector).scale(h);
+            Vector intermediate1 = StateVector.sum(k_i_1.scale(0.5));
+            Vector k_i_2 = derivFinder(intermediate1).scale(h);
+            Vector intermediate2 = StateVector.sum(k_i_2.scale(0.5));
+            Vector k_i_3 = derivFinder(intermediate2).scale(h);
+            Vector intermediate3 = StateVector.sum(k_i_3);
+            Vector k_i_4 = derivFinder(intermediate3).scale(h);
+            Vector sum = k_i_1.sum(k_i_2.scale(2.0)).sum(k_i_3.scale(2.0)).sum(k_i_4);
+            StateVector = StateVector.sum(sum.scale(1.0/6.0));
+        }
+        return StateVector;
     }
 
     /**
