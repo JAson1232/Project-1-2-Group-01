@@ -3,7 +3,7 @@ package com.mygdx.game;
 import java.io.FileNotFoundException;
 
 public class accelerationX implements Function{
-    double g = 9.8;
+    double g = 9.81;
     
     @Override
     /**
