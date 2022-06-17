@@ -14,13 +14,8 @@ public class Reader {
      * @throws FileNotFoundException
      */
     public ArrayList<String> compute() throws FileNotFoundException {
-<<<<<<< Updated upstream
-       // File file = new File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/example_inputfile.txt");
-         File file = new File("core/src/com/mygdx/game/example_inputfile.txt");
-=======
          File file = new File("/Users/mymac/Documents/GitHub/Project-1-2-Group-01/core/src/com/mygdx/game/example_inputfile.txt");
         // File file = new File("core/src/com/mygdx/game/example_inputfile.txt");
->>>>>>> Stashed changes
         //File file = new File("C:\\Users\\maria\\OneDrive\\Documents\\GitHub\\Project-1-2-Group-01\\core\\src\\com\\mygdx\\game\\example_inputfile.txt");
         Scanner scanner = new Scanner(file);
 

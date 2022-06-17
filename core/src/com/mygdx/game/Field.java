@@ -3,13 +3,10 @@ package com.mygdx.game;
 public class Field {
     int width,height,length;
     int holeX,holeY,holeZ;
-<<<<<<< Updated upstream
-    static double  frictionStatic = 0.2,frictionKinetic = 0.1;
+    public static double  frictionStatic = 0.2,frictionKinetic = 0.1;
     // static double  frictionStatic = 0.2*5,frictionKinetic = 0.1*5;
-=======
     //public static double  frictionStatic = 0.2,frictionKinetic = 0.1;
-    public static double  frictionStatic = 0.2*5,frictionKinetic = 0.1*5;
->>>>>>> Stashed changes
+    //public static double  frictionStatic = 0.2*5,frictionKinetic = 0.1*5;
     static Vector[][] vectors;
 
     /**

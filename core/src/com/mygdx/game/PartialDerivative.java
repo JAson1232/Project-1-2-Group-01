@@ -10,7 +10,7 @@ public class PartialDerivative{
      * Constructor method
      * @param function
      */
-    PartialDerivative(Function function){
+    public PartialDerivative(Function function){
         this.function = function;
     }
 

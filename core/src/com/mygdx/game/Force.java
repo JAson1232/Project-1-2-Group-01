@@ -30,7 +30,7 @@ public class Force {
 
   /**
    * Setter method
-   * @param power
+   * @param p
    */
   public void setPower(double p){
     power = p;

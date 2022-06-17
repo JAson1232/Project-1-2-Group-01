@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class Game extends ApplicationAdapter {
 	Reader reader = new Reader();
 	HillClimbing hc = new HillClimbing();
 	float ballX = Float.parseFloat(reader.compute().get(0)) + 100;
-	float ballY = Float.parseFloat((reader.compute().get(1))) + 50;
+	float ballY = Float.parseFloat((reader.compute().get(1))) + 100;
 	float holeX = Float.parseFloat((reader.compute().get(2))) + 100 * 4;
 	float holeY = Float.parseFloat((reader.compute().get(3))) + 100 * 4;
 	ArrayList<Double> times = new ArrayList<>();
@@ -97,6 +98,8 @@ public class Game extends ApplicationAdapter {
 	 * @throws FileNotFoundException
 	 */
 	public Vector[][] createField() throws FileNotFoundException {
+		System.out.println(" BAAL CORD " + " X " + ballX + " Y " + ballY);
+		System.out.println(" HOLE CORD " + " X " + holeX + " Y " + holeY);
 		HeightFunction f = new HeightFunction();
 		Field field = new Field();
 		field.setLength(fieldLength);
@@ -112,7 +115,7 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 		//Obstacle 1
-		/*
+
 		for (int j = 10; j < 12; j++) {
 			for (int i = 10; i < 40; i++) {
 				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
@@ -136,8 +139,9 @@ public class Game extends ApplicationAdapter {
 			vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
 			}
 		}
-		 */
-		vectors[(int)holeY/5][(int)holeX/5].setZ(9); // Setting z as 9 = defining it as a hole (black color)
+
+		vectors[(int)holeY/5][(int)holeX/5].setZ(9);// Setting z as 9 = defining it as a hole (black color)
+		vectors[(int)ballY/5][(int)ballX/5].setZ(7.5);
 		return vectors;
 	}
 
@@ -418,10 +422,6 @@ public class Game extends ApplicationAdapter {
 
 						// Trajectory line
 						if (!ball.holeIn) {
-<<<<<<< Updated upstream
-							vXX = getSpeed((int) (Math.random() * 360))[0];
-							vYY = getSpeed((int) (Math.random() * 360))[1];
-=======
 
 							/*
 							 * // Trajectory
@@ -443,7 +443,6 @@ public class Game extends ApplicationAdapter {
 							vXX = getSpeed((int) (rule.getCurAngle() * 360))[0];
 							vYY = getSpeed((int) (rule.getCurAngle() * 360))[1];
 
->>>>>>> Stashed changes
 							if (!first) {
 								// TODO: Why?
 								ball.vx = vXX * 25;
@@ -735,11 +734,7 @@ public class Game extends ApplicationAdapter {
 		if (!((ball.state.getVx() < stepSize * 5 && ball.state.getVx() > stepSize * -5)
 				&& ((ball.state.getVy() < stepSize * 5 && ball.state.getVy() > stepSize * -5)))) {
 			try {
-<<<<<<< Updated upstream
-				ball.state = math.euler(ball.state, h);
-=======
 				ball.state = math.RK4(ball.state, h);
->>>>>>> Stashed changes
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

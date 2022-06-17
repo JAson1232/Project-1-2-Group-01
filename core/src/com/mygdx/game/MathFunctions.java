@@ -95,7 +95,7 @@ public class MathFunctions {
      * @return New state
      * @throws FileNotFoundException
      */
-    Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
+    public Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
         HillClimbing.counter1++;
         // f(t_i, w_i)
         Vector k_i_1 = derivFinder(StateVector).scale(h);

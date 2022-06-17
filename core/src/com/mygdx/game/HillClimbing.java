@@ -57,29 +57,36 @@ public class HillClimbing {
    // hill climbing itself
    public Vector climb(Vector state, Vector hole, double n) throws FileNotFoundException {
       System.out.println("VECTOR BEFORE: " + state);
-      Game game = new Game();
-      game.createField();
+//      Game game = new Game();
+//      game.createField();
       Vector stateCopy = state;
       
-      Ball ball = new Ball(stateCopy);
+      //Ball ball = new Ball(stateCopy);
 
       while (hasNotStopped(stateCopy, px)) {
-         if (Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy()) > 5*20) {
+         if (Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy()) > 5) {
             double v = Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy());
-            stateCopy.setVx(5*20 * stateCopy.getVx() / v);
-            stateCopy.setVy(5*20 * stateCopy.getVy() / v);
+            stateCopy.setVx(5 * stateCopy.getVx() / v);
+            stateCopy.setVy(5 * stateCopy.getVy() / v);
          }
+
+         //if (Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy()) > 5*20) {
+         //            double v = Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy());
+         //            stateCopy.setVx(5*20 * stateCopy.getVx() / v);
+         //            stateCopy.setVy(5*20 * stateCopy.getVy() / v);
+         //         }
         
 
-         ball = game.moveBall(ball);
-         stateCopy = ball.state;
-         //stateCopy = matFun.RK2(stateCopy, 0.1);
+//         ball = game.moveBall(ball);
+//         stateCopy = ball.state;
+         stateCopy = matFun.RK2(stateCopy, 0.1);
          //stateCopy = matFun.euler(stateCopy, 0.1);
         // System.out.println(stateCopy.distanceTo(hole));
       }
       System.out.println("VECTOR AFTER: " + stateCopy);
       //System.out.println(stateCopy.distanceTo(hole));
-      if((int)stateCopy.distanceTo(hole) <= 15){
+      //TODO changed from 15 to 0.15 (for game)
+      if((int)stateCopy.distanceTo(hole) <= 0.15){
          System.out.println("is in hole 1");
          return state;
       }
@@ -142,7 +149,7 @@ public class HillClimbing {
 
    // simulate a shoot and calculate the distance to the hole after
    public double simulate(Vector state, double h, Vector hole) throws FileNotFoundException {
-      counter++;
+      //counter++;
       Vector stateCopy = state;
       while (hasNotStopped(stateCopy, px)) {
          if (Math.sqrt(stateCopy.getVx() * stateCopy.getVx() + stateCopy.getVy() * stateCopy.getVy()) > 5) {
@@ -157,8 +164,23 @@ public class HillClimbing {
       return dist;
    }
 
+   public Vector shoot(Vector state, double h, Vector hole) throws FileNotFoundException {
+
+      while (hasNotStopped(state, px)) {
+         if (Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy()) > 5) {
+            double v = Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy());
+            state.setVx(5 * state.getVx() / v);
+            state.setVy(5 * state.getVy() / v);
+         }
+         state = matFun.RK4(state, h);
+      }
+      //System.out.println("stateStop " + stateCopy);
+      return state;
+   }
+
+
    // stopping condition
-   private static boolean hasNotStopped(Vector state, PartialDerivative px) throws FileNotFoundException {
+   public static boolean hasNotStopped(Vector state, PartialDerivative px) throws FileNotFoundException {
       if (!((state.getVx() < stepSize * 5 && state.getVx() > stepSize * -5) && ((state.getVy() < stepSize * 5 && state.getVy() > stepSize * -5)))) {
          return true;
       }
