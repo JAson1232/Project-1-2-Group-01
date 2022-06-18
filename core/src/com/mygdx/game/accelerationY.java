@@ -18,6 +18,9 @@ public class accelerationY implements Function{
     public double f(double x, double y,double vx,double vy) throws FileNotFoundException {
         HeightFunction f  = new HeightFunction();
         PartialDerivative px = new PartialDerivative(f);
+        double pdx = px.getX(x, y, vx, vy);
+        double pdy = px.getY(x, y, vx, vy);
+        double denom = 1 + pdx*pdx + pdy*pdy;
         // Original
         /*
         if(Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)) < Experiments.h * 5
@@ -28,6 +31,6 @@ public class accelerationY implements Function{
         return (-g*px.getY(x,y,vx,vy))-(Field.frictionKinetic*g*((vy))/(Math.sqrt(((vx)*(vx))+((vy)*(vy)))));
         */
         // Sophisticated
-        return -m*g*px.getY(x,y,vx,vy)/(1 + px.getX(x,y,vx,vy)*px.getX(x,y,vx,vy) + px.getY(x,y,vx,vy)*px.getY(x,y,vx,vy)) - Field.frictionKinetic*m*g/Math.sqrt(1 + px.getX(x,y,vx,vy)*px.getX(x,y,vx,vy) + px.getY(x,y,vx,vy)*px.getY(x,y,vx,vy))*(vy/Math.sqrt(vx*vx + vy*vy + Math.pow(px.getX(x,y,vx,vy)*vx + px.getY(x,y,vx,vy)*vy, 2)))/m;
+        return -m*g*pdy/denom - Field.frictionKinetic*m*g / Math.sqrt(denom) * (vy / Math.sqrt(vx * vx + vy * vy + Math.pow(pdx*vx + pdy*vy, 2)))/m;
     }
 }
