@@ -5,8 +5,8 @@ yt = 1
 r = 0.05
 muk = 0.1
 mus = 0.2
-heightProfile = y^2 + y
-e^(-(x^2+y^2)/40)
+heightProfile = e^(-(x^2+y^2)/40)
+y^2 + y
 0.1*x + 1
 sin((x-y)/7) + 0.5
 sandPitX = -1<x<1
