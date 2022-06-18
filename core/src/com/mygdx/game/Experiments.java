@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 
 public class Experiments {
     static MathFunctions math = new MathFunctions();
-    static double[] stepSizes = {0.1, 0.01, 0.001};
+    static double[] stepSizes = {0.01};
     static double h;
-    static double time = 1.0;
+    static double time = 0.1;
     static double epsilon = 0.0;
 //IMPORTANT : When running experiments make sure that both in 
 //the Field class and the input file the coefficients of friction are 
