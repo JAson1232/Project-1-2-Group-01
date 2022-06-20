@@ -36,17 +36,17 @@ public class ExperimentsPhase3 {
             startTime = System.nanoTime();
             //System.out.println("startTime" + startTime);
 
-            //ruleMag.constructVector(start, target);
-            Vector n = modHC.modHC(start, target);
+            ruleMag.constructVector(start, target);
+            //Vector n = modHC.modHC(start, target);
             //pso.runPSO(start, target);
-            //Vector h = hc.HillClimbing(start, target);
+           //Vector h = hc.HillClimbing(start, target);
 
             long stopTime = System.nanoTime();
             //System.out.println("stopTime" + stopTime);
 
             allTime = allTime + (stopTime - startTime);
-            Vector after = hc.shoot(n, 0.1);
-            System.out.println("AFTER SHOOT " + after);
+            //Vector after = hc.shoot(h, 0.1);
+            //System.out.println("AFTER SHOOT " + after);
         }
 
 

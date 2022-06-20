@@ -72,18 +72,18 @@ public class GraphGolf {
     public void assignNeighbors(VertexGolf[][] matrix){
 
         //int counter = 0;
-        for (VertexGolf[] q : matrix) {
-            //counter++;
-            //System.out.println(counter);
-            for (VertexGolf qq : q) {
-                if (qq == null) {
-                    System.out.println("null!!!!!");
-                    System.exit(0);
-                }
-                System.out.print(qq.type);
-            }
-            System.out.println();
-        }
+//        for (VertexGolf[] q : matrix) {
+//            //counter++;
+//            //System.out.println(counter);
+//            for (VertexGolf qq : q) {
+//                if (qq == null) {
+//                    System.out.println("null!!!!!");
+//                    System.exit(0);
+//                }
+//                System.out.print(qq.type);
+//            }
+//            System.out.println();
+//        }
 //        if(this.matrix == null){
 //            convertMatrix(input);
 //        }
@@ -158,7 +158,7 @@ public class GraphGolf {
         start.pathCost = 0;
         Queue queue = new Queue();
 
-        System.out.println("DJKS STARTVERTEX " + " X " + start.xCord + " Y " + start.yCord);
+//        System.out.println("DJKS STARTVERTEX " + " X " + start.xCord + " Y " + start.yCord);
 
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
@@ -239,36 +239,36 @@ public class GraphGolf {
 
     //method to run the path with hc
     public ArrayList<Vector> runPathWithHc(ArrayList<Vector> path) throws FileNotFoundException {
-        System.out.println("/////////////////////");
+//        System.out.println("/////////////////////");
         HillClimbing hc = new HillClimbing();
         RuleBased ruleBot = new RuleBased();
 
         ArrayList<Vector> pathToFollow = new ArrayList<Vector>();
 
         Vector start = path.get(0);
-        System.out.println("start " + start);
+//        System.out.println("start " + start);
 
         Vector sPrev = start;
 
         for(int i = 1; i<path.size(); i++){
             Vector target = path.get(i);
             Vector s = ruleBot.constructVector(start, target);
-            System.out.println("s " + s);
-            System.out.println("target " + target);
+//            System.out.println("s " + s);
+//            System.out.println("target " + target);
 
             Vector result = hc.shoot(s, 0.1);
-            System.out.println("SHOOT RESULT " + result);
+//            System.out.println("SHOOT RESULT " + result);
 
             double dist = hc.simulate(s, 0.1, target);
-            System.out.println("distance " + dist);
+//            System.out.println("distance " + dist);
 
             if (dist > 0.35){  //never gets closer
-                System.out.println("if");
+//                System.out.println("if");
                 start = result;
-                System.out.println("new start " + start);
+//                System.out.println("new start " + start);
                 i--;
                 pathToFollow.add(sPrev);
-                System.out.println("/////////////////////");
+//                System.out.println("/////////////////////");
             }
             sPrev = s;
         }
@@ -280,26 +280,31 @@ public class GraphGolf {
     //make everything work together
     public void run() throws FileNotFoundException {
 
+        long startTime = System.nanoTime();
+//        startTime = System.nanoTime();
+
         GraphGolf graph = new GraphGolf();
-        System.out.println("1 GRAPH DONE");
+//        System.out.println("1 GRAPH DONE");
         graph.assignNeighbors(graph.matrix);
-        System.out.println("2 ASSIGN DONE");
+//        System.out.println("2 ASSIGN DONE");
         VertexGolf target = Dijkstra(graph.matrix, startVertex);
-        System.out.println("3 DIJKSTRA DONE");
-        System.out.println("djks result " + " X " + target.xCord + " Y " + target.yCord);
+//        System.out.println("3 DIJKSTRA DONE");
+//        System.out.println("djks result " + " X " + target.xCord + " Y " + target.yCord);
         ArrayList<int[]> path = storePath(target);
-        System.out.println("4 PATH DONE");
-        System.out.println("Path size " + path.size());
+//        System.out.println("4 PATH DONE");
+//        System.out.println("Path size " + path.size());
         ArrayList<Vector> pathVector = convertInVector(path);
-        for(int i=0; i<pathVector.size(); i++){
-            System.out.println(pathVector.get(i));
-        }
-        System.out.println("5 VECTOR PATH DONE");
+//        for(int i=0; i<pathVector.size(); i++){
+//            System.out.println(pathVector.get(i));
+//        }
+        //System.out.println("5 VECTOR PATH DONE");
         ArrayList<Vector> pathToFolow= runPathWithHc(pathVector);
-        for (int i = 0; i < pathToFolow.size(); i++) {
-            System.out.println(pathToFolow.get(i));
-        }
-        System.out.println("6 RUN DONE");
+//        for (int i = 0; i < pathToFolow.size(); i++) {
+//            System.out.println(pathToFolow.get(i));
+//        }
+        long stopTime = System.nanoTime();
+        System.out.println("FIND PATH " + (double)(stopTime - startTime)/1000000000);
+        //System.out.println("6 RUN DONE");
     }
 
     public static void main(String[] args) throws FileNotFoundException {

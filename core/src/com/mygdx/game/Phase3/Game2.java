@@ -405,17 +405,17 @@ public class Game2 extends ApplicationAdapter {
 //			ball.state = rule2.directlyShooting(ball.state, hole);			//RULE BASED GARUS
 
 
-			try {											//PSO
-				ball.state = pso.runPSO(ball.state, hole);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-//
-//			try {
-//				ball.state = modHC.modHC(ball.state, hole);			// NEW HC
+//			try {											//PSO
+//				ball.state = pso.runPSO(ball.state, hole);
 //			} catch (FileNotFoundException e) {
 //				e.printStackTrace();
 //			}
+//
+			try {
+				ball.state = modHC.modHC(ball.state, hole);			// NEW HC
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 
 //			ball.state =  rule.constructVector(ball.state, hole);  	// rule based (magnitude)
 

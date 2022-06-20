@@ -20,7 +20,7 @@ public class Experiments {
             long startTime = 0;
             startTime = System.nanoTime();
 
-            state = math.RK4_2(state, h, 0, time);
+            state = math.RK4(state, 0.1);
 
             for (double j = 0.0; j <= time - h; j += h) {
                 //state = math.BD2(state, h); // Off values
