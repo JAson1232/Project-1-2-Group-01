@@ -29,25 +29,21 @@ public class HillClimbing {
         // System.out.println("state " + state);
          while (hasNotStopped(state, px)) {
            
-            if (Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy()) > 5*20) {
+            if (Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy()) > 5) {
                double v = Math.sqrt(state.getVx() * state.getVx() + state.getVy() * state.getVy());
-               state.setVx(5*20 * state.getVx() / v);
-               state.setVy(5*20 * state.getVy() / v);
+               state.setVx(5 * state.getVx() / v);
+               state.setVy(5 * state.getVy() / v);
             }
-            
-            Game game = new Game();
-            Ball ball = new Ball(state);
 
-            ball = game.moveBall(ball);
-            state = ball.state;
-            
+            state = matFun.RK4(state, 0.1);
+
             
           //  System.out.println(state);
          // System.out.println(state.distanceTo(hole));
             if (state.distanceTo(hole) <= 10) {
 //               System.out.println("state " + state);
 //               System.out.println("distance to hole " + state.distanceTo(hole));
-               System.out.println("start climb");
+               //System.out.println("start climb");
 //               System.out.println("vectorToClimb " + stateCopy);
                return climb(stateCopy, hole, 0.075);
             }

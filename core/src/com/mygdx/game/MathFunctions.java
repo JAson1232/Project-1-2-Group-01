@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.mygdx.game.Phase3.ModHillClimbing;
+
 import java.io.FileNotFoundException;
 
 
@@ -96,7 +98,7 @@ public class MathFunctions {
      * @throws FileNotFoundException
      */
     public Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
-        HillClimbing.counter1++;
+        ModHillClimbing.counter1++;
         // f(t_i, w_i)
         Vector k_i_1 = derivFinder(StateVector).scale(h);
         // f(t_i + h/2, w_i + k_i_1/2)

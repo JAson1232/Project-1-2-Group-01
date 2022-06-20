@@ -10,6 +10,7 @@ public class ModHillClimbing {
 
     HillClimbing hc = new HillClimbing();
     RuleBased rule = new RuleBased();
+    public static int counter1 = 0;
 
     public Vector modHC(Vector start, Vector target) throws FileNotFoundException {
 
