@@ -1,5 +1,6 @@
 package com.mygdx.game.some_shit;
 
+import com.mygdx.game.Ball;
 import com.mygdx.game.Game;
 import com.mygdx.game.HillClimbing;
 import com.mygdx.game.Vector;
@@ -17,7 +18,7 @@ public class GraphGolf {
     public VertexGolf startVertex;
     public VertexGolf holeVertex;
 
-    public static Display disp = new Display();
+    //public static Display disp = new Display();
 
     public GraphGolf() throws FileNotFoundException {
         this.matrix = convertMatrix(input);
@@ -275,6 +276,8 @@ public class GraphGolf {
         return pathToFollow;
     }
 
+
+
     //make everything work together
     public void run() throws FileNotFoundException {
 
@@ -301,7 +304,6 @@ public class GraphGolf {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-
 
         new GraphGolf().run();
         System.out.println("MAIN DONE");

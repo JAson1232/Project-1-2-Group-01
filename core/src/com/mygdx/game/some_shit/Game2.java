@@ -449,6 +449,7 @@ public class Game2 extends ApplicationAdapter {
 					Vector stateP = pathVector.get(i);
 					Vector ballState = new Vector(stateP.getX()+100, stateP.getY()+100, stateP.getZ(),null, stateP.getVx()*5, state.getVy()*5);
 					ball.state = ballState;
+					ball = moveBall(ball);
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -464,6 +465,7 @@ public class Game2 extends ApplicationAdapter {
 //				ball.holeIn = true;
 //				ball.moving = false;
 //			}
+			prevBot = false;
 			shapeRenderer.flush();
 		}
 	}

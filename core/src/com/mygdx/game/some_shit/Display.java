@@ -54,6 +54,7 @@ public class Display extends JPanel implements KeyListener {
         localGraphics2D.setColor(Color.GREEN);
         localGraphics2D.fill(rectangle);
         localGraphics2D.setColor(Color.WHITE);
+        ball.setFrame(xPositionBall, yPositionBall, radius, radius);
         localGraphics2D.fill(this.ball);
 
 
