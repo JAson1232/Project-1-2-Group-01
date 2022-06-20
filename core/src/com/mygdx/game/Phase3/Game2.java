@@ -94,7 +94,7 @@ public class Game2 extends ApplicationAdapter {
 	GraphGolf graph = new GraphGolf();
 	HillClimbing hc = new HillClimbing();
 	GolfPSO pso = new GolfPSO();
-	ruleBasedBot rule2 = new ruleBasedBot(ball, holeX, holeY);
+	ruleBasedBot rule2 = new ruleBasedBot();
 
 	public Game2() throws FileNotFoundException {
 	}
@@ -190,8 +190,6 @@ public class Game2 extends ApplicationAdapter {
 //				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
 //			}
 //		}
-//		vectors[(int)holeY/5][(int)holeX/5].setZ(9);// Setting z as 9 = defining it as a hole (black color)
-//		vectors[(int)ballY/5][(int)ballX/5].setZ(7.5);
 		return vectors;
 	}
 
@@ -253,16 +251,6 @@ public class Game2 extends ApplicationAdapter {
 			stage.act();
 			stage.draw();
 		} else if (isStarted && !Bot) {
-			//System.out.println("two");
-
-//			if (first2) {
-//				startTime = 0;
-//				startTime = System.nanoTime();
-//				first2 = false;
-//			}
-
-			//shapeRenderer.end();
-			// Changes color of background
 			Gdx.gl.glClearColor(0, 0.5f, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -414,7 +402,7 @@ public class Game2 extends ApplicationAdapter {
 //-------------------------------------------------------------------------------------
 		if (prevBot) {
 
-//			ball.state = rule2.directlyShooting();			//RULE BASED GARUS
+//			ball.state = rule2.directlyShooting(ball.state, hole);			//RULE BASED GARUS
 
 
 //			try {											//PSO
@@ -423,11 +411,11 @@ public class Game2 extends ApplicationAdapter {
 //				e.printStackTrace();
 //			}
 //
-//			try {
-//				ball.state = modHC.modHC(ball.state, hole);			// NEW HC
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				ball.state = modHC.modHC(ball.state, hole);			// NEW HC
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 
 			//ball.state =  rule.constructVector(ball.state, hole);  	// rule based (magnitude)
 
@@ -458,14 +446,14 @@ public class Game2 extends ApplicationAdapter {
 
 // -------------------------------------------------------------------------------------
 
-//			while (Math.sqrt(Math.pow(ball.state.getVx(), 2) + Math.pow(ball.state.getVy(), 2)) < stepSize * 5) {
-//				System.out.println("AAAAAAAAAAA");
-//				ball = moveBall(ball);
-//				System.out.println("BBBBBBBBBBB");
-//
-//				ball.holeIn = true;
-//				ball.moving = false;
-//			}
+			while (Math.sqrt(Math.pow(ball.state.getVx(), 2) + Math.pow(ball.state.getVy(), 2)) < stepSize * 5) {
+				System.out.println("AAAAAAAAAAA");
+				ball = moveBall(ball);
+				System.out.println("BBBBBBBBBBB");
+
+				ball.holeIn = true;
+				ball.moving = false;
+			}
 			prevBot = false;
 			shapeRenderer.flush();
 		}

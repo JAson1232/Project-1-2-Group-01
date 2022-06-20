@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ruleBasedBot {
-    private Ball ball;
+    private Vector ball;
 
     private double holeX;
     private double holeY;
@@ -18,42 +18,35 @@ public class ruleBasedBot {
     boolean inHole;
     boolean inWater;
 
-    int i = 0;
 
     ArrayList<Double> distances = new ArrayList<Double>();
     ArrayList<Vector> vectors = new ArrayList<Vector>();
 
-    public ruleBasedBot(Ball ball, double holeX, double holeY){
-        this.ball = ball;
-        this.holeX = holeX;
-        this.holeY = holeY;
+    public ruleBasedBot(){
 
-        double dy = holeY - ball.getY();
-        double dx = holeX - ball.getX();
-
-
-
-        double d = Math.sqrt(dy*dy+dx*dx);
-        double cos = dx/d;
-
-        double pi_initAngle = Math.acos(cos);
-        initAngle = Math.toDegrees(pi_initAngle);
-
-        curAngle = initAngle;
     }
-    public Vector directlyShooting(){
+    public Vector directlyShooting(Vector start, Vector target){
 
-        double radianA = Math.toRadians(curAngle);
+        double ballX = start.getX();
+        double ballY = start.getY();
+        double holeX = target.getX();
+        double holeY = target.getY();
 
-        double cosA = Math.cos(radianA);
-        double sinA = Math.sin(radianA);
+        double dx = holeX - ballX;
+        double dy = holeY - ballY;
+        double distance =  Math.sqrt(dx*dx+dy*dy);
+
+
+
+        double cosA = dx/distance;
+        double sinA = dy/distance;
 
         curvX = velocity*cosA;
         curvY = velocity*sinA;
 
         changeAnglesStepByStep();
 
-        return new Vector(ball.getX(),ball.getY(),ball.getZ(),null,curvX,curvY);
+        return new Vector(start.getX(),start.getY(),start.getZ(),null,curvX,curvY);
     }
     public void changeAnglesStepByStep(){
         curAngle = curAngle - 0.01;
@@ -68,7 +61,7 @@ public class ruleBasedBot {
     }
 
     public void running(){
-        directlyShooting();
+
         //moveball
         if(curAngle+1==initAngle+360){
             esaySort(distances);

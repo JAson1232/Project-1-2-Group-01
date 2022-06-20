@@ -1,12 +1,13 @@
-x0 = -45
-y0 = -55
-xt = 0
-yt = 0
+x0 = -3
+y0 = 0
+xt = 4
+yt = 1
 r = 0.05
 muk = 0.1
 mus = 0.2
-heightProfile = 0
+heightProfile = 0.4*(0.9-e^-((x^2+y^2)/1000))
 sandPitX = -1<x<1
 sandPitY = 1<y<2
 muks = 0.25
 muss = 0.3
+

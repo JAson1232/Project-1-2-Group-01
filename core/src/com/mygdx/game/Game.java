@@ -88,7 +88,6 @@ public class Game extends ApplicationAdapter {
 	private float gNX = 400;
 	private float gNY = 280;
 
-	ruleBasedBot rule = new ruleBasedBot(ball,holeX,holeY);
 
 	public Game() throws FileNotFoundException {
 	}
@@ -451,8 +450,8 @@ public class Game extends ApplicationAdapter {
 						 */
 //							vXX = getSpeed((int) (Math.random() * 360))[0];
 //							vYY = getSpeed((int) (Math.random() * 360))[1];
-						vXX = getSpeed((int) (rule.getCurAngle() * 360))[0];
-						vYY = getSpeed((int) (rule.getCurAngle() * 360))[1];
+//						vXX = getSpeed((int) (rule.getCurAngle() * 360))[0];
+//						vYY = getSpeed((int) (rule.getCurAngle() * 360))[1];
 
 						if (!first) {
 							// TODO: Why?
@@ -506,8 +505,8 @@ public class Game extends ApplicationAdapter {
 					// Ball still visible
 					if (!ball.holeIn) {
 						ball.inWater = false;
-						rule.changeAnglesStepByStep();
-						rule.distanceCalculation();
+//						rule.changeAnglesStepByStep();
+//						rule.distanceCalculation();
 					}
 				}
 
