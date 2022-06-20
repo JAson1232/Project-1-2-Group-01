@@ -11,9 +11,6 @@ public class GraphGolf {
 
     public VertexGolf[][] matrix;
 
-    public Vector start = new Vector(-3, 0, 0, null, 0, 0);
-    public Vector hole = new Vector(4,1,0,null,0,0);
-
     public Game game = new Game();
     Vector[][] input = game.createField();
 
@@ -32,19 +29,25 @@ public class GraphGolf {
         for (int row = 0; row < output.length; row++) {
             for (int col = 0; col < output[row].length; col++) {
 
-                int x = (int) Math.round(input[row][col].getX());
-                int y = (int) Math.round(input[row][col].getY());
+                int x = (int) (input[row][col].getX());
+                int y = (int) (input[row][col].getY());
                 VertexGolf vertex = new VertexGolf(x, y);
 
 
                 if (input[row][col].getZ() == 9) {
                     vertex.type = 'H'; //hole
+                    System.out.println("H" +" row " + input[row][col].getX() + " col " + input[row][col].getY());
                     holeVertex = vertex;
+
                 } else if ((input[row][col].getZ() > 5 && input[row][col].getZ() < 7) || input[row][col].getZ() < 0) {
                     vertex.type = 'X'; //its obstacle/water
+                    //System.out.println("X" +" row " + input[row][col].getX() + " col " + input[row][col].getY());
+
                 } else if (input[row][col].getZ() == 7.5) {
                     vertex.type = 'S';//start
+                    System.out.println("S" +" row " + input[row][col].getX() + " col " + input[row][col].getY());
                     startVertex = vertex;
+
                 } else {
                     vertex.type = '-'; //grass
                 }
@@ -66,7 +69,10 @@ public class GraphGolf {
     //method to assign neighbors
     public void assignNeighbors(VertexGolf[][] matrix){
 
+        //int counter = 0;
         for (VertexGolf[] q : matrix) {
+            //counter++;
+            //System.out.println(counter);
             for (VertexGolf qq : q) {
                 if (qq == null) {
                     System.out.println("null!!!!!");
@@ -141,7 +147,7 @@ public class GraphGolf {
                 }
             }
         }
-        System.out.println("one vertex neigh" + " X " + matrix[5][15].neigh.get(6).xCord + " Y " + matrix[5][15].neigh.get(6).yCord);
+        //System.out.println("one vertex neigh" + " X " + matrix[5][15].neigh.get(6).xCord + " Y " + matrix[5][15].neigh.get(6).yCord);
     }
 
     // path finding algo
@@ -162,13 +168,13 @@ public class GraphGolf {
             }
         }
         while(queue.size() != 0){
-            System.out.println("While");
+            //System.out.println("While");
             VertexGolf min = queue.poll();
             for (int i = 0; i < min.neigh.size(); i++) {
-                System.out.println("i");
+                //System.out.println("i");
                 int alt = min.pathCost + 1;
                 if(alt<min.neigh.get(i).pathCost ){
-                    System.out.println("if");
+                    //System.out.println("if");
                     min.neigh.get(i).pathCost = alt;
                     min.neigh.get(i).previous = min;
                 }
@@ -184,23 +190,27 @@ public class GraphGolf {
     //method to store the path in x and y cord
     public ArrayList<int[]> storePath(VertexGolf vertex){
 
-        System.out.println("/////////////////////");
-        System.out.println("vertex " + "x " + vertex.xCord + "y " + vertex.yCord);
-        System.out.println("Previous vertex " + "x " + vertex.previous.xCord + "y " + vertex.previous.yCord);
-
+//        System.out.println("/////////////////////");
+//        System.out.println("vertex " + "x " + vertex.xCord + "y " + vertex.yCord);
+//        System.out.println("Previous vertex " + "x " + vertex.previous.xCord + "y " + vertex.previous.yCord);
+        System.out.println("START VERTEX " + "X " + startVertex.xCord + "Y " + startVertex.yCord);
         ArrayList<int[]> path = new ArrayList<>();
         int xLast = vertex.xCord;
         int yLast = vertex.yCord;
         int[] lastCord = {xLast, yLast};
         path.add(lastCord);
-        while(vertex.previous != null){
-            System.out.println("while");
-            System.out.println("/////////////////////");
+        while(vertex.xCord != startVertex.xCord && vertex.yCord !=startVertex.yCord){
+            //vertex.previous != null
+            //System.out.println("while");
+//            System.out.println("vertex " + "x " + vertex.xCord + "y " + vertex.yCord);
+//            System.out.println("Previous vertex " + "x " + vertex.previous.xCord + "y " + vertex.previous.yCord);
             int xPrevCord = vertex.previous.xCord;
             int yPrevCord = vertex.previous.yCord;
             int[] prevCord = {xPrevCord, yPrevCord};
+            //System.out.println("Prev cord " + Arrays.toString(prevCord));
             path.add(prevCord);
             vertex = vertex.previous;
+            //System.out.println("/////////////////////");
         }
         return path;
     }
@@ -208,10 +218,17 @@ public class GraphGolf {
     //method to store the path in vectors
     public ArrayList<Vector> convertInVector(ArrayList<int[]> path){
         ArrayList<Vector> vectorPath = new ArrayList<>();
+
+        //dont touch for now
+        int xFirst = startVertex.xCord;
+        int yFirst = startVertex.yCord;
+        Vector initialPos = new Vector(xFirst, yFirst,0,null,0,0);
+        vectorPath.add(initialPos);
+
         for(int i = path.size()-1; i >= 0; i--){
             int[] cord = path.get(i);
             int xCord = cord[0];
-            int yCord = cord[1];
+            int yCord = cord[1];;
             Vector vector = new Vector(xCord, yCord, 0, null, 0, 0);
             vectorPath.add(vector);
         }
@@ -220,38 +237,33 @@ public class GraphGolf {
 
     //method to run the path with hc
     public void runPathWithHc(ArrayList<Vector> path) throws FileNotFoundException {
+        System.out.println("/////////////////////");
         HillClimbing hc = new HillClimbing();
-        Vector start = path.get(0);
+        RuleBased ruleBot = new RuleBased();
 
-        for(int i = 1; i<path.size()-1; i++){
+        Vector start = path.get(0);
+        System.out.println("start " + start);
+
+        for(int i = 1; i<path.size(); i++){
             Vector target = path.get(i);
-            Vector s = shootInHoleDir(target.getX(), target.getY(), start.getX(), start.getY());
-            Vector result = hc.climb(s, target, 0.1);
-            double dist = hc.simulate(result, 0.1, target);
-            if(dist > 0.15){
-                Vector newState = hc.shoot(start, 0.1, path.get(i-1));
-                start = newState;
+            Vector s = ruleBot.constructVector(start, target);
+            System.out.println("s " + s);
+            System.out.println("target " + target);
+
+            Vector result = hc.shoot(s, 0.1);
+            System.out.println("SHOOT RESULT " + result);
+
+            double dist = hc.simulate(s, 0.1, target);
+            System.out.println("distance " + dist);
+
+            if(dist > 0.35){  //never gets closer
+                System.out.println("if");
+                start = result;
+                System.out.println("new start " + start);
                 i--;
+                System.out.println("/////////////////////");
             }
         }
-    }
-
-    //shoot in target direction
-    public static Vector shootInHoleDir(double holeX, double holeY, double x, double y){
-        double absX = Math.abs(holeX - x);
-        double absY = Math.abs(holeY - y);
-
-        double cosO = (holeX-x)/Math.sqrt(absX*absX + absY*absY);
-        double sinO = (holeY-y)/Math.sqrt(absX*absX + absY*absY);
-
-        double xStart = x;
-        double yStart = y;
-
-        double Vx = 5 * cosO;
-        double Vy = 5 * sinO;
-
-        Vector toHole = new Vector(xStart, yStart, 0, null, Vx, Vy);
-        return toHole;
     }
 
     //make everything work together
@@ -268,6 +280,9 @@ public class GraphGolf {
         System.out.println("4 PATH DONE");
         System.out.println("Path size " + path.size());
         ArrayList<Vector> pathVector = convertInVector(path);
+        for(int i=0; i<pathVector.size(); i++){
+            System.out.println(pathVector.get(i));
+        }
         System.out.println("5 VECTOR PATH DONE");
         runPathWithHc(pathVector);
         System.out.println("6 RUN DONE");
