@@ -67,6 +67,7 @@ public class HillClimbing {
       //System.out.println("VECTOR AFTER: " + stateCopy);
       //matFun.closestDistance
       if(matFun.closestDistance < 0.15){
+         //fdf
          System.out.println("is in hole 1");
          return state;
       }
