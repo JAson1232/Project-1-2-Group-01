@@ -101,14 +101,10 @@ public class MathFunctions {
      * @throws FileNotFoundException
      */
     Vector RK2(Vector StateVector, double h) throws FileNotFoundException {
-        // f(t_i, w_i)
-        Vector k_i_1 = derivFinder(StateVector);
-        // System.out.println(k_i_1);
-        // 3f(t_i + 2h/3, w_i + f(t_i, w_i)*2h/3)
-        Vector intermediate = StateVector.sum(k_i_1.scale(2/3.0));
-        // System.out.println(intermediate);
-        Vector k_i_2 = derivFinder(intermediate);
-        // System.out.println(k_i_2);
+        Vector k_i_1 = derivFinder(StateVector).scale(h);
+        Vector intermediate = StateVector.sum(k_i_1.scale(2.0/3.0));
+        Vector k_i_2 = derivFinder(intermediate).scale(h);
+        StateVector = StateVector.sum((k_i_1.sum(k_i_2.scale(3.0))).scale(0.25));
         return StateVector.sum((k_i_1.sum(k_i_2.scale(3))).scale(h/4.0));
     }
 
@@ -139,26 +135,14 @@ public class MathFunctions {
      */
     public Vector RK4(Vector StateVector, double h) throws FileNotFoundException {
         HillClimbing.counter1++;
-        // f(t_i, w_i)
         Vector k_i_1 = derivFinder(StateVector).scale(h);
-        // System.out.println(k_i_1);
-        // f(t_i + h/2, w_i + k_i_1/2)
         Vector intermediate1 = StateVector.sum(k_i_1.scale(0.5));
-        // System.out.println(intermediate1);
         Vector k_i_2 = derivFinder(intermediate1).scale(h);
-        // System.out.println(k_i_2);
-        // f(t_i + h/2, w_i + k_i_2/2)
         Vector intermediate2 = StateVector.sum(k_i_2.scale(0.5));
-        // System.out.println(intermediate2);
         Vector k_i_3 = derivFinder(intermediate2).scale(h);
-        // System.out.println(k_i_3);
-        // f(t_i + h_i, w_i + k_i_3)
         Vector intermediate3 = StateVector.sum(k_i_3);
-        // System.out.println(intermediate4);
         Vector k_i_4 = derivFinder(intermediate3).scale(h);
-        // System.out.println(k_i_4);
         Vector sum = k_i_1.sum(k_i_2.scale(2)).sum(k_i_3.scale(2)).sum(k_i_4);
-        // System.out.println(sum);
         return StateVector.sum(sum.scale(1/6.0));
     }
 
