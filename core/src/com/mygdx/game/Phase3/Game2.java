@@ -130,66 +130,6 @@ public class Game2 extends ApplicationAdapter {
 				}
 			}
 		}
-
-		//MAZE 4
-		//Obstacle 1
-//		for (int j = 15; j < 17; j++) {
-//			for (int i = 5; i < 17; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 2
-//		for (int j = 5; j < 15; j++) {
-//			for (int i = 15; i < 17; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 3
-//		for (int j = 30; j < 32; j++) {
-//			for (int i = 0; i < 25; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 4
-//		for (int j = 0; j < 25; j++) {
-//			for (int i = 30; i < 32; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 5
-//		for (int j = 30; j < 32; j++) {
-//			for (int i = 30; i < 32; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-
-//MAZE 2
-		//Obstacle 1
-//		for (int j = 15; j < 17; j++) {
-//			for (int i = 0; i < 40; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 2
-//		for (int j = 30; j < 32; j++) {
-//			for (int i = 10; i < 50; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//
-//		//MAZE 3
-//		//Obstacle 1
-//		for (int j = 0; j < 50; j++) {
-//			for (int i = 15; i < 17; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 2
-//		for (int j = 15; j < 65; j++) {
-//			for (int i = 30; i < 32; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
 		return vectors;
 	}
 

@@ -40,4 +40,8 @@ Steps
 To Play the Game:
 -----------------------------------
 By selecting to play the game, the application shows a green golf field with lighter greens indicating higher altitudes and darker greens indicating depressions. Elevations with a negative height indicate the presence of water, and are therefore colored blue. The left/right keys can be used to change the angle in which the ball is launched, the strength with which that is done depends on how long the space bar was held before it was released (to shoot). Alternatively, the ball's movements can also be determined separately from input text file VelocityTestTXT.txt. The game is completed once the ball has been shot into the hole (and accordingly disappears). On the other hand, if the ball was shot into the water, the ball respawns in its previous position.
-Alternatively, by choosing a bot to play the game, the application first calculates the ideal xy-velocities to shoot the ball, after which has been calculated the ball will appear on the screen. To shoot the ball for a hole-in-one, place space bar.
+Alternatively, by choosing a bot to play the game, the application first calculates the ideal xy-velocities to shoot the ball, after which has been calculated the ball will appear on the screen. To shoot the ball for a hole-in-one, place space bar. 
+
+In order to start the game, where the user can play him/herself he/she has to use Game and not Game2 class in DesktopLauncher, also the coordinates of hole and ball have to be scaled in Game as it is in Game2 class.
+In order to launch the main method in GraphGolf user has to change example_input with the data mentioned in test.txt and remove the scaling of coordinates in Game class.
+In order to run the bot (modified hill climbing/rule based) user has to use Game2 class in DesktopLauncher and the select in Game2 which bot he/she wants to use 
