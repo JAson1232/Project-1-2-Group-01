@@ -10,6 +10,6 @@ import java.io.FileNotFoundException;
 public class DesktopLauncher {
 	public static void main (String[] args) throws FileNotFoundException {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Game(), config);
+		new LwjglApplication(new Game2(), config);
 	}
 }

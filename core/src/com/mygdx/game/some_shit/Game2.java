@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.*;
+import com.mygdx.game.PSO.GolfPSO;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -94,6 +95,8 @@ public class Game2 extends ApplicationAdapter {
 	ModHillClimbing modHC = new ModHillClimbing();
 	GraphGolf graph = new GraphGolf();
 	HillClimbing hc = new HillClimbing();
+	GolfPSO pso = new GolfPSO();
+	ruleBasedBot rule2 = new ruleBasedBot(ball, holeX, holeY);
 
 	public Game2() throws FileNotFoundException {
 	}
@@ -164,31 +167,31 @@ public class Game2 extends ApplicationAdapter {
 
 //MAZE 2
 		//Obstacle 1
-		for (int j = 15; j < 17; j++) {
-			for (int i = 0; i < 40; i++) {
-				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-			}
-		}
-		//Obstacle 2
-		for (int j = 30; j < 32; j++) {
-			for (int i = 10; i < 50; i++) {
-				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-			}
-		}
-
-		//MAZE 3
-		//Obstacle 1
-		for (int j = 0; j < 50; j++) {
-			for (int i = 15; i < 17; i++) {
-				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-			}
-		}
-		//Obstacle 2
-		for (int j = 15; j < 65; j++) {
-			for (int i = 30; i < 32; i++) {
-				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-			}
-		}
+//		for (int j = 15; j < 17; j++) {
+//			for (int i = 0; i < 40; i++) {
+//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+//			}
+//		}
+//		//Obstacle 2
+//		for (int j = 30; j < 32; j++) {
+//			for (int i = 10; i < 50; i++) {
+//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+//			}
+//		}
+//
+//		//MAZE 3
+//		//Obstacle 1
+//		for (int j = 0; j < 50; j++) {
+//			for (int i = 15; i < 17; i++) {
+//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+//			}
+//		}
+//		//Obstacle 2
+//		for (int j = 15; j < 65; j++) {
+//			for (int i = 30; i < 32; i++) {
+//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+//			}
+//		}
 //		vectors[(int)holeY/5][(int)holeX/5].setZ(9);// Setting z as 9 = defining it as a hole (black color)
 //		vectors[(int)ballY/5][(int)ballX/5].setZ(7.5);
 		return vectors;
@@ -394,6 +397,7 @@ public class Game2 extends ApplicationAdapter {
 			// Hole
 			shapeRenderer.setColor(0, 0, 0, 1);
 			shapeRenderer.circle(holeX, holeY, 12);
+
 			// Ball is close enough to fall into the hole
 			if (Math.abs(holeX - ball.state.getX()) <= 20 && Math.abs(holeY - ball.state.getY()) <= 20) {
 				ball.holeIn = true;
@@ -411,12 +415,21 @@ public class Game2 extends ApplicationAdapter {
 
 //-------------------------------------------------------------------------------------
 		if (prevBot) {
+
+//			ball.state = rule2.directlyShooting();
+
+//			try {
+//				ball.state = pso.runPSO(ball);
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			}
 //
-			try {
-				ball.state = modHC.modHC(ball.state, hole); // new hc
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				ball.state = modHC.modHC(ball.state, hole); // new hc
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			}
+
 			//ball.state =  rule.constructVector(ball.state, hole);  // rule based (magnitude)
 
 //			try {
@@ -425,17 +438,32 @@ public class Game2 extends ApplicationAdapter {
 //				e.printStackTrace();
 //			}
 
-			//ball.state = graph.runPathWithHc();    //need to prepare
+
+			graph.assignNeighbors(graph.matrix);
+			VertexGolf target = graph.Dijkstra(graph.matrix, graph.startVertex);
+			ArrayList<int[]> pathCord = graph.storePath(target);
+			ArrayList<Vector> pathVector = graph.convertInVector(pathCord);
+			try {
+				ArrayList<Vector> pathToFollow = graph.runPathWithHc(pathVector);
+				for (int i = 0; i < pathToFollow.size(); i++) {
+					Vector stateP = pathVector.get(i);
+					Vector ballState = new Vector(stateP.getX()+100, stateP.getY()+100, stateP.getZ(),null, stateP.getVx()*5, state.getVy()*5);
+					ball.state = ballState;
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
 // -------------------------------------------------------------------------------------
 
-			while (Math.sqrt(Math.pow(ball.state.getVx(), 2) + Math.pow(ball.state.getVy(), 2)) < stepSize * 5) {
-				System.out.println("AAAAAAAAAAA");
-				ball = moveBall(ball);
-				System.out.println("BBBBBBBBBBB");
-
-				ball.holeIn = true;
-				ball.moving = false;
-			}
+//			while (Math.sqrt(Math.pow(ball.state.getVx(), 2) + Math.pow(ball.state.getVy(), 2)) < stepSize * 5) {
+//				System.out.println("AAAAAAAAAAA");
+//				ball = moveBall(ball);
+//				System.out.println("BBBBBBBBBBB");
+//
+//				ball.holeIn = true;
+//				ball.moving = false;
+//			}
 			shapeRenderer.flush();
 		}
 	}

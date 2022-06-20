@@ -69,10 +69,10 @@ public class GolfPSO {
    * @param v Velocity of a Particle
    * @return ball.state vector
    */
-  public Vector particleToBall(Position p, Velocity v){
-    Vector state = new Vector(x, y, z, t, p.getX(), p.getY());
-    return state;
-  }
+//  public Vector particleToBall(Position p, Velocity v){
+//    Vector state = new Vector(x, y, z, t, p.getX(), p.getY());
+//    return state;
+//  }
   /**
    * 
    * @param state Ball state
@@ -184,27 +184,27 @@ public class GolfPSO {
    * 
    * @return
   */
-    public Position run(){
-        swarm = initializeSwarm();
-        initializeGBest();
-        initializeBestPrtclFitness();
-        initializeParticleBestPosition();
-    
-        for(int l=0;l<iterationsNumber;l++){
-            for(int k=0;k<SWARM_SIZE;k++){
-                //calculate new Position of particle
-                updatePosition(k);
-                //update ind best
-                updateIndBest(k);
-                //update global best
-                updateSwarmBest( k);
-            }
-            System.out.println(swarmBestFitness);
-            System.out.println(swarmBestPosition);
-            System.out.println("---");
-        }
-        return swarmBestPosition;
-    }
+//    public Position run(){
+//        swarm = initializeSwarm();
+//        initializeGBest();
+//        initializeBestPrtclFitness();
+//        initializeParticleBestPosition();
+//
+//        for(int l=0;l<iterationsNumber;l++){
+//            for(int k=0;k<SWARM_SIZE;k++){
+//                //calculate new Position of particle
+//                updatePosition(k);
+//                //update ind best
+//                updateIndBest(k);
+//                //update global best
+//                updateSwarmBest( k);
+//            }
+//            System.out.println(swarmBestFitness);
+//            System.out.println(swarmBestPosition);
+//            System.out.println("---");
+//        }
+//        return swarmBestPosition;
+//    }
 
 
   /**

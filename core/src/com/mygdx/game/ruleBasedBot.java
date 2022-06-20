@@ -20,7 +20,6 @@ public class ruleBasedBot {
 
     int i = 0;
 
-
     ArrayList<Double> distances = new ArrayList<Double>();
     ArrayList<Vector> vectors = new ArrayList<Vector>();
 
@@ -36,6 +35,7 @@ public class ruleBasedBot {
 
         double d = Math.sqrt(dy*dy+dx*dx);
         double cos = dx/d;
+
         double pi_initAngle = Math.acos(cos);
         initAngle = Math.toDegrees(pi_initAngle);
 
@@ -51,11 +51,12 @@ public class ruleBasedBot {
         curvX = velocity*cosA;
         curvY = velocity*sinA;
 
+        changeAnglesStepByStep();
 
         return new Vector(ball.getX(),ball.getY(),ball.getZ(),null,curvX,curvY);
     }
     public void changeAnglesStepByStep(){
-        curAngle -= 1;
+        curAngle = curAngle - 0.01;
     }
     public void distanceCalculation(){
         double dx = holeX-ball.getX();

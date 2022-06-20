@@ -34,10 +34,10 @@ public class Game extends ApplicationAdapter {
 	ArrayList<double[]> velocities = new ArrayList<>();
 	Reader reader = new Reader();
 	HillClimbing hc = new HillClimbing();
-	float ballX = Float.parseFloat(reader.compute().get(0)) + 100;
-	float ballY = Float.parseFloat((reader.compute().get(1)))+ 100;
-	float holeX = Float.parseFloat((reader.compute().get(2)))+ 100 * 4;
-	float holeY = Float.parseFloat((reader.compute().get(3)))+ 100 * 4;
+	float ballX = Float.parseFloat(reader.compute().get(0));// + 100;
+	float ballY = Float.parseFloat((reader.compute().get(1)));//+ 100;
+	float holeX = Float.parseFloat((reader.compute().get(2)));//+ 100 * 4;
+	float holeY = Float.parseFloat((reader.compute().get(3)));//+ 100 * 4;
 	ArrayList<Double> times = new ArrayList<>();
 	velocityReader reader2 = new velocityReader();
 	float vx = velocityReader.compute().get(0);
@@ -127,35 +127,35 @@ public class Game extends ApplicationAdapter {
 
 		//MAZE 4
 		//Obstacle 1
-//		for (int j = 15; j < 17; j++) {
-//			for (int i = 5; i < 17; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 2
-//		for (int j = 5; j < 15; j++) {
-//			for (int i = 15; i < 17; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 3
-//		for (int j = 30; j < 32; j++) {
-//			for (int i = 0; i < 25; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 4
-//		for (int j = 0; j < 25; j++) {
-//			for (int i = 30; i < 32; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
-//		//Obstacle 5
-//		for (int j = 30; j < 32; j++) {
-//			for (int i = 30; i < 32; i++) {
-//				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
-//			}
-//		}
+		for (int j = 15; j < 17; j++) {
+			for (int i = 5; i < 17; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+			}
+		}
+		//Obstacle 2
+		for (int j = 5; j < 15; j++) {
+			for (int i = 15; i < 17; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+			}
+		}
+		//Obstacle 3
+		for (int j = 30; j < 32; j++) {
+			for (int i = 0; i < 25; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+			}
+		}
+		//Obstacle 4
+		for (int j = 0; j < 25; j++) {
+			for (int i = 30; i < 32; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+			}
+		}
+		//Obstacle 5
+		for (int j = 30; j < 32; j++) {
+			for (int i = 30; i < 32; i++) {
+				vectors[i][j] = new Vector(j, i, 5.5, null, 0, 0);
+			}
+		}
 
 //		vectors[(int)holeY/5][(int)holeX/5].setZ(9);// Setting z as 9 = defining it as a hole (black color)
 //		vectors[(int)ballY/5][(int)ballX/5].setZ(7.5);

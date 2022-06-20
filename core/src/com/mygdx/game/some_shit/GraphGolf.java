@@ -17,6 +17,8 @@ public class GraphGolf {
     public VertexGolf startVertex;
     public VertexGolf holeVertex;
 
+    public static Display disp = new Display();
+
     public GraphGolf() throws FileNotFoundException {
         this.matrix = convertMatrix(input);
     }
@@ -236,13 +238,17 @@ public class GraphGolf {
     }
 
     //method to run the path with hc
-    public void runPathWithHc(ArrayList<Vector> path) throws FileNotFoundException {
+    public ArrayList<Vector> runPathWithHc(ArrayList<Vector> path) throws FileNotFoundException {
         System.out.println("/////////////////////");
         HillClimbing hc = new HillClimbing();
         RuleBased ruleBot = new RuleBased();
 
+        ArrayList<Vector> pathToFollow = new ArrayList<Vector>();
+
         Vector start = path.get(0);
         System.out.println("start " + start);
+
+        Vector sPrev = start;
 
         for(int i = 1; i<path.size(); i++){
             Vector target = path.get(i);
@@ -256,14 +262,17 @@ public class GraphGolf {
             double dist = hc.simulate(s, 0.1, target);
             System.out.println("distance " + dist);
 
-            if(dist > 0.35){  //never gets closer
+            if (dist > 0.35){  //never gets closer
                 System.out.println("if");
                 start = result;
                 System.out.println("new start " + start);
                 i--;
+                pathToFollow.add(sPrev);
                 System.out.println("/////////////////////");
             }
+            sPrev = s;
         }
+        return pathToFollow;
     }
 
     //make everything work together
@@ -284,11 +293,16 @@ public class GraphGolf {
             System.out.println(pathVector.get(i));
         }
         System.out.println("5 VECTOR PATH DONE");
-        runPathWithHc(pathVector);
+        ArrayList<Vector> pathToFolow= runPathWithHc(pathVector);
+        for (int i = 0; i < pathToFolow.size(); i++) {
+            System.out.println(pathToFolow.get(i));
+        }
         System.out.println("6 RUN DONE");
     }
 
     public static void main(String[] args) throws FileNotFoundException {
+
+
         new GraphGolf().run();
         System.out.println("MAIN DONE");
     }
