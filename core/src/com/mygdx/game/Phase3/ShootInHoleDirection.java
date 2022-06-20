@@ -1,4 +1,4 @@
-package com.mygdx.game.some_shit;
+package com.mygdx.game.Phase3;
 
 import com.mygdx.game.Vector;
 

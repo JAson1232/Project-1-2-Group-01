@@ -1,4 +1,4 @@
-package com.mygdx.game.some_shit;
+package com.mygdx.game.Phase3;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -20,8 +20,6 @@ import com.mygdx.game.*;
 import com.mygdx.game.PSO.GolfPSO;
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game2 extends ApplicationAdapter {
@@ -416,44 +414,47 @@ public class Game2 extends ApplicationAdapter {
 //-------------------------------------------------------------------------------------
 		if (prevBot) {
 
-//			ball.state = rule2.directlyShooting();
+//			ball.state = rule2.directlyShooting();			//RULE BASED GARUS
 
-//			try {
+
+//			try {											//PSO
 //				ball.state = pso.runPSO(ball);
 //			} catch (FileNotFoundException e) {
 //				e.printStackTrace();
 //			}
 //
 //			try {
-//				ball.state = modHC.modHC(ball.state, hole); // new hc
+//				ball.state = modHC.modHC(ball.state, hole);			// NEW HC
 //			} catch (FileNotFoundException e) {
 //				e.printStackTrace();
 //			}
 
-			//ball.state =  rule.constructVector(ball.state, hole);  // rule based (magnitude)
+			//ball.state =  rule.constructVector(ball.state, hole);  	// rule based (magnitude)
 
 //			try {
-//				ball.state = hc.HillClimbing(ball.state, hole);    // old hc  doesnt work without bouncing
+//				ball.state = hc.HillClimbing(ball.state, hole);    	// old hc  doesnt work without bouncing
 //			} catch (FileNotFoundException e) {
 //				e.printStackTrace();
 //			}
 
 
-			graph.assignNeighbors(graph.matrix);
-			VertexGolf target = graph.Dijkstra(graph.matrix, graph.startVertex);
-			ArrayList<int[]> pathCord = graph.storePath(target);
-			ArrayList<Vector> pathVector = graph.convertInVector(pathCord);
-			try {
-				ArrayList<Vector> pathToFollow = graph.runPathWithHc(pathVector);
-				for (int i = 0; i < pathToFollow.size(); i++) {
-					Vector stateP = pathVector.get(i);
-					Vector ballState = new Vector(stateP.getX()+100, stateP.getY()+100, stateP.getZ(),null, stateP.getVx()*5, state.getVy()*5);
-					ball.state = ballState;
-					ball = moveBall(ball);
-				}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		//MAZE BOT UI DOESN'T WORK
+
+//			graph.assignNeighbors(graph.matrix);
+//			VertexGolf target = graph.Dijkstra(graph.matrix, graph.startVertex);
+//			ArrayList<int[]> pathCord = graph.storePath(target);
+//			ArrayList<Vector> pathVector = graph.convertInVector(pathCord);
+//			try {
+//				ArrayList<Vector> pathToFollow = graph.runPathWithHc(pathVector);
+//				for (int i = 0; i < pathToFollow.size(); i++) {
+//					Vector stateP = pathVector.get(i);
+//					Vector ballState = new Vector(stateP.getX()+100, stateP.getY()+100, stateP.getZ(),null, stateP.getVx()*5, state.getVy()*5);
+//					ball.state = ballState;
+//					ball = moveBall(ball);
+//				}
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			}
 
 // -------------------------------------------------------------------------------------
 

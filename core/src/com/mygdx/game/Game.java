@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.some_shit.ModHillClimbing;
+import com.mygdx.game.Phase3.ModHillClimbing;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

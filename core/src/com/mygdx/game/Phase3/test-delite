@@ -1,25 +1,4 @@
 
-
-
-
-if (input[row][col].getZ() < 5 && input[row][col].getZ() > 0) {
-                    vertex.type = '0'; //its grass
-                } else if ((input[row][col].getZ() > 5 && input[row][col].getZ() < 7) || input[row][col].getZ() < 0) {
-                    vertex.type = 'X'; //its obstacle/water
-                } else if (input[row][col].getZ() > 7 && input[row][col].getZ() < 8) {
-                    vertex.type = 'S';//start
-                    startVertex = vertex;
-                } else {
-                    vertex.type = 'H'; //hole
-                    holeVertex = vertex;
-                }
-
-
-
-                shoot in hole direction
-                divide the vx and vy by magnitude
-                times const
-
 //for maze bot
 
 x0 = -45

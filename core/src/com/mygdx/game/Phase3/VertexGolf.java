@@ -1,8 +1,7 @@
-package com.mygdx.game.some_shit;
+package com.mygdx.game.Phase3;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class VertexGolf {
 

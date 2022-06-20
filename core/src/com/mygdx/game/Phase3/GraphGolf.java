@@ -1,6 +1,5 @@
-package com.mygdx.game.some_shit;
+package com.mygdx.game.Phase3;
 
-import com.mygdx.game.Ball;
 import com.mygdx.game.Game;
 import com.mygdx.game.HillClimbing;
 import com.mygdx.game.Vector;
