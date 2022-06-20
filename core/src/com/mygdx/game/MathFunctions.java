@@ -12,10 +12,12 @@ public class MathFunctions {
 
     public static void main(String[] args) throws FileNotFoundException {
         MathFunctions m = new MathFunctions();
+        
         Vector state = new Vector(0,0,0,null,1,1);
         // Vector newPosition = m.euler2(state, 0.1, 0.0, 0.1);
         // Vector newPosition = m.euler2(state, 0.1, 0.0, 0.2);
         // Vector newPosition = m.euler2(state, 0.01, 0.0, 0.1);
+        //Vector state = new Vector(0.499260076474938,-8.503256078773477,0,null,0.423622693251916,-1.0294096931284638);
         Vector newPosition = m.RK2_2(state,0.1, 0.0, 0.2);
         System.out.println(newPosition);
     }

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class Ball {
 
+    HeightFunction fhc  = new HeightFunction();
+    PartialDerivative px = new PartialDerivative(fhc);
+
     public Vector state;
     private double x;
     private double y;
@@ -182,5 +185,23 @@ public class Ball {
     }
     public double getVy(){
         return this.vy;
+    }
+
+ 
+ 
+ 
+   public boolean ballIsMoving() throws FileNotFoundException{
+       double stepSize = 0.1;
+          if (((this.state.getVx() < stepSize * 5 && this.state.getVx() > stepSize * -5)
+                  && ((this.state.getVy() < stepSize * 5 && this.state.getVy() > stepSize * -5)))){
+           //may start sliding downhill
+           double x = px.getX(state.getX(), state.getY(), state.getVx(), state.getVy());
+           double y = px.getY(state.getX(), state.getY(), state.getVx(), state.getVy());
+           double value = x * x + y * y;
+           if(Field.frictionStatic > Math.sqrt(value)){
+               return false;
+            }
+        }
+        return true; 
     }
 }

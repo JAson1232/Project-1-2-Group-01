@@ -180,7 +180,7 @@ public class HillClimbing {
 
 
    // stopping condition
-   public static boolean hasNotStopped(Vector state, PartialDerivative px) throws FileNotFoundException {
+   public boolean hasNotStopped(Vector state, PartialDerivative px) throws FileNotFoundException {
       if (!((state.getVx() < stepSize * 5 && state.getVx() > stepSize * -5) && ((state.getVy() < stepSize * 5 && state.getVy() > stepSize * -5)))) {
          return true;
       }
