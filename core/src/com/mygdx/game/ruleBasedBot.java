@@ -24,7 +24,7 @@ public class ruleBasedBot {
     ArrayList<Double> distances = new ArrayList<Double>();
     ArrayList<Vector> vectors = new ArrayList<Vector>();
 
-    ruleBasedBot(Ball ball, double holeX, double holeY){
+    public ruleBasedBot(Ball ball, double holeX, double holeY){
         this.ball = ball;
         this.holeX = holeX;
         this.holeY = holeY;

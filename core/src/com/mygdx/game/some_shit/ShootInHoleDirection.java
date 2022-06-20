@@ -14,8 +14,12 @@ public class ShootInHoleDirection {
         double xStart = x;
         double yStart = y;
 
-        double Vx = 5 * cosO;
-        double Vy = 5 * sinO;
+        double magnitude = Math.sqrt((holeX-x)*(holeX-x) + (holeY-y) * (holeY-y));
+        double Vx = (5 * cosO)/magnitude;
+        double Vy = (5 * sinO)/magnitude;
+
+//        double Vx = 5 * cosO;
+//        double Vy = 5 * sinO;
 
         Vector toHole = new Vector(xStart, yStart, 0, null, Vx, Vy);
         return toHole;
