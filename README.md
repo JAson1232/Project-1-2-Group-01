@@ -31,9 +31,10 @@ LibGDX
 Steps
 -----
 - Step 1: Installing and setting up LibGDX online (https://libgdx.com/wiki/start/setup)
-- Step 2: Change the file paths accordingly on the following files: HeightFunction.java (line 40), Reader (line 19), and velocityReader.java (line 10).
+- Step 2: Change the file paths accordingly on the following files: HeightFunction.java, Reader, and velocityReader.java.
 - Step 3 (Optional): (Un)comment accordingly to the instructions on Lines 284 and 538 in Game.java to choose velocity input
-- Step 4: Launch the application by running the main method on DesktopLauncher.java
+- Step 4: To run the game, go to Field.java and uncomment Line 7 (comment Line 6). Otherwise, to run Experiment.java, uncomment Line 6 (comment Line 7).
+- Step 5: To play the game, launch the application by running Game() on DesktopLauncher.java. To see the bot play, launch the application by running Game2() on DesktopLauncher.java.
 - Note: This application might run into errors on Macs and/or on VSCode. Windows and IntelliJ are therefore recommended for running this software.
 
 To Play the Game:
