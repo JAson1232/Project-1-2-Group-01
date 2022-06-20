@@ -2,7 +2,6 @@ package com.mygdx.game.Phase3;
 
 import com.mygdx.game.MathFunctions;
 import com.mygdx.game.Vector;
-
 import java.io.FileNotFoundException;
 
 public class ExperimentsPhase3 {
@@ -15,7 +14,7 @@ public class ExperimentsPhase3 {
     static Vector state = new Vector(0, 0, 0, null, 1, 1);
 
     //bots to test
-    
+
 
 
 //IMPORTANT : When running experiments make sure that both in
